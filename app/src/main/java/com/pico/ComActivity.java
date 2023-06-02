@@ -63,45 +63,6 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
     protected FloatingActionButton goBack ;
 
-    public abstract int getLayoutId() ;
-
-    @Override
-    protected final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView( this.getLayoutId() );
-
-        this.context = this.getApplicationContext();
-
-        if( null == sharedPref ) {
-            sharedPref = getSharedPreferences("mySettings", MODE_PRIVATE);
-        }
-
-        this.requestQueue = Volley.newRequestQueue(this);
-
-        this.goBack = null ; // this.findViewById(R.id.goBack);
-
-        if( null != goBack ) {
-            this.goBack.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    TextView status = null; // findViewById(R.id.status);
-
-                    if( null != status ) {
-                        status.setText( "이전 화면으로 돌아갑니다." );
-                    }
-
-                    new Handler( Looper.getMainLooper() ).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // 이전 화면으로 돌아감.
-                            finish();
-                        }
-                    }, 300);
-                }
-            });
-        }
-    }
-
     public double prettyDegree( double degree ) {
         degree = degree % 360 ;
 

@@ -11,12 +11,13 @@ import android.widget.ImageView;
 
 public class SplashActivity extends ComActivity  {
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_splash ;
-    }
-
     private boolean paused = false ;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+    }
     @Override
     protected void onResume() {
         super.onResume();

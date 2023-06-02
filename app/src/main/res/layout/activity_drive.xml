@@ -24,41 +24,41 @@
                 android:layout_weight="1"
                 app:srcCompat="@drawable/bluetooth" />
 
-            <TextView
-                android:id="@+id/textView"
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="  블루투스 연결  "
+                android:enabled="false"
                 android:gravity="center"
+                android:text=" 블루투스 연결 "
+                android:textColor="@color/black"
                 android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=" "
-                android:minWidth="20dp" />
+                android:minWidth="20dp"
+                android:text=" " />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/blueToothSpinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:minWidth="200dp" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=" "
-                android:minWidth="20dp" />
+                android:minWidth="20dp"
+                android:text=" " />
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="검색"
-                android:textSize="24sp"
-                />
+                android:textSize="24sp" />
 
         </LinearLayout>
 
