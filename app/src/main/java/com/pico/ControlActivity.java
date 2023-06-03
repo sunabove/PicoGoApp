@@ -27,6 +27,7 @@ import android.widget.Spinner;
 public class ControlActivity extends ComActivity {
 
     private Spinner blueToothSpinner;
+    private LeDeviceListAdapter deviceAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +51,9 @@ public class ControlActivity extends ComActivity {
             list.add("");
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        this.deviceAdapter = new LeDeviceListAdapter( this );
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        blueToothSpinner.setAdapter(adapter);
+        blueToothSpinner.setAdapter( deviceAdapter );
 
         this.checkBleDevices();
     }
@@ -141,6 +140,9 @@ public class ControlActivity extends ComActivity {
     public void scanBleDevices() {
         Log.v("sunabove", "scanBleDevices");
 
+        this.deviceAdapter.clear();
+        this.deviceAdapter.notifyDataSetChanged();
+
         boolean useIntentFilter = true;
 
         if( useIntentFilter ) {
@@ -175,7 +177,7 @@ public class ControlActivity extends ComActivity {
                     BluetoothAdapter btAdapter = btManager.getAdapter();
                     btAdapter.cancelDiscovery();
                     activity.unregisterReceiver( this );
-                    //DeviceScanActivity.this.mHandler.sendEmptyMessage(1);
+                    deviceAdapter.notifyDataSetChanged();
                 }
             }
         };
@@ -200,6 +202,9 @@ public class ControlActivity extends ComActivity {
             String msg = "BLE Device Name: " + name + " address: " + address ;
 
             Log.v("sunabove", msg);
+
+            this.deviceAdapter.addDevice( device );
+            this.deviceAdapter.notifyDataSetChanged();
         }
     }
 
