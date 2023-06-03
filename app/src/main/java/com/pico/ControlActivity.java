@@ -4,7 +4,6 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -12,12 +11,12 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,14 +24,14 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class DriveActivity extends ComActivity {
+public class ControlActivity extends ComActivity {
 
     private Spinner blueToothSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drive);
+        setContentView(R.layout.activity_control);
 
         this.blueToothSpinner = this.findViewById(R.id.blueToothSpinner);
 
@@ -137,35 +136,90 @@ public class DriveActivity extends ComActivity {
     }
 
     // Device scan callback.
-    private ScanCallback bleScanCallback = new ScanCallback() {
-        @Override
-        public void onScanResult(int callbackType, ScanResult result) {
-            super.onScanResult(callbackType, result);
 
-            if (ActivityCompat.checkSelfPermission( activity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                Log.v( "sunabove", "onScanResult failed" );
-
-                return;
-            }
-
-            BluetoothDevice device = result.getDevice();
-            String deviceName = device.getName();
-            int rssi = result.getRssi();
-
-            if( null != deviceName ) {
-                String msg = "BLE Device Name: " + result.getDevice().getName() + " rssi: " + rssi ;
-
-                Log.v("sunabove", msg);
-            }
-        }
-    };
 
     public void scanBleDevices() {
         Log.v("sunabove", "scanBleDevices");
 
+        boolean useIntentFilter = true;
+
+        if( useIntentFilter ) {
+            this.scanBleDevicesByIntentFilter();
+        } else {
+            this.scanBleDevicesByScanner();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    public void scanBleDevicesByIntentFilter() {
+        Log.v("sunabove", "scanBleDevicesByIntentFilter()");
+
+        final BroadcastReceiver receiver = new BroadcastReceiver() {
+
+            boolean scanning = true;
+
+            @SuppressLint("MissingPermission")
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+
+                String actionFound = BluetoothDevice.ACTION_FOUND ;
+                String extraDevice = BluetoothDevice.EXTRA_DEVICE ;
+                String disFinished = BluetoothAdapter.ACTION_DISCOVERY_FINISHED ;
+
+                if (action.equals( BluetoothDevice.ACTION_FOUND )) {
+                    BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra( BluetoothDevice.EXTRA_DEVICE );
+                    showBlueDeviceInfo( device );
+                } else if (action.equals( BluetoothAdapter.ACTION_DISCOVERY_FINISHED ) && this.scanning) {
+                    this.scanning = false;
+                    BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+                    BluetoothAdapter btAdapter = btManager.getAdapter();
+                    btAdapter.cancelDiscovery();
+                    activity.unregisterReceiver( this );
+                    //DeviceScanActivity.this.mHandler.sendEmptyMessage(1);
+                }
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction( BluetoothDevice.ACTION_FOUND );
+        intentFilter.addAction( BluetoothAdapter.ACTION_DISCOVERY_FINISHED );
+
+        this.registerReceiver( receiver, intentFilter);
+
+        //BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+
         BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter btAdapter = btManager.getAdapter();
+        btAdapter.startDiscovery();
+    }
+
+    public void showBlueDeviceInfo( BluetoothDevice device ) {
+        @SuppressLint("MissingPermission") String name = device.getName();
+        String address = device.getAddress();
+        if( null != name ) {
+            String msg = "BLE Device Name: " + name + " address: " + address ;
+
+            Log.v("sunabove", msg);
+        }
+    }
+
+    public void scanBleDevicesByScanner() {
+        Log.v("sunabove", "scanBleDevicesByScanner()");
+
+        BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter btAdapter = btManager.getAdapter();
+
         final BluetoothLeScanner btScanner = btAdapter.getBluetoothLeScanner();
+
+        final ScanCallback bleScanCallback = new ScanCallback() {
+            @Override
+            public void onScanResult(int callbackType, ScanResult result) {
+                super.onScanResult(callbackType, result);
+
+                BluetoothDevice device = result.getDevice();
+                showBlueDeviceInfo( device );
+            }
+        };
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @SuppressLint("MissingPermission")
@@ -173,7 +227,7 @@ public class DriveActivity extends ComActivity {
             public void run() {
                 Log.v("sunabove", "btScanner.startScan(bleScanCallback)");
 
-                btScanner.startScan(bleScanCallback);
+                btScanner.startScan( bleScanCallback );
             }
         }, 10);
     }
@@ -199,6 +253,7 @@ public class DriveActivity extends ComActivity {
                     scanBleDevices();
                 }
             });
+
             builder.show();
         }
     }

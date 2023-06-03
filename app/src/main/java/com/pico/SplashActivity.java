@@ -1,13 +1,9 @@
 package com.pico;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 
 public class SplashActivity extends ComActivity  {
 
@@ -41,8 +37,7 @@ public class SplashActivity extends ComActivity  {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             public void run() {
                 if ( ! paused ) {
-                    //Class klass = DeviceScanActivity.class;
-                    Class klass = DriveActivity.class;
+                    Class klass = ControlActivity.class;
 
                     startActivity(new android.content.Intent(SplashActivity.this, klass ));
                 }

@@ -26,12 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PicoRun"
         tools:targetApi="31">
+
         <activity
-            android:name=".DriveActivity"
+            android:name=".ControlActivity"
             android:exported="false" />
-        <activity
-            android:name=".DeviceScanActivity"
-            android:exported="false" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="true"
