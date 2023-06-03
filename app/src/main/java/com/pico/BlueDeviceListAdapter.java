@@ -57,7 +57,8 @@ public class BlueDeviceListAdapter extends BaseAdapter {
 
     @SuppressLint("WrongViewCast")
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
+        ViewHolder viewHolder = null ;
+
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) activity.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate( R.layout.listview_plain, null );
