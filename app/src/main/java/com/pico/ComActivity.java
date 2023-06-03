@@ -53,12 +53,16 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         public static final String AUTOPILOT = "AUTOPILOT" ;
     }
 
-    protected AppCompatActivity activity ;
+    protected ComActivity activity ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.activity = this;
+    }
+
+    public void postDelayed( Runnable runnable, int delayMillis ) {
+        new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMillis);
     }
 
 }

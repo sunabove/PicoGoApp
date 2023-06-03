@@ -23,11 +23,13 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 public class ControlActivity extends ComActivity {
 
     private Spinner blueSpinner;
+    private ProgressBar blueScanProgressBar ;
     private BlueDeviceListAdapter blueDeviceListAdapter;
 
     private Button blueScanButton;
@@ -37,11 +39,20 @@ public class ControlActivity extends ComActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
 
+        this.blueScanProgressBar = this.findViewById(R.id.blueScanProgressBar );
         this.blueScanButton = this.findViewById(R.id.blueScanButton);
+
+        this.blueScanProgressBar.setIndeterminate( false );
 
         this.blueScanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                scanBlueDevices();
+                blueScanButton.setEnabled( false );
+                activity.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        scanBlueDevices();
+                    }
+                }, 500);
             }
         });
 
