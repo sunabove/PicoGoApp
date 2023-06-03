@@ -21,45 +21,33 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 public class ControlActivity extends ComActivity {
 
-    private Spinner blueToothSpinner;
-    private LeDeviceListAdapter deviceAdapter;
+    private Spinner blueSpinner;
+    private BlueDeviceListAdapter blueDeviceListAdapter;
+
+    private Button blueScanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
 
-        this.blueToothSpinner = this.findViewById(R.id.blueToothSpinner);
+        this.blueScanButton = this.findViewById(R.id.blueScanButton);
+
+        this.blueSpinner = this.findViewById(R.id.blueToothSpinner);
 
         StringList list = new StringList();
 
-        boolean test = false;
+        this.blueDeviceListAdapter = new BlueDeviceListAdapter( this );
 
-        if (test) {
-            list.add("Mercury");
-            list.add("Venus");
-            list.add("Mercury");
-            list.add("Earth");
-            list.add("Mars");
-            list.add("Jupiter");
-        } else {
-            list.add("");
-        }
-
-        this.deviceAdapter = new LeDeviceListAdapter( this );
-
-        blueToothSpinner.setAdapter( deviceAdapter );
+        blueSpinner.setAdapter(blueDeviceListAdapter);
 
         this.checkBleDevices();
     }
-
-
-    private final int REQUEST_ENABLE_BT = 2 ;
 
     final String[] ANDROID_BLE_PERMISSIONS = new String[]{
             Manifest.permission.BLUETOOTH,
@@ -140,8 +128,8 @@ public class ControlActivity extends ComActivity {
     public void scanBleDevices() {
         Log.v("sunabove", "scanBleDevices");
 
-        this.deviceAdapter.clear();
-        this.deviceAdapter.notifyDataSetChanged();
+        this.blueDeviceListAdapter.clear();
+        this.blueDeviceListAdapter.notifyDataSetChanged();
 
         boolean useIntentFilter = true;
 
@@ -170,14 +158,14 @@ public class ControlActivity extends ComActivity {
 
                 if (action.equals( BluetoothDevice.ACTION_FOUND )) {
                     BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra( BluetoothDevice.EXTRA_DEVICE );
-                    showBlueDeviceInfo( device );
+                    addBlueDevice( device );
                 } else if (action.equals( BluetoothAdapter.ACTION_DISCOVERY_FINISHED ) && this.scanning) {
                     this.scanning = false;
                     BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
                     BluetoothAdapter btAdapter = btManager.getAdapter();
                     btAdapter.cancelDiscovery();
                     activity.unregisterReceiver( this );
-                    deviceAdapter.notifyDataSetChanged();
+                    blueDeviceListAdapter.notifyDataSetChanged();
                 }
             }
         };
@@ -195,7 +183,7 @@ public class ControlActivity extends ComActivity {
         btAdapter.startDiscovery();
     }
 
-    public void showBlueDeviceInfo( BluetoothDevice device ) {
+    public void addBlueDevice(BluetoothDevice device ) {
         @SuppressLint("MissingPermission") String name = device.getName();
         String address = device.getAddress();
         if( null != name ) {
@@ -203,8 +191,8 @@ public class ControlActivity extends ComActivity {
 
             Log.v("sunabove", msg);
 
-            this.deviceAdapter.addDevice( device );
-            this.deviceAdapter.notifyDataSetChanged();
+            this.blueDeviceListAdapter.addDevice( device );
+            this.blueDeviceListAdapter.notifyDataSetChanged();
         }
     }
 
@@ -222,7 +210,7 @@ public class ControlActivity extends ComActivity {
                 super.onScanResult(callbackType, result);
 
                 BluetoothDevice device = result.getDevice();
-                showBlueDeviceInfo( device );
+                addBlueDevice( device );
             }
         };
 

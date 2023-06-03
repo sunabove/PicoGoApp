@@ -42,6 +42,6 @@ public class SplashActivity extends ComActivity  {
                     startActivity(new android.content.Intent(SplashActivity.this, klass ));
                 }
             }
-        }, 2000);
+        }, 2_500);
     }
 }

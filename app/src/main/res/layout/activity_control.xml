@@ -62,7 +62,7 @@
                 android:text=" " />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/blueScanButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="검색"

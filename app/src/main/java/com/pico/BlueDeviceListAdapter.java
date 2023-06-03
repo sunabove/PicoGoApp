@@ -9,13 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class LeDeviceListAdapter extends BaseAdapter {
-    private LayoutInflater inflater;
+public class BlueDeviceListAdapter extends BaseAdapter {
     private ArrayList<BluetoothDevice> devices = new ArrayList<>();
 
     private ComActivity activity ;
 
-    public LeDeviceListAdapter(ComActivity activity) {
+    public BlueDeviceListAdapter(ComActivity activity) {
         this.activity = activity;
     }
 
@@ -23,12 +22,11 @@ public class LeDeviceListAdapter extends BaseAdapter {
         return (long) i;
     }
 
-    public LeDeviceListAdapter() {
-        this.inflater = activity.getLayoutInflater();
+    public BlueDeviceListAdapter() {
     }
 
     public void addDevice(BluetoothDevice bluetoothDevice) {
-        if (!this.devices.contains(bluetoothDevice)) {
+        if ( ! this.devices.contains(bluetoothDevice) ) {
             this.devices.add(bluetoothDevice);
         }
     }
