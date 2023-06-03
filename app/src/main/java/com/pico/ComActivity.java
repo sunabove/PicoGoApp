@@ -53,113 +53,12 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         public static final String AUTOPILOT = "AUTOPILOT" ;
     }
 
-    protected Context context ;
-
-    protected SharedPreferences sharedPref = null;
-
-    protected boolean motionEnabled = false ;
-
-    protected RequestQueue requestQueue = null;
-
-    protected FloatingActionButton goBack ;
-
-    public double prettyDegree( double degree ) {
-        degree = degree % 360 ;
-
-        if( 180 < degree ) {
-            degree = degree - 360 ;
-        }
-        return degree ;
-    }
+    protected AppCompatActivity activity ;
 
     @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    public <T extends View> T findViewById(@IdRes int id) {
-        return (T) super.findViewById(id);
-    }
-
-    public void postDelayed(Runnable r, int delayMillis) {
-        new Handler(Looper.getMainLooper()).postDelayed( r, delayMillis);
-    }
-
-    public void sleep( long millis ) {
-        try {
-            Thread.currentThread().sleep(millis);
-        } catch ( Exception e ) {
-            //
-        }
-    }
-
-    public int getScreenWidth() {
-        return Resources.getSystem().getDisplayMetrics().widthPixels;
-    }
-
-    public int getScreenHeight() {
-        return Resources.getSystem().getDisplayMetrics().heightPixels;
-    }
-
-    public void hideActionBar() {
-        // If the Android version is lower than Jellybean, use this call to hide
-        // the status bar.
-        if (Build.VERSION.SDK_INT < 16) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            View decorView = getWindow().getDecorView();
-            // Hide the status bar.
-            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);
-            // Remember that you should never show the action bar if the
-            // status bar is hidden, so hide that too if necessary.
-            ActionBar actionBar = getActionBar();
-            if( null != actionBar ) {
-                actionBar.hide();
-            }
-        }
-    }
-
-    protected static final int PERMISSION_ID = 44;
-
-    protected boolean checkPermissions() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        return false;
-    }
-
-    protected void requestPermissions() {
-        ActivityCompat.requestPermissions(
-                this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
-                PERMISSION_ID
-        );
-    }
-
-    protected boolean isLocationEnabled() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-                LocationManager.NETWORK_PROVIDER
-        );
-    }
-
-    public double prettyAngle60(double angleDegDecimal ) {
-        double angle = angleDegDecimal %360 ;
-
-        int ang = (int) angle ;
-        double deg = angle - ang ;
-        deg = 60*deg;
-
-        angle = angle + deg ;
-
-        return angle ;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.activity = this;
     }
 
 }

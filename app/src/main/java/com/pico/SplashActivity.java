@@ -41,7 +41,10 @@ public class SplashActivity extends ComActivity  {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             public void run() {
                 if ( ! paused ) {
-                    startActivity(new android.content.Intent(SplashActivity.this, DriveActivity.class));
+                    //Class klass = DeviceScanActivity.class;
+                    Class klass = DriveActivity.class;
+
+                    startActivity(new android.content.Intent(SplashActivity.this, klass ));
                 }
             }
         }, 2000);
