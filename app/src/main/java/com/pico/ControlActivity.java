@@ -191,7 +191,7 @@ public class ControlActivity extends ComActivity {
 
                     activity.unregisterReceiver( this );
                     blueDeviceListAdapter.notifyDataSetChanged();
-                    
+
                     blueScanButton.setEnabled( true );
                     bluetoothProgressBar.setVisibility(View.GONE);
                 }
