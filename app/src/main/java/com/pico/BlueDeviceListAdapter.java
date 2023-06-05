@@ -12,9 +12,9 @@ import android.widget.TextView;
 public class BlueDeviceListAdapter extends BaseAdapter {
     private ArrayList<BluetoothDevice> devices = new ArrayList<>();
 
-    private ComActivity activity ;
+    private ControlActivity activity ;
 
-    public BlueDeviceListAdapter(ComActivity activity) {
+    public BlueDeviceListAdapter(ControlActivity activity) {
         this.activity = activity;
     }
 
@@ -25,9 +25,11 @@ public class BlueDeviceListAdapter extends BaseAdapter {
     public BlueDeviceListAdapter() {
     }
 
-    public void addDevice(BluetoothDevice bluetoothDevice) {
-        if ( ! this.devices.contains(bluetoothDevice) ) {
-            this.devices.add(bluetoothDevice);
+    public void addDevice(BluetoothDevice device) {
+        if( null == device ) {
+            this.devices.add( device );
+        } else if ( ! this.devices.contains(device) ) {
+            this.devices.add(device);
         }
     }
 
@@ -55,7 +57,7 @@ public class BlueDeviceListAdapter extends BaseAdapter {
         }
     }
 
-    @SuppressLint("WrongViewCast")
+    @SuppressLint({"WrongViewCast", "MissingPermission"})
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder = null ;
 
@@ -70,17 +72,30 @@ public class BlueDeviceListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        BluetoothDevice bluetoothDevice = this.devices.get(i);
+        BluetoothDevice device = this.devices.get(i);
 
-        @SuppressLint("MissingPermission") String name = bluetoothDevice.getName();
+        String name = "" ;
+        String address = "" ;
 
-        if (name == null || name.length() < 1 ) {
-            viewHolder.deviceName.setText( " Unknow Device ");
+        if( device == null ) {
+            if( activity.scanningBluetooth ) {
+                name = "장치 검색 중";
+                address = String.format( "%d 개 검색 중", this.devices.size() -1 );
+            } else {
+                name = "장치 검색 완료";
+                address = String.format( "%d 개 검색 완료", this.devices.size() -1 );
+            }
         } else {
-            viewHolder.deviceName.setText(" " + name);
+            name = device.getName();
+            address = device.getAddress();
+
+            if( name == null || name.trim().length() < 1 ) {
+                name = "알 수 없는 장치";
+            }
         }
 
-        viewHolder.deviceAddress.setText( "  " + bluetoothDevice.getAddress());
+        viewHolder.deviceName.setText( name );
+        viewHolder.deviceAddress.setText( address );
 
         return view;
     }

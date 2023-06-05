@@ -28,6 +28,7 @@ import android.widget.Spinner;
 
 public class ControlActivity extends ComActivity {
 
+    protected boolean scanningBluetooth = false ;
     private Spinner blueSpinner;
     private ProgressBar blueScanProgressBar ;
     private BlueDeviceListAdapter blueDeviceListAdapter;
@@ -146,10 +147,16 @@ public class ControlActivity extends ComActivity {
     public void scanBlueDevices() {
         Log.v("sunabove", "scanBleDevices");
 
+        this.blueScanButton.setEnabled( false );
+
         this.blueDeviceListAdapter.clear();
         this.blueDeviceListAdapter.notifyDataSetChanged();
 
-        this.blueScanButton.setEnabled( false );
+        this.scanningBluetooth = true;
+
+        this.blueDeviceListAdapter.addDevice( null );
+
+        this.blueDeviceListAdapter.notifyDataSetChanged();
 
         boolean useIntentFilter = true;
 
@@ -166,8 +173,6 @@ public class ControlActivity extends ComActivity {
 
         final BroadcastReceiver receiver = new BroadcastReceiver() {
 
-            boolean scanning = true;
-
             @SuppressLint("MissingPermission")
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
@@ -175,11 +180,13 @@ public class ControlActivity extends ComActivity {
                 if (action.equals( BluetoothDevice.ACTION_FOUND )) {
                     BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra( BluetoothDevice.EXTRA_DEVICE );
                     addBlueDevice( device );
-                } else if (action.equals( BluetoothAdapter.ACTION_DISCOVERY_FINISHED ) && this.scanning) {
-                    this.scanning = false;
+                } else if (action.equals( BluetoothAdapter.ACTION_DISCOVERY_FINISHED ) && scanningBluetooth) {
+                    scanningBluetooth = false;
+
                     BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
                     BluetoothAdapter btAdapter = btManager.getAdapter();
                     btAdapter.cancelDiscovery();
+
                     activity.unregisterReceiver( this );
                     blueDeviceListAdapter.notifyDataSetChanged();
                     blueScanButton.setEnabled( true );
@@ -202,13 +209,13 @@ public class ControlActivity extends ComActivity {
         @SuppressLint("MissingPermission") String name = device.getName();
         String address = device.getAddress();
         if( null != name ) {
-            if( name.toUpperCase().endsWith( "SPP") ) {
-                String msg = "BLE Device Name: " + name + " address: " + address + " not appended";
-                Log.v("sunabove", msg);
-            } else {
+            if( name.toUpperCase().endsWith( "SPP" ) ) {
                 String msg = "BLE Device Name: " + name + " address: " + address + " appended";
                 this.blueDeviceListAdapter.addDevice(device);
                 this.blueDeviceListAdapter.notifyDataSetChanged();
+                Log.v("sunabove", msg);
+            } else {
+                String msg = "BLE Device Name: " + name + " address: " + address + " not appended";
                 Log.v("sunabove", msg);
             }
         }
