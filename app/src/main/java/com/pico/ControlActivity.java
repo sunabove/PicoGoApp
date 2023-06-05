@@ -70,6 +70,15 @@ public class ControlActivity extends ComActivity {
         this.checkBleDevices();
     }
 
+    @Override
+    protected void onPause( ) {
+        super.onPause();
+
+        this.scanningBluetooth = false ;
+
+        this.whenBluetoothScanningFinished();
+    }
+
     final String[] ANDROID_BLE_PERMISSIONS = new String[]{
             Manifest.permission.BLUETOOTH,
             Manifest.permission.BLUETOOTH_ADMIN,
@@ -170,34 +179,43 @@ public class ControlActivity extends ComActivity {
         }
     }
 
+    final private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @SuppressLint("MissingPermission")
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (action.equals( BluetoothDevice.ACTION_FOUND )) {
+                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra( BluetoothDevice.EXTRA_DEVICE );
+                addBlueDevice( device );
+            } else if (action.equals( BluetoothAdapter.ACTION_DISCOVERY_FINISHED ) && scanningBluetooth) {
+                scanningBluetooth = false;
+            }
+
+            if( scanningBluetooth == false ) {
+                whenBluetoothScanningFinished();
+            }
+        }
+    };
+
+
+    @SuppressLint("MissingPermission")
+    public void whenBluetoothScanningFinished() {
+        BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter btAdapter = btManager.getAdapter();
+        btAdapter.cancelDiscovery();
+
+        activity.unregisterReceiver( receiver );
+        blueDeviceListAdapter.notifyDataSetChanged();
+
+        blueScanButton.setEnabled( true );
+        bluetoothProgressBar.setVisibility(View.GONE);
+    }
+
+
     @SuppressLint("MissingPermission")
     public void scanBlueDevicesByIntentFilter() {
         Log.v("sunabove", "scanBleDevicesByIntentFilter()");
-
-        final BroadcastReceiver receiver = new BroadcastReceiver() {
-
-            @SuppressLint("MissingPermission")
-            public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-
-                if (action.equals( BluetoothDevice.ACTION_FOUND )) {
-                    BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra( BluetoothDevice.EXTRA_DEVICE );
-                    addBlueDevice( device );
-                } else if (action.equals( BluetoothAdapter.ACTION_DISCOVERY_FINISHED ) && scanningBluetooth) {
-                    scanningBluetooth = false;
-
-                    BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-                    BluetoothAdapter btAdapter = btManager.getAdapter();
-                    btAdapter.cancelDiscovery();
-
-                    activity.unregisterReceiver( this );
-                    blueDeviceListAdapter.notifyDataSetChanged();
-
-                    blueScanButton.setEnabled( true );
-                    bluetoothProgressBar.setVisibility(View.GONE);
-                }
-            }
-        };
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction( BluetoothDevice.ACTION_FOUND );
