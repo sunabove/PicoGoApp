@@ -28,9 +28,9 @@ import android.widget.Spinner;
 
 public class ControlActivity extends ComActivity {
 
-    protected boolean scanningBluetooth = false ;
+    protected boolean scanningBluetooth = false;
     private ProgressBar bluetoothProgressBar;
-    private Spinner bluetoothListSpinner ;
+    private Spinner bluetoothListSpinner;
     private BlueDeviceListAdapter blueDeviceListAdapter;
 
     private Button blueScanButton;
@@ -41,7 +41,7 @@ public class ControlActivity extends ComActivity {
 
         setContentView(R.layout.activity_control);
 
-        this.bluetoothProgressBar = this.findViewById(R.id.bluetoothProgressBar );
+        this.bluetoothProgressBar = this.findViewById(R.id.bluetoothProgressBar);
         this.blueScanButton = this.findViewById(R.id.blueScanButton);
         this.bluetoothListSpinner = this.findViewById(R.id.bluetoothListSpinner);
 
@@ -49,7 +49,7 @@ public class ControlActivity extends ComActivity {
 
         this.blueScanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                blueScanButton.setEnabled( false );
+                blueScanButton.setEnabled(false);
 
                 activity.postDelayed(new Runnable() {
                     @Override
@@ -62,7 +62,7 @@ public class ControlActivity extends ComActivity {
 
         StringList list = new StringList();
 
-        this.blueDeviceListAdapter = new BlueDeviceListAdapter( this );
+        this.blueDeviceListAdapter = new BlueDeviceListAdapter(this);
 
         bluetoothListSpinner.setAdapter(blueDeviceListAdapter);
 
@@ -70,10 +70,10 @@ public class ControlActivity extends ComActivity {
     }
 
     @Override
-    protected void onPause( ) {
+    protected void onPause() {
         super.onPause();
 
-        this.scanningBluetooth = false ;
+        this.scanningBluetooth = false;
 
         this.whenBluetoothScanningFinished();
     }
@@ -91,33 +91,33 @@ public class ControlActivity extends ComActivity {
     };
 
     public int checkBadPermissionIndex() {
-        int index = -1 ;
+        int index = -1;
 
-        for( String perm : allPermission) {
-            boolean permitted = ActivityCompat.checkSelfPermission( this, perm ) == PackageManager.PERMISSION_GRANTED ;
+        for (String perm : allPermission) {
+            boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
 
-            index += 1 ;
+            index += 1;
 
-            if(  ! permitted )  {
-                Log.i("sunabove", "permission check = " + perm + ", " + permitted );
+            if (!permitted) {
+                Log.i("sunabove", "permission check = " + perm + ", " + permitted);
 
                 return index;
             }
         }
 
-        return -1 ;
+        return -1;
     }
 
-    public void requestPermissions( int index ) {
+    public void requestPermissions(int index) {
         Log.v("sunabove", "requestPermissions");
 
-        String perm = allPermission[ index ];
-        boolean permitted = ActivityCompat.checkSelfPermission( this, perm ) == PackageManager.PERMISSION_GRANTED ;
+        String perm = allPermission[index];
+        boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
 
-        if(  ! permitted )  {
-            Log.i("sunabove", "permission request = " + perm + ", " + permitted );
+        if (!permitted) {
+            Log.i("sunabove", "permission request = " + perm + ", " + permitted);
 
-            ActivityCompat.requestPermissions(this, new String [] { perm }, index );
+            ActivityCompat.requestPermissions(this, new String[]{perm}, index);
         }
     }
 
@@ -127,8 +127,8 @@ public class ControlActivity extends ComActivity {
         Log.v("sunabove", "checkBleDevices");
 
         int index = checkBadPermissionIndex();
-        if ( index > -1 ) {
-            requestPermissions( index );
+        if (index > -1) {
+            requestPermissions(index);
         } else {
             this.scanBlueDevices();
         }
@@ -139,7 +139,7 @@ public class ControlActivity extends ComActivity {
     public void scanBlueDevices() {
         Log.v("sunabove", "scanBleDevices");
 
-        this.blueScanButton.setEnabled( false );
+        this.blueScanButton.setEnabled(false);
         this.bluetoothProgressBar.setVisibility(View.VISIBLE);
 
         this.blueDeviceListAdapter.clear();
@@ -147,13 +147,13 @@ public class ControlActivity extends ComActivity {
 
         this.scanningBluetooth = true;
 
-        this.blueDeviceListAdapter.addDevice( null );
+        this.blueDeviceListAdapter.addDevice(null);
 
         this.blueDeviceListAdapter.notifyDataSetChanged();
 
         boolean useIntentFilter = true;
 
-        if( useIntentFilter ) {
+        if (useIntentFilter) {
             this.scanBlueDevicesByIntentFilter();
         } else {
             this.scanBlueDevicesByScanner();
@@ -166,27 +166,30 @@ public class ControlActivity extends ComActivity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            if (action.equals( BluetoothDevice.ACTION_FOUND )) {
-                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra( BluetoothDevice.EXTRA_DEVICE );
-                addBlueDevice( device );
-            } else if (action.equals( BluetoothAdapter.ACTION_DISCOVERY_FINISHED ) && scanningBluetooth) {
+            if (action.equals(BluetoothDevice.ACTION_FOUND)) {
+                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                addBlueDevice(device);
+            } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetooth) {
                 scanningBluetooth = false;
             }
 
-            if( scanningBluetooth == false ) {
+            if (scanningBluetooth == false) {
                 whenBluetoothScanningFinished();
             }
         }
     };
 
 
-    @SuppressLint("MissingPermission")
     public void whenBluetoothScanningFinished() {
-        BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        BluetoothAdapter btAdapter = btManager.getAdapter();
-        btAdapter.cancelDiscovery();
 
-        activity.unregisterReceiver( receiver );
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
+            BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+            BluetoothAdapter btAdapter = btManager.getAdapter();
+
+            btAdapter.cancelDiscovery();
+            activity.unregisterReceiver( receiver );
+        }
+
         blueDeviceListAdapter.notifyDataSetChanged();
 
         blueScanButton.setEnabled( true );
@@ -263,7 +266,7 @@ public class ControlActivity extends ComActivity {
 
         if( index > -1 ) {
             requestPermissions( index );
-        } else {
+        } else if( false ){
             String title = "블루투스 권한 설정 성공" ;
             String message = "블루투스를 검색할 수 있습니다.";
 
