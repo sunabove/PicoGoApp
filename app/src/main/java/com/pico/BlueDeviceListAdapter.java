@@ -63,10 +63,10 @@ public class BlueDeviceListAdapter extends BaseAdapter {
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) activity.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate( R.layout.listview_plain, null );
+            view = inflater.inflate( R.layout.bluetooth_list_view, null );
             viewHolder = new ViewHolder();
-            viewHolder.deviceName = (TextView) view.findViewById( R.id.list_view_plain_title );
-            viewHolder.deviceAddress = (TextView) view.findViewById( R.id.list_view_plain_desc );
+            viewHolder.deviceName = (TextView) view.findViewById( R.id.device_name);
+            viewHolder.deviceAddress = (TextView) view.findViewById( R.id.device_address);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -80,10 +80,10 @@ public class BlueDeviceListAdapter extends BaseAdapter {
         if( device == null ) {
             if( activity.scanningBluetooth ) {
                 name = "장치 검색 중";
-                address = String.format( "%d 개 검색 중", this.devices.size() -1 );
+                address = String.format( "(%d 개)", this.devices.size() -1 );
             } else {
                 name = "장치 검색 완료";
-                address = String.format( "%d 개 검색 완료", this.devices.size() -1 );
+                address = String.format( "(%d 개)", this.devices.size() -1 );
             }
         } else {
             name = device.getName();
