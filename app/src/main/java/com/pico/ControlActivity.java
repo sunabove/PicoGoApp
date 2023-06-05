@@ -24,7 +24,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 
 public class ControlActivity extends ComActivity {
@@ -79,7 +78,7 @@ public class ControlActivity extends ComActivity {
         this.whenBluetoothScanningFinished();
     }
 
-    final String[] ANDROID_BLE_PERMISSIONS = new String[]{
+    final String[] allPermission = new String[]{
             Manifest.permission.BLUETOOTH,
             Manifest.permission.BLUETOOTH_ADMIN,
 
@@ -91,37 +90,35 @@ public class ControlActivity extends ComActivity {
             Manifest.permission.BLUETOOTH_SCAN,
     };
 
-    public int checkBadPermissions() {
-        int badPermissions = 0 ;
-        for( String perm : ANDROID_BLE_PERMISSIONS ) {
+    public int checkBadPermissionIndex() {
+        int index = -1 ;
+
+        for( String perm : allPermission) {
             boolean permitted = ActivityCompat.checkSelfPermission( this, perm ) == PackageManager.PERMISSION_GRANTED ;
 
-            Log.i("sunabove", "permission check = " + perm + ", " + permitted );
+            index += 1 ;
 
             if(  ! permitted )  {
-                badPermissions += 1 ;
+                Log.i("sunabove", "permission check = " + perm + ", " + permitted );
+
+                return index;
             }
         }
 
-        return badPermissions ;
+        return -1 ;
     }
 
-    public void requestPermissions() {
+    public void requestPermissions( int index ) {
         Log.v("sunabove", "requestPermissions");
 
-        int index = 0 ;
-        for( String perm : ANDROID_BLE_PERMISSIONS ) {
-            boolean permitted = ActivityCompat.checkSelfPermission( this, perm ) == PackageManager.PERMISSION_GRANTED ;
+        String perm = allPermission[ index ];
+        boolean permitted = ActivityCompat.checkSelfPermission( this, perm ) == PackageManager.PERMISSION_GRANTED ;
 
-            if(  ! permitted )  {
-                Log.i("sunabove", "permission request = " + perm + ", " + permitted );
+        if(  ! permitted )  {
+            Log.i("sunabove", "permission request = " + perm + ", " + permitted );
 
-                ActivityCompat.requestPermissions(this, new String [] { perm }, index );
-            }
-
-            index += 1;
+            ActivityCompat.requestPermissions(this, new String [] { perm }, index );
         }
-
     }
 
     @SuppressLint("MissingPermission")
@@ -129,31 +126,15 @@ public class ControlActivity extends ComActivity {
 
         Log.v("sunabove", "checkBleDevices");
 
-        if ( this.checkBadPermissions() > 0 ) {
-            requestPermissions();
+        int index = checkBadPermissionIndex();
+        if ( index > -1 ) {
+            requestPermissions( index );
         } else {
             this.scanBlueDevices();
-        }
-
-        if( false ) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-            builder.setTitle("블루투스 검색 권한 설정");
-            builder.setMessage("블루투스 검색 권한을 허용하여 주세요.");
-
-            builder.setPositiveButton(android.R.string.ok, null);
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    requestPermissions();
-                }
-            });
-            builder.show();
         }
     }
 
     // Device scan callback.
-
 
     public void scanBlueDevices() {
         Log.v("sunabove", "scanBleDevices");
@@ -278,8 +259,10 @@ public class ControlActivity extends ComActivity {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if( this.checkBadPermissions() > 0 ) {
-            requestPermissions();
+        int index = checkBadPermissionIndex();
+
+        if( index > -1 ) {
+            requestPermissions( index );
         } else {
             String title = "블루투스 권한 설정 성공" ;
             String message = "블루투스를 검색할 수 있습니다.";
