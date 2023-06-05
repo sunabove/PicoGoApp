@@ -24,13 +24,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 
 public class ControlActivity extends ComActivity {
 
     protected boolean scanningBluetooth = false ;
-    private Spinner blueSpinner;
-    private ProgressBar blueScanProgressBar ;
+    private ProgressBar bluetoothProgressBar;
+    private Spinner bluetoothListSpinner ;
     private BlueDeviceListAdapter blueDeviceListAdapter;
 
     private Button blueScanButton;
@@ -40,14 +41,16 @@ public class ControlActivity extends ComActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
 
-        this.blueScanProgressBar = this.findViewById(R.id.blueScanProgressBar );
+        this.bluetoothProgressBar = this.findViewById(R.id.bluetoothProgressBar );
         this.blueScanButton = this.findViewById(R.id.blueScanButton);
+        this.bluetoothListSpinner = this.findViewById(R.id.bluetoothListSpinner);
 
-        this.blueScanProgressBar.setIndeterminate( false );
+        this.bluetoothProgressBar.setVisibility(View.GONE);
 
         this.blueScanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 blueScanButton.setEnabled( false );
+
                 activity.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -57,13 +60,11 @@ public class ControlActivity extends ComActivity {
             }
         });
 
-        this.blueSpinner = this.findViewById(R.id.blueToothSpinner);
-
         StringList list = new StringList();
 
         this.blueDeviceListAdapter = new BlueDeviceListAdapter( this );
 
-        blueSpinner.setAdapter(blueDeviceListAdapter);
+        bluetoothListSpinner.setAdapter(blueDeviceListAdapter);
 
         this.checkBleDevices();
     }
@@ -148,6 +149,7 @@ public class ControlActivity extends ComActivity {
         Log.v("sunabove", "scanBleDevices");
 
         this.blueScanButton.setEnabled( false );
+        this.bluetoothProgressBar.setVisibility(View.VISIBLE);
 
         this.blueDeviceListAdapter.clear();
         this.blueDeviceListAdapter.notifyDataSetChanged();
@@ -189,7 +191,9 @@ public class ControlActivity extends ComActivity {
 
                     activity.unregisterReceiver( this );
                     blueDeviceListAdapter.notifyDataSetChanged();
+                    
                     blueScanButton.setEnabled( true );
+                    bluetoothProgressBar.setVisibility(View.GONE);
                 }
             }
         };
