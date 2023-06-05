@@ -39,6 +39,7 @@ public class ControlActivity extends ComActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_control);
 
         this.bluetoothProgressBar = this.findViewById(R.id.bluetoothProgressBar );
