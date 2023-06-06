@@ -72,7 +72,7 @@ public class ControlActivity extends ComActivity implements BluetoothInterface {
         return this.scanningBluetooth;
     }
 
-    public boolean scanAll() {
+    public boolean isScanAll() {
         return true;
     }
 

@@ -51,8 +51,9 @@ public class BlueDeviceListAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView deviceAddress;
+        TextView rowNumber;
         TextView deviceName;
+        TextView deviceAddress;
 
         ViewHolder() {
         }
@@ -66,6 +67,7 @@ public class BlueDeviceListAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) this.bluetoothInterface.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate( R.layout.bluetooth_list_view, null );
             viewHolder = new ViewHolder();
+            viewHolder.rowNumber = (TextView) view.findViewById( R.id.row_number);
             viewHolder.deviceName = (TextView) view.findViewById( R.id.device_name);
             viewHolder.deviceAddress = (TextView) view.findViewById( R.id.device_address);
             view.setTag(viewHolder);
@@ -75,18 +77,18 @@ public class BlueDeviceListAdapter extends BaseAdapter {
 
         BluetoothDevice device = this.devices.get(i);
 
+        String rowNumber = "  ";
         String name = "" ;
         String address = "" ;
 
         if( device == null ) {
             if( this.bluetoothInterface.isScanning() ) {
-                name = "장치 검색 중";
-                address = String.format( "(%d 개)", this.devices.size() -1 );
+                name = String.format( "장치 검색 중  (%d 개)", this.devices.size() -1 );
             } else {
-                name = "장치 검색 완료";
-                address = String.format( "(%d 개)", this.devices.size() -1 );
+                name = String.format( "장치 검색 완료  (%d 개)", this.devices.size() -1 );
             }
         } else {
+            rowNumber = String.format( "%02d", i );
             name = device.getName();
             address = device.getAddress();
 
@@ -95,6 +97,7 @@ public class BlueDeviceListAdapter extends BaseAdapter {
             }
         }
 
+        viewHolder.rowNumber.setText( rowNumber );
         viewHolder.deviceName.setText( name );
         viewHolder.deviceAddress.setText( address );
 

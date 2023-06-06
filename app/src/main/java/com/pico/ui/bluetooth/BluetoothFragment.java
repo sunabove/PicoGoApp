@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,7 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
     private BlueDeviceListAdapter blueDeviceListAdapter;
 
     private Button blueScanButton;
+    private CheckBox scanningAllCheckBox;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BluetoothViewModel bluetoothViewModel = new ViewModelProvider(this).get(BluetoothViewModel.class);
@@ -48,6 +51,21 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         this.bluetoothProgressBar = binding.bluetoothProgressBar;
         this.bluetoothListView = binding.bluetoothListView;
         this.blueScanButton = binding.blueScanButton;
+        this.scanningAllCheckBox = binding.scanningAllCheckBox;
+
+        this.blueScanButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                blueScanButton.setEnabled(false);
+                scanningAllCheckBox.setEnabled(false);
+
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        scanBlueDevices();
+                    }
+                }, 500);
+            }
+        });
 
         this.blueDeviceListAdapter = new BlueDeviceListAdapter(this);
 
@@ -62,8 +80,8 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         return this.scanningBluetooth ;
     }
 
-    public boolean scanAll() {
-        return true;
+    public boolean isScanAll() {
+        return this.scanningAllCheckBox.isChecked();
     }
 
     public Application getApplication() {
@@ -89,6 +107,7 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         Log.v("sunabove", "scanBleDevices");
 
         this.blueScanButton.setEnabled(false);
+        this.scanningAllCheckBox.setEnabled(false);
         this.bluetoothProgressBar.setVisibility(View.VISIBLE);
 
         this.blueDeviceListAdapter.clear();
@@ -149,6 +168,8 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         blueDeviceListAdapter.notifyDataSetChanged();
 
         blueScanButton.setEnabled( true );
+        this.scanningAllCheckBox.setEnabled(true);
+
         bluetoothProgressBar.setVisibility(View.GONE);
     }
 
@@ -171,7 +192,7 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
     }
 
     public void addBlueDevice(BluetoothDevice device ) {
-        boolean scanAll = true;
+        boolean scanAll = this.isScanAll();
 
         @SuppressLint("MissingPermission") String name = device.getName();
         String address = device.getAddress();

@@ -8,6 +8,6 @@ public interface BluetoothInterface {
 
     public boolean isScanning();
 
-    public boolean scanAll();
+    public boolean isScanAll();
 
 }
