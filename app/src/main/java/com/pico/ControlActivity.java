@@ -136,7 +136,12 @@ public class ControlActivity extends ComActivity {
             BluetoothAdapter btAdapter = btManager.getAdapter();
 
             btAdapter.cancelDiscovery();
+
+            BroadcastReceiver receiver = this.receiver;
+
             if( null != this.receiver ) {
+                this.receiver = null;
+
                 activity.unregisterReceiver(receiver);
             }
         }
@@ -155,7 +160,7 @@ public class ControlActivity extends ComActivity {
         intentFilter.addAction( BluetoothDevice.ACTION_FOUND );
         intentFilter.addAction( BluetoothAdapter.ACTION_DISCOVERY_FINISHED );
 
-        this.receiver = this.getReceiver() ; 
+        this.receiver = this.getReceiver() ;
         this.registerReceiver( receiver, intentFilter);
 
         BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
