@@ -1,9 +1,15 @@
 package com.pico;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
 
 public class SplashActivity extends ComActivity  {
 
@@ -21,7 +27,13 @@ public class SplashActivity extends ComActivity  {
 
         paused = false ;
 
-        this.moveToNextActivity();
+        int index = this.checkBadPermissionIndex();
+
+        if( index > -1 ) {
+            this.requestPermissions( index );
+        } else {
+            this.moveToNextActivity();
+        }
     }
 
     @Override
@@ -33,12 +45,85 @@ public class SplashActivity extends ComActivity  {
         Log.v("sunabove", "onPause");
     }
 
+    final String[] allPermission = new String[]{
+            android.Manifest.permission.BLUETOOTH,
+            android.Manifest.permission.BLUETOOTH_ADMIN,
+
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+
+            android.Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_SCAN,
+    };
+
+    public int checkBadPermissionIndex() {
+        int index = -1;
+
+        for (String perm : allPermission) {
+            boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
+
+            index += 1;
+
+            if (!permitted) {
+                Log.i("sunabove", "permission check = " + perm + ", " + permitted);
+
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    public void requestPermissions(int index) {
+        Log.v("sunabove", "requestPermissions");
+
+        String perm = allPermission[index];
+        boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
+
+        if (!permitted) {
+            Log.i("sunabove", "permission request = " + perm + ", " + permitted);
+
+            ActivityCompat.requestPermissions(this, new String[]{perm}, index);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        int index = checkBadPermissionIndex();
+
+        if( index > -1 ) {
+            requestPermissions( index );
+        } else if( false ){
+            String title = "블루투스 권한 설정 성공" ;
+            String message = "블루투스를 검색할 수 있습니다.";
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle( title );
+            builder.setMessage( message );
+            builder.setPositiveButton(android.R.string.ok, null);
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    moveToNextActivity();
+                }
+            });
+
+            builder.show();
+        } else {
+            this.moveToNextActivity();
+        }
+    }
+
     private void moveToNextActivity() {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             public void run() {
                 if ( ! paused ) {
-                    //Class klass = ControlActivity.class;
-                    Class klass = TabActivity.class;
+                    Class klass = ControlActivity.class;
+                    //Class klass = TabActivity.class;
 
                     startActivity(new android.content.Intent(SplashActivity.this, klass ));
                 }

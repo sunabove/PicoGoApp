@@ -66,7 +66,7 @@ public class ControlActivity extends ComActivity {
 
         bluetoothListSpinner.setAdapter(blueDeviceListAdapter);
 
-        this.checkBleDevices();
+        this.scanBlueDevices();
     }
 
     @Override
@@ -76,62 +76,6 @@ public class ControlActivity extends ComActivity {
         this.scanningBluetooth = false;
 
         this.whenBluetoothScanningFinished();
-    }
-
-    final String[] allPermission = new String[]{
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.BLUETOOTH_ADMIN,
-
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-
-            Manifest.permission.BLUETOOTH_CONNECT,
-            Manifest.permission.BLUETOOTH_SCAN,
-    };
-
-    public int checkBadPermissionIndex() {
-        int index = -1;
-
-        for (String perm : allPermission) {
-            boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
-
-            index += 1;
-
-            if (!permitted) {
-                Log.i("sunabove", "permission check = " + perm + ", " + permitted);
-
-                return index;
-            }
-        }
-
-        return -1;
-    }
-
-    public void requestPermissions(int index) {
-        Log.v("sunabove", "requestPermissions");
-
-        String perm = allPermission[index];
-        boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
-
-        if (!permitted) {
-            Log.i("sunabove", "permission request = " + perm + ", " + permitted);
-
-            ActivityCompat.requestPermissions(this, new String[]{perm}, index);
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private void checkBleDevices() {
-
-        Log.v("sunabove", "checkBleDevices");
-
-        int index = checkBadPermissionIndex();
-        if (index > -1) {
-            requestPermissions(index);
-        } else {
-            this.scanBlueDevices();
-        }
     }
 
     // Device scan callback.
@@ -179,7 +123,6 @@ public class ControlActivity extends ComActivity {
         }
     };
 
-
     public void whenBluetoothScanningFinished() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
@@ -195,7 +138,6 @@ public class ControlActivity extends ComActivity {
         blueScanButton.setEnabled( true );
         bluetoothProgressBar.setVisibility(View.GONE);
     }
-
 
     @SuppressLint("MissingPermission")
     public void scanBlueDevicesByIntentFilter() {
@@ -257,31 +199,4 @@ public class ControlActivity extends ComActivity {
         }, 10);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        int index = checkBadPermissionIndex();
-
-        if( index > -1 ) {
-            requestPermissions( index );
-        } else if( false ){
-            String title = "블루투스 권한 설정 성공" ;
-            String message = "블루투스를 검색할 수 있습니다.";
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle( title );
-            builder.setMessage( message );
-            builder.setPositiveButton(android.R.string.ok, null);
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    scanBlueDevices();
-                }
-            });
-
-            builder.show();
-        }
-    }
 }
