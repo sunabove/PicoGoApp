@@ -8,17 +8,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.*;
 
 import androidx.core.app.ActivityCompat;
 
 public class SplashActivity extends ComActivity  {
 
     private boolean paused = false ;
+    private Button permissionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        this.permissionButton = this.findViewById(R.id.permissionButton);
     }
     @Override
     protected void onResume() {
@@ -26,6 +30,8 @@ public class SplashActivity extends ComActivity  {
         Log.v("sunabove", "onResume");
 
         paused = false ;
+
+        this.permissionButton.setText( "" );
 
         int index = this.checkBadPermissionIndex();
 
@@ -60,15 +66,22 @@ public class SplashActivity extends ComActivity  {
     public int checkBadPermissionIndex() {
         int index = -1;
 
+        Button permissionButton = this.permissionButton;
+        String text = "";
+
         for (String perm : allPermission) {
             boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
 
             index += 1;
 
-            if (!permitted) {
+            if ( ! permitted ) {
                 Log.i("sunabove", "permission check = " + perm + ", " + permitted);
 
                 return index;
+            } else {
+                text += ( index + 1 ) + " ";
+
+                permissionButton.setText( text.trim() );
             }
         }
 
