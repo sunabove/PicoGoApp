@@ -135,8 +135,8 @@ public class SplashActivity extends ComActivity  {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             public void run() {
                 if ( ! paused ) {
-                    Class klass = ControlActivity.class;
-                    //Class klass = TabActivity.class;
+                    //Class klass = ControlActivity.class;
+                    Class klass = TabActivity.class;
 
                     startActivity(new android.content.Intent(SplashActivity.this, klass ));
                 }

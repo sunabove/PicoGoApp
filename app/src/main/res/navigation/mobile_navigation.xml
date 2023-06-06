@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.pico.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:name="com.pico.ui.bluetooth.BluetoothFragment"
+        android:label="블루투스 연결"
+        tools:layout="@layout/fragment_bluetooth" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

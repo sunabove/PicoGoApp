@@ -1,6 +1,7 @@
 package com.pico;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,10 +13,10 @@ import android.widget.TextView;
 public class BlueDeviceListAdapter extends BaseAdapter {
     private ArrayList<BluetoothDevice> devices = new ArrayList<>();
 
-    private ControlActivity activity ;
+    private BluetoothInterface bluetoothInterface  ;
 
-    public BlueDeviceListAdapter(ControlActivity activity) {
-        this.activity = activity;
+    public BlueDeviceListAdapter(BluetoothInterface bluetoothInterface) {
+        this.bluetoothInterface = bluetoothInterface;
     }
 
     public long getItemId(int i) {
@@ -62,7 +63,7 @@ public class BlueDeviceListAdapter extends BaseAdapter {
         ViewHolder viewHolder = null ;
 
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) activity.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) this.bluetoothInterface.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate( R.layout.bluetooth_list_view, null );
             viewHolder = new ViewHolder();
             viewHolder.deviceName = (TextView) view.findViewById( R.id.device_name);
@@ -78,7 +79,7 @@ public class BlueDeviceListAdapter extends BaseAdapter {
         String address = "" ;
 
         if( device == null ) {
-            if( activity.scanningBluetooth ) {
+            if( this.bluetoothInterface.isScanning() ) {
                 name = "장치 검색 중";
                 address = String.format( "(%d 개)", this.devices.size() -1 );
             } else {

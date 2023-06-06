@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PicoRun</string>
+    <string name="app_name">안녕하세요? 반갑습니다.</string>
     <string name="title_activity_drive">DriveActivity</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
