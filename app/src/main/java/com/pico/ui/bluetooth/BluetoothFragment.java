@@ -17,9 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -36,7 +34,7 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
 
     protected boolean scanningBluetooth = false;
     private ProgressBar bluetoothProgressBar;
-    private Spinner bluetoothListSpinner;
+    private ListView bluetoothListView;
     private BlueDeviceListAdapter blueDeviceListAdapter;
 
     private Button blueScanButton;
@@ -48,12 +46,12 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         View root = binding.getRoot();
 
         this.bluetoothProgressBar = binding.bluetoothProgressBar;
-        this.bluetoothListSpinner = binding.bluetoothListSpinner;
+        this.bluetoothListView = binding.bluetoothListView;
         this.blueScanButton = binding.blueScanButton;
 
         this.blueDeviceListAdapter = new BlueDeviceListAdapter(this);
 
-        bluetoothListSpinner.setAdapter(blueDeviceListAdapter);
+        bluetoothListView.setAdapter(blueDeviceListAdapter);
 
         this.scanBlueDevices();
 
@@ -62,6 +60,10 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
 
     public boolean isScanning() {
         return this.scanningBluetooth ;
+    }
+
+    public boolean scanAll() {
+        return true;
     }
 
     public Application getApplication() {
@@ -169,10 +171,12 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
     }
 
     public void addBlueDevice(BluetoothDevice device ) {
+        boolean scanAll = true;
+
         @SuppressLint("MissingPermission") String name = device.getName();
         String address = device.getAddress();
         if( null != name ) {
-            if( name.toUpperCase().endsWith( "SPP" ) ) {
+            if( scanAll || name.toUpperCase().endsWith( "SPP" ) ) {
                 String msg = "BLE Device Name: " + name + " address: " + address + " appended";
                 this.blueDeviceListAdapter.addDevice(device);
                 this.blueDeviceListAdapter.notifyDataSetChanged();

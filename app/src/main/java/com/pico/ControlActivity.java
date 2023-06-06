@@ -72,6 +72,10 @@ public class ControlActivity extends ComActivity implements BluetoothInterface {
         return this.scanningBluetooth;
     }
 
+    public boolean scanAll() {
+        return true;
+    }
+
     @Override
     protected void onPause() {
         super.onPause();

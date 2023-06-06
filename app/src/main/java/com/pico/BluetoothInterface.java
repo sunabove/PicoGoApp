@@ -4,7 +4,10 @@ import android.app.Application;
 
 public interface BluetoothInterface {
 
+    public Application getApplication();
+
     public boolean isScanning();
 
-    public Application getApplication();
+    public boolean scanAll();
+
 }
