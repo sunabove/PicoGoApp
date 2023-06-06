@@ -83,9 +83,11 @@ public class BlueDeviceListAdapter extends BaseAdapter {
 
         if( device == null ) {
             if( this.bluetoothInterface.isScanning() ) {
-                name = String.format( "장치 검색 중  (%d 개)", this.devices.size() -1 );
+                name = "장치 검색 중";
+                address = String.format( " (%d 개)", this.devices.size() -1 );
             } else {
-                name = String.format( "장치 검색 완료  (%d 개)", this.devices.size() -1 );
+                name = "장치 검색 완료";
+                address = String.format( " (%d 개)", this.devices.size() -1 );
             }
         } else {
             rowNumber = String.format( "%02d", i );
