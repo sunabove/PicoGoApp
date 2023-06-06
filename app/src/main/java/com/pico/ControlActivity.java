@@ -104,24 +104,30 @@ public class ControlActivity extends ComActivity {
         }
     }
 
-    final private BroadcastReceiver receiver = new BroadcastReceiver() {
+    private BroadcastReceiver receiver = null;
 
-        @SuppressLint("MissingPermission")
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
+    private  BroadcastReceiver getReceiver () {
+        BroadcastReceiver receiver = new BroadcastReceiver() {
 
-            if (action.equals(BluetoothDevice.ACTION_FOUND)) {
-                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                addBlueDevice(device);
-            } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetooth) {
-                scanningBluetooth = false;
+            @SuppressLint("MissingPermission")
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+
+                if (action.equals(BluetoothDevice.ACTION_FOUND)) {
+                    BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    addBlueDevice(device);
+                } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetooth) {
+                    scanningBluetooth = false;
+                }
+
+                if (scanningBluetooth == false) {
+                    whenBluetoothScanningFinished();
+                }
             }
+        };
 
-            if (scanningBluetooth == false) {
-                whenBluetoothScanningFinished();
-            }
-        }
-    };
+        return receiver ;
+    }
 
     public void whenBluetoothScanningFinished() {
 
@@ -130,7 +136,9 @@ public class ControlActivity extends ComActivity {
             BluetoothAdapter btAdapter = btManager.getAdapter();
 
             btAdapter.cancelDiscovery();
-            activity.unregisterReceiver( receiver );
+            if( null != this.receiver ) {
+                activity.unregisterReceiver(receiver);
+            }
         }
 
         blueDeviceListAdapter.notifyDataSetChanged();
@@ -147,6 +155,7 @@ public class ControlActivity extends ComActivity {
         intentFilter.addAction( BluetoothDevice.ACTION_FOUND );
         intentFilter.addAction( BluetoothAdapter.ACTION_DISCOVERY_FINISHED );
 
+        this.receiver = this.getReceiver() ; 
         this.registerReceiver( receiver, intentFilter);
 
         BluetoothManager btManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
