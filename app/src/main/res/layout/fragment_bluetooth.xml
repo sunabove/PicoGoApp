@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
+    android:layout_weight="1"
     android:padding="10dp"
     tools:context=".ControlActivity">
 
@@ -86,6 +87,18 @@
 
         </LinearLayout>
 
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" " />
     </TableRow>
 
     <TableRow
