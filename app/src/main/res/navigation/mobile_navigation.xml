@@ -8,18 +8,18 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.pico.ui.bluetooth.BluetoothFragment"
-        android:label="블루투스 연결"
+        android:label="◆    블루투스    연결"
         tools:layout="@layout/fragment_bluetooth" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.pico.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label="기본 동작"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.pico.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label="자율 주행"
         tools:layout="@layout/fragment_notifications" />
 </navigation>
