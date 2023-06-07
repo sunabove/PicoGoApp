@@ -3,23 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_bluetooth">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_bluetooth"
         android:name="com.pico.ui.bluetooth.BluetoothFragment"
         android:label="◆  블루투스 연결"
         tools:layout="@layout/fragment_bluetooth" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_manual_drive"
         android:name="com.pico.ui.manualDrive.DashboardFragment"
-        android:label="기본 동작"
-        tools:layout="@layout/fragment_dashboard" />
+        android:label="수동 주행"
+        tools:layout="@layout/fragment_manual_drive" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_autonomous_drive"
         android:name="com.pico.ui.autoDrive.NotificationsFragment"
         android:label="자율 주행"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_auto_drive" />
+
+    <fragment
+        android:id="@+id/navigation_line_follow"
+        android:name="com.pico.ui.lineFollow.LineFollowFragment"
+        android:label="차선 추적"
+        tools:layout="@layout/fragment_line_follow" />
 </navigation>
