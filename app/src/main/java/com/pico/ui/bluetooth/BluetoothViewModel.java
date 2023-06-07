@@ -6,14 +6,15 @@ import androidx.lifecycle.ViewModel;
 
 public class BluetoothViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final MutableLiveData<String> liveText;
 
     public BluetoothViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        liveText = new MutableLiveData<>();
+
+        liveText.setValue("This is home fragment");
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<String> getLiveText() {
+        return liveText;
     }
 }

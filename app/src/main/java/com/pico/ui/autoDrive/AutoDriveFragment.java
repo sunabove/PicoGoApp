@@ -16,10 +16,8 @@ public class AutoDriveFragment extends Fragment {
 
     private FragmentAutoDriveBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        AutoDriveViewModel autoDriveViewModel =
-                new ViewModelProvider(this).get(AutoDriveViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        AutoDriveViewModel autoDriveViewModel = new ViewModelProvider(this).get(AutoDriveViewModel.class);
 
         binding = FragmentAutoDriveBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
