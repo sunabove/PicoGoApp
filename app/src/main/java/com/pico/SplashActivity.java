@@ -80,13 +80,17 @@ public class SplashActivity extends ComActivity  {
             if ( ! permitted ) {
                 Log.i("sunabove", "permission check = " + perm + ", " + permitted);
 
+                permissionButton.setText( "권한 승인 실패 : " + text );
+                permissionButton.setEnabled( false );
+
                 return index;
             } else {
                 text += ( index + 1 ) + " ";
-
-                permissionButton.setText( text.trim() );
             }
         }
+
+        permissionButton.setText( "권한 승인 완료" );
+        permissionButton.setEnabled( true );
 
         return -1;
     }

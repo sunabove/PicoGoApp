@@ -1,4 +1,4 @@
-package com.pico.ui.notifications;
+package com.pico.ui.autoDrive;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

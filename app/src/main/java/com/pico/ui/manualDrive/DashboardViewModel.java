@@ -1,4 +1,4 @@
-package com.pico.ui.dashboard;
+package com.pico.ui.manualDrive;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
