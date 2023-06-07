@@ -141,7 +141,7 @@ public class SplashActivity extends ComActivity  {
                     //Class klass = ControlActivity.class;
                     Class klass = TabActivity.class;
 
-                    //startActivity(new android.content.Intent(SplashActivity.this, klass ));
+                    startActivity(new android.content.Intent(SplashActivity.this, klass ));
                 }
             }
         }, 2_500);

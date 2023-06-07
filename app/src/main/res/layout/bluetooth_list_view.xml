@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
     <TextView
@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/device_name"
-        android:layout_width="220dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="device name"
         android:textSize="24sp"
@@ -46,6 +46,7 @@
         android:id="@+id/device_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="device address"
         android:textSize="24sp"
         android:textColor="@color/greenLight"

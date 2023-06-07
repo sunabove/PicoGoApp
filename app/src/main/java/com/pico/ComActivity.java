@@ -1,37 +1,11 @@
 package com.pico;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.location.LocationManager;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.*;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.net.InetAddress;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 public abstract class ComActivity extends AppCompatActivity implements ComInterface {
 
@@ -62,7 +36,8 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
         androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator( R.drawable.action_bar_logo_2 );
+        //actionBar.setHomeAsUpIndicator( R.drawable.action_bar_logo_2 );
+        actionBar.setHomeAsUpIndicator( R.drawable.picogo_front_round_48);
     }
 
     public void postDelayed( Runnable runnable, int delayMillis ) {
