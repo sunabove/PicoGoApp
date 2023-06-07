@@ -33,10 +33,6 @@ public class BlueDeviceListAdapter extends BaseAdapter {
         }
     }
 
-    public BluetoothDevice getDevice(int i) {
-        return this.devices.get(i);
-    }
-
     public void clear() {
         this.devices.clear();
     }
@@ -45,7 +41,7 @@ public class BlueDeviceListAdapter extends BaseAdapter {
         return this.devices.size();
     }
 
-    public Object getItem(int i) {
+    public BluetoothDevice getItem(int i) {
         return this.devices.get(i);
     }
 
@@ -65,10 +61,12 @@ public class BlueDeviceListAdapter extends BaseAdapter {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.bluetoothInterface.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate( R.layout.list_view_bluetooth, null );
+
             viewHolder = new ViewHolder();
             viewHolder.rowNumber = (TextView) view.findViewById( R.id.row_number);
             viewHolder.deviceName = (TextView) view.findViewById( R.id.device_name);
             viewHolder.deviceAddress = (TextView) view.findViewById( R.id.device_address);
+
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();

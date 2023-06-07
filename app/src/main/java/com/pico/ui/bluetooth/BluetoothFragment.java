@@ -72,12 +72,33 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
 
         this.blueDeviceListAdapter = new BlueDeviceListAdapter(this);
 
-        bluetoothListView.setAdapter(blueDeviceListAdapter);
+        this.bluetoothListView.setAdapter(blueDeviceListAdapter);
+
+        this.bluetoothListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                whenBluetoothListViewItemClick(adapterView,view, i, l);
+            }
+        });
 
         this.scanBlueDevices();
 
         return root;
     }
+
+    private void whenBluetoothListViewItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        String msg = "whenBluetoothListViewItemClick() i = " + i + ", l = " + l ;
+
+        BluetoothDevice device = this.blueDeviceListAdapter.getItem( i );
+
+        if( null != device ) {
+            @SuppressLint("MissingPermission") String name = device.getName();
+            String address = device.getAddress();
+            msg += " BLE Device Name : " + name + " address : " + address ;
+        }
+
+        Log.v("sunabove", msg );
+    } // -- whenBluetoothListViewItemClick
 
     public boolean isScanning() {
         return this.scanningBluetooth ;
@@ -201,12 +222,12 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         String address = device.getAddress();
         if( null != name ) {
             if( scanAll || name.toUpperCase().endsWith( "SPP" ) ) {
-                String msg = "BLE Device Name: " + name + " address: " + address + " appended";
+                String msg = "BLE Device Name : " + name + " address : " + address + " appended";
                 this.blueDeviceListAdapter.addDevice(device);
                 this.blueDeviceListAdapter.notifyDataSetChanged();
                 Log.v("sunabove", msg);
             } else {
-                String msg = "BLE Device Name: " + name + " address: " + address + " not appended";
+                String msg = "BLE Device Name : " + name + " address : " + address + " not appended";
                 Log.v("sunabove", msg);
             }
         }
