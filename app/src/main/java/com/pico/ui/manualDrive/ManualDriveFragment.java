@@ -36,12 +36,15 @@ public class ManualDriveFragment extends ComFragment {
 
         Log.v( "sunabove", "onResume()" );
 
-        sys.sendCommand( "Hello\n" );
+        sys.sendCommand( "{\"Forward\":\"Down\"}" );
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        sys.sendCommand( "{\"Forward\":\"Up\"}" );
+
         binding = null;
     }
 }

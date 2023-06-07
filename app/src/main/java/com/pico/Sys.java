@@ -11,7 +11,7 @@ public class Sys {
 
     private static final Sys sys = new Sys();
 
-    private UUID uuid = UUID.randomUUID();
+    private static String MY_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 
     private String bluetoothName;
     private String bluetoothAddress;
@@ -48,7 +48,7 @@ public class Sys {
         this.bluetoothAddress = bluetoothDevice.getAddress();
 
         try {
-            BluetoothSocket bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord( uuid );
+            BluetoothSocket bluetoothSocket = bluetoothDevice.createInsecureRfcommSocketToServiceRecord( UUID.fromString(MY_UUID) );
 
             bluetoothSocket.connect();
 
