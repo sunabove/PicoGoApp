@@ -46,6 +46,8 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
     private CheckBox scanPicoOnlyCheckBox;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.v("sunabove", "onCreateView()");
+
         BluetoothViewModel bluetoothViewModel = new ViewModelProvider(this).get(BluetoothViewModel.class);
 
         binding = FragmentBluetoothBinding.inflate(inflater, container, false);
@@ -86,6 +88,26 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         return root;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        Log.v("sunabove", "onPause()");
+
+        this.scanningBluetooth = false;
+
+        this.whenBluetoothScanningFinished();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        Log.v("sunabove", "onDestroyView()");
+
+        binding = null;
+    }
+
     private void whenBluetoothListViewItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String msg = "whenBluetoothListViewItemClick() i = " + i + ", l = " + l ;
 
@@ -110,21 +132,6 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
 
     public Application getApplication() {
         return this.getActivity().getApplication();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        this.scanningBluetooth = false;
-
-        this.whenBluetoothScanningFinished();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     public void scanBlueDevices() {
