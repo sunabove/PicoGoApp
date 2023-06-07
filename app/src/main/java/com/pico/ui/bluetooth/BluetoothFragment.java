@@ -26,12 +26,16 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pico.BlueDeviceListAdapter;
 import com.pico.BluetoothInterface;
 import com.pico.R;
 import com.pico.databinding.FragmentBluetoothBinding;
+import com.pico.ui.manualDrive.ManualDriveFragment;
 
 public class BluetoothFragment extends Fragment implements BluetoothInterface  {
 
@@ -108,6 +112,13 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         binding = null;
     }
 
+    private void moveFragment( int menuId ) {
+        AppCompatActivity activity = (AppCompatActivity) this.getActivity();
+        BottomNavigationView navigationView = activity.findViewById(R.id.nav_view);
+
+        navigationView.setSelectedItemId( menuId );
+    }
+
     private void whenBluetoothListViewItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String msg = "whenBluetoothListViewItemClick() i = " + i + ", l = " + l ;
 
@@ -117,6 +128,11 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
             @SuppressLint("MissingPermission") String name = device.getName();
             String address = device.getAddress();
             msg += " BLE Device Name : " + name + " address : " + address ;
+
+            int menuId = R.id.navigation_manual_drive ;
+            menuId = R.id.navigation_line_follow ;
+
+            this.moveFragment( menuId );
         }
 
         Log.v("sunabove", msg );

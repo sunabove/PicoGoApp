@@ -10,7 +10,7 @@ public class ManualDriveViewModel extends ViewModel {
 
     public ManualDriveViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("This is Manual Drive fragment");
     }
 
     public LiveData<String> getText() {

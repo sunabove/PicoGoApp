@@ -9,7 +9,7 @@ public class LineFollowViewModel extends ViewModel {
 
     public LineFollowViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is line follow fragment");
+        mText.setValue("This is Line Follow fragment");
     }
 
     public LiveData<String> getText() {

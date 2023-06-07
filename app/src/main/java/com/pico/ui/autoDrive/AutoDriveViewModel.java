@@ -10,7 +10,7 @@ public class AutoDriveViewModel extends ViewModel {
 
     public AutoDriveViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("This is Auto Drive fragment");
     }
 
     public LiveData<String> getText() {
