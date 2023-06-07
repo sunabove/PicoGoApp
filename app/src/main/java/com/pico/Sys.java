@@ -18,8 +18,8 @@ public class Sys {
 
     private BluetoothDevice bluetoothDevice;
     private BluetoothSocket bluetoothSocket ;
-    private Writer writer;
-    private Reader reader;
+    private OutputStream out ;
+    private InputStream in ;
 
     public static Sys getSys() {
         return sys;
@@ -50,43 +50,44 @@ public class Sys {
         try {
             BluetoothSocket bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord( uuid );
 
-            Writer writer = new OutputStreamWriter( bluetoothSocket.getOutputStream() );
-            Reader reader = new InputStreamReader( bluetoothSocket.getInputStream() );
+            bluetoothSocket.connect();
 
             this.bluetoothSocket = bluetoothSocket;
-            this.writer = writer;
-            this.reader = reader;
+            this.out = bluetoothSocket.getOutputStream();
+            this.in = bluetoothSocket.getInputStream();
         } catch (IOException e) {
             Log.v( "sunabove", "Cannot create bluetooth socket" );
 
             e.printStackTrace();
             this.bluetoothSocket = null;
+            this.out = null;
+            this.in = null;
         }
     }
 
     public void disconnectBluetoothDevice() {
         BluetoothSocket bluetoothSocket = this.bluetoothSocket;
-        Writer writer = this.writer;
-        Reader reader = this.reader;
+        OutputStream out = this.out;
+        InputStream in = this.in;
 
-        this.writer = null;
-        this.reader = null;
+        this.out = null;
+        this.in = null;
         this.bluetoothSocket = null;
         this.bluetoothDevice = null ;
 
         this.bluetoothName = null ;
         this.bluetoothAddress = null ;
 
-        if( null != writer ) {
+        if( null != out ) {
             try {
-                writer.close();
+                out.close();
             } catch (IOException e) {
             }
         }
 
-        if( null != reader ) {
+        if( null != in ) {
             try {
-                reader.close();
+                in.close();
             } catch (IOException e) {
             }
         }
@@ -102,15 +103,17 @@ public class Sys {
     public int sendCommand( final String message ) {
         Log.v( "sunabove", "sendCommand() message = " + message );
 
-        Writer writer = this.writer;
+        OutputStream out = this.out;
 
-        if( null != writer ) {
+        if( null != out ) {
             try {
-                writer.write( message );
-                writer.flush();
+                out.write( message.getBytes() );
+                out.flush();
 
                 Log.v( "sunabove", "Success: sendCommand() message = " + message );
             } catch (IOException e) {
+                e.printStackTrace();
+
                 return -1;
             }
 
