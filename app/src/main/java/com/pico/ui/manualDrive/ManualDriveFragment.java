@@ -1,6 +1,7 @@
 package com.pico.ui.manualDrive;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,15 @@ public class ManualDriveFragment extends ComFragment {
         manualDriveViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.v( "sunabove", "onResume()" );
+
+        sys.sendCommand( "Hello\n" );
     }
 
     @Override

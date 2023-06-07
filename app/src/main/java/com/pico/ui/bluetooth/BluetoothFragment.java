@@ -22,12 +22,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,7 +32,6 @@ import com.pico.ComFragment;
 import com.pico.R;
 import com.pico.TabActivity;
 import com.pico.databinding.FragmentBluetoothBinding;
-import com.pico.ui.manualDrive.ManualDriveFragment;
 
 public class BluetoothFragment extends ComFragment implements BluetoothInterface  {
 
@@ -114,7 +108,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         binding = null;
     }
 
-    private void moveFragment( int navIdx ) {
+    private void moveToFragment(int navIdx ) {
         TabActivity activity = (TabActivity) this.getActivity();
         BottomNavigationView navView = activity.findViewById(R.id.nav_view);
 
@@ -131,11 +125,10 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             String address = device.getAddress();
             msg += " BLE Device Name : " + name + " address : " + address ;
 
-
+            sys.setBluetoothDevice( device );
 
             int navIdx = 1  ;
-
-            this.moveFragment( navIdx );
+            this.moveToFragment( navIdx );
         }
 
         Log.v("sunabove", msg );
