@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.*;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.core.app.ActivityCompat;
 
 public class SplashActivity extends ComActivity  {
@@ -140,7 +141,7 @@ public class SplashActivity extends ComActivity  {
                     //Class klass = ControlActivity.class;
                     Class klass = TabActivity.class;
 
-                    startActivity(new android.content.Intent(SplashActivity.this, klass ));
+                    //startActivity(new android.content.Intent(SplashActivity.this, klass ));
                 }
             }
         }, 2_500);
