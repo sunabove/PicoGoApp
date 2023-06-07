@@ -114,9 +114,9 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
 
     private void moveFragment( int menuId ) {
         AppCompatActivity activity = (AppCompatActivity) this.getActivity();
-        BottomNavigationView navigationView = activity.findViewById(R.id.nav_view);
+        BottomNavigationView navView = activity.findViewById(R.id.nav_view);
 
-        navigationView.setSelectedItemId( menuId );
+        navView.setSelectedItemId( menuId );
     }
 
     private void whenBluetoothListViewItemClick(AdapterView<?> adapterView, View view, int i, long l) {
