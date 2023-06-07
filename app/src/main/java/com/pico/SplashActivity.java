@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.*;
 
 import androidx.appcompat.app.ActionBar;
@@ -17,6 +18,7 @@ public class SplashActivity extends ComActivity  {
 
     private boolean paused = false ;
     private Button permissionButton;
+    private ImageView logoImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +26,18 @@ public class SplashActivity extends ComActivity  {
         setContentView(R.layout.activity_splash);
 
         this.permissionButton = this.findViewById(R.id.permissionButton);
+        this.logoImage = this.findViewById(R.id.logoImage);
 
         this.setTitle( " ★☆ 안녕하세요? 반갑습니다.");
+
+        this.logoImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToNextActivity( 100 );
+            }
+        });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -41,8 +52,14 @@ public class SplashActivity extends ComActivity  {
         if( index > -1 ) {
             this.requestPermissions( index );
         } else {
-            this.moveToNextActivity();
+            this.moveToNextActivity( 2500 );
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.v("sunabove", "onBackPressed()");
     }
 
     @Override
@@ -128,17 +145,17 @@ public class SplashActivity extends ComActivity  {
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    moveToNextActivity();
+                    moveToNextActivity( 2500 );
                 }
             });
 
             builder.show();
         } else {
-            this.moveToNextActivity();
+            this.moveToNextActivity( 2500 );
         }
     }
 
-    private void moveToNextActivity() {
+    private void moveToNextActivity( int delayMillis ) {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             public void run() {
                 if ( ! paused ) {
@@ -148,6 +165,6 @@ public class SplashActivity extends ComActivity  {
                     startActivity(new android.content.Intent(SplashActivity.this, klass ));
                 }
             }
-        }, 2_500);
+        }, delayMillis);
     }
 }
