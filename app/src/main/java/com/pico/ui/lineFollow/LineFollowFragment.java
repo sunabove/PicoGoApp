@@ -29,7 +29,7 @@ public class LineFollowFragment extends Fragment {
         View root = binding.getRoot();
 
         final TextView textView = binding.textNotifications;
-        
+
         lineFollowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;

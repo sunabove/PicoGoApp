@@ -34,6 +34,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pico.BlueDeviceListAdapter;
 import com.pico.BluetoothInterface;
 import com.pico.R;
+import com.pico.TabActivity;
 import com.pico.databinding.FragmentBluetoothBinding;
 import com.pico.ui.manualDrive.ManualDriveFragment;
 
@@ -112,11 +113,11 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         binding = null;
     }
 
-    private void moveFragment( int menuId ) {
-        AppCompatActivity activity = (AppCompatActivity) this.getActivity();
+    private void moveFragment( int navIdx ) {
+        TabActivity activity = (TabActivity) this.getActivity();
         BottomNavigationView navView = activity.findViewById(R.id.nav_view);
 
-        navView.setSelectedItemId( menuId );
+        navView.setSelectedItemId( activity.navigationIds[ navIdx ] );
     }
 
     private void whenBluetoothListViewItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -129,10 +130,9 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
             String address = device.getAddress();
             msg += " BLE Device Name : " + name + " address : " + address ;
 
-            int menuId = R.id.navigation_manual_drive ;
-            menuId = R.id.navigation_line_follow ;
+            int navIdx = 1  ;
 
-            this.moveFragment( menuId );
+            this.moveFragment( navIdx );
         }
 
         Log.v("sunabove", msg );
