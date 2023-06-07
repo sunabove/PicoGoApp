@@ -13,12 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pico.ComFragment;
 import com.pico.R;
 import com.pico.databinding.FragmentLineFollowBinding;
 import com.pico.databinding.FragmentManualDriveBinding;
 import com.pico.ui.manualDrive.ManualDriveViewModel;
 
-public class LineFollowFragment extends Fragment {
+public class LineFollowFragment extends ComFragment {
 
     private FragmentLineFollowBinding binding;
 

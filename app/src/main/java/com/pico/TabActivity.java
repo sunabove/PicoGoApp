@@ -12,10 +12,11 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.pico.databinding.ActivityTabBinding;
 
-public class TabActivity extends AppCompatActivity {
+public class TabActivity extends ComActivity {
+
+    public static final int [] navigationIds = { R.id.navigation_bluetooth, R.id.navigation_manual_drive, R.id.navigation_autonomous_drive, R.id.navigation_line_follow };
 
     private ActivityTabBinding binding;
-    public final int [] navigationIds = { R.id.navigation_bluetooth, R.id.navigation_manual_drive, R.id.navigation_autonomous_drive, R.id.navigation_line_follow };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

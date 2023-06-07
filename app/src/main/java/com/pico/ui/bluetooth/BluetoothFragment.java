@@ -33,12 +33,13 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pico.BlueDeviceListAdapter;
 import com.pico.BluetoothInterface;
+import com.pico.ComFragment;
 import com.pico.R;
 import com.pico.TabActivity;
 import com.pico.databinding.FragmentBluetoothBinding;
 import com.pico.ui.manualDrive.ManualDriveFragment;
 
-public class BluetoothFragment extends Fragment implements BluetoothInterface  {
+public class BluetoothFragment extends ComFragment implements BluetoothInterface  {
 
     private FragmentBluetoothBinding binding;
 
@@ -129,6 +130,8 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
             @SuppressLint("MissingPermission") String name = device.getName();
             String address = device.getAddress();
             msg += " BLE Device Name : " + name + " address : " + address ;
+
+
 
             int navIdx = 1  ;
 

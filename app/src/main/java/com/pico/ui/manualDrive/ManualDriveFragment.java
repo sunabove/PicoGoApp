@@ -10,9 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.pico.ComFragment;
 import com.pico.databinding.FragmentManualDriveBinding;
 
-public class ManualDriveFragment extends Fragment {
+public class ManualDriveFragment extends ComFragment {
 
     private FragmentManualDriveBinding binding;
 

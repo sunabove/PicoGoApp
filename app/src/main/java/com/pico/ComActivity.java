@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class ComActivity extends AppCompatActivity implements ComInterface {
 
+    protected final Sys sys = Sys.getSys();
+
     protected static final int gray = Color.parseColor("#d3d3d3") ;
     protected static final int yellow = Color.parseColor("#ffff00") ;
     protected static final int green = Color.parseColor("#00FF00") ;
