@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_manual_drive"
-        android:name="com.pico.ui.manualDrive.DashboardFragment"
+        android:name="com.pico.ui.manualDrive.ManualDriveFragment"
         android:label="수동 주행"
         tools:layout="@layout/fragment_manual_drive" />
 
     <fragment
         android:id="@+id/navigation_autonomous_drive"
-        android:name="com.pico.ui.autoDrive.NotificationsFragment"
+        android:name="com.pico.ui.autoDrive.AutoDriveFragment"
         android:label="자율 주행"
         tools:layout="@layout/fragment_auto_drive" />
 

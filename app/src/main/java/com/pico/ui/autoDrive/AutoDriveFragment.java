@@ -12,20 +12,20 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.pico.databinding.FragmentAutoDriveBinding;
 
-public class NotificationsFragment extends Fragment {
+public class AutoDriveFragment extends Fragment {
 
     private FragmentAutoDriveBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+        AutoDriveViewModel autoDriveViewModel =
+                new ViewModelProvider(this).get(AutoDriveViewModel.class);
 
         binding = FragmentAutoDriveBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        autoDriveViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
