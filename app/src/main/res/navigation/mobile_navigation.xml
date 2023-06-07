@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.pico.ui.bluetooth.BluetoothFragment"
-        android:label="◆ 블루투스 연결"
+        android:label="◆  블루투스 연결"
         tools:layout="@layout/fragment_bluetooth" />
 
     <fragment

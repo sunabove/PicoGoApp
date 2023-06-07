@@ -1,7 +1,6 @@
 package com.pico;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -65,7 +64,7 @@ public class BlueDeviceListAdapter extends BaseAdapter {
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.bluetoothInterface.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate( R.layout.bluetooth_list_view, null );
+            view = inflater.inflate( R.layout.list_view_bluetooth, null );
             viewHolder = new ViewHolder();
             viewHolder.rowNumber = (TextView) view.findViewById( R.id.row_number);
             viewHolder.deviceName = (TextView) view.findViewById( R.id.device_name);

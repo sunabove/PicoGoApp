@@ -25,7 +25,7 @@ public class SplashActivity extends ComActivity  {
 
         this.permissionButton = this.findViewById(R.id.permissionButton);
 
-        this.setTitle( "★☆    안녕하세요?    반갑습니다.");
+        this.setTitle( " ★☆ 안녕하세요? 반갑습니다.");
     }
     @Override
     protected void onResume() {

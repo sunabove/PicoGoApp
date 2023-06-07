@@ -40,7 +40,7 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
     private BlueDeviceListAdapter blueDeviceListAdapter;
 
     private Button blueScanButton;
-    private CheckBox scanningAllCheckBox;
+    private CheckBox scanPicoOnlyCheckBox;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BluetoothViewModel bluetoothViewModel = new ViewModelProvider(this).get(BluetoothViewModel.class);
@@ -51,12 +51,12 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         this.bluetoothProgressBar = binding.bluetoothProgressBar;
         this.bluetoothListView = binding.bluetoothListView;
         this.blueScanButton = binding.blueScanButton;
-        this.scanningAllCheckBox = binding.scanningAllCheckBox;
+        this.scanPicoOnlyCheckBox = binding.scanPicoOnlyCheckBox;
 
         this.blueScanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 blueScanButton.setEnabled(false);
-                scanningAllCheckBox.setEnabled(false);
+                scanPicoOnlyCheckBox.setEnabled(false);
 
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
@@ -81,7 +81,7 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
     }
 
     public boolean isScanAll() {
-        return this.scanningAllCheckBox.isChecked();
+        return ! this.scanPicoOnlyCheckBox.isChecked();
     }
 
     public Application getApplication() {
@@ -107,7 +107,7 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         Log.v("sunabove", "scanBleDevices");
 
         this.blueScanButton.setEnabled(false);
-        this.scanningAllCheckBox.setEnabled(false);
+        this.scanPicoOnlyCheckBox.setEnabled(false);
         this.bluetoothProgressBar.setVisibility(View.VISIBLE);
 
         this.blueDeviceListAdapter.clear();
@@ -168,7 +168,7 @@ public class BluetoothFragment extends Fragment implements BluetoothInterface  {
         blueDeviceListAdapter.notifyDataSetChanged();
 
         blueScanButton.setEnabled( true );
-        this.scanningAllCheckBox.setEnabled(true);
+        this.scanPicoOnlyCheckBox.setEnabled(true);
 
         bluetoothProgressBar.setVisibility(View.GONE);
     }

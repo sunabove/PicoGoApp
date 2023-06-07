@@ -78,11 +78,11 @@
                 android:text=" " />
 
             <CheckBox
-                android:id="@+id/scanningAllCheckBox"
+                android:id="@+id/scanPicoOnlyCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:checked="true"
-                android:text="모든 장치 검색  "
+                android:checked="false"
+                android:text=" Pico 장치만 검색  "
                 android:textSize="22sp" />
 
         </LinearLayout>
