@@ -22,12 +22,15 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.pico.BlueDeviceListAdapter;
 import com.pico.BluetoothInterface;
+import com.pico.R;
 import com.pico.databinding.FragmentBluetoothBinding;
 
 public class BluetoothFragment extends Fragment implements BluetoothInterface  {

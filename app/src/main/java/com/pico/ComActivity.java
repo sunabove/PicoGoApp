@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class ComActivity extends AppCompatActivity implements ComInterface {
@@ -34,7 +35,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         super.onCreate(savedInstanceState);
         this.activity = this;
 
-        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         //actionBar.setHomeAsUpIndicator( R.drawable.action_bar_logo_2 );
         actionBar.setHomeAsUpIndicator( R.drawable.picogo_front_round_48);
