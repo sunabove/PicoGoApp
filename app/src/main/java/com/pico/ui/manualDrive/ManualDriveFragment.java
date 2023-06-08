@@ -24,8 +24,8 @@ public class ManualDriveFragment extends ComFragment {
         binding = FragmentManualDriveBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        manualDriveViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        //final TextView textView = binding.status;
+        //manualDriveViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;
     }
