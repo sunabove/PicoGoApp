@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.pico.ComFragment;
+import com.pico.R;
 import com.pico.databinding.FragmentManualDriveBinding;
 
 public class ManualDriveFragment extends ComFragment {
@@ -43,7 +44,7 @@ public class ManualDriveFragment extends ComFragment {
 
     private void whenDirButtonTouched(View view, MotionEvent motionEvent ) {
         FragmentManualDriveBinding binding = this.binding;
-
+        ImageButton imageButton = (ImageButton) view ;
         int action = motionEvent.getAction();
 
         //String message = "{\"Forward\":\"Down\"}" ;
@@ -60,14 +61,25 @@ public class ManualDriveFragment extends ComFragment {
             upDown = "";
         }
 
+        int imageId = -1 ;
+
         if( view == binding.forward ) {
             dir = "Forward" ;
+
+            imageId = action == 0 ? R.drawable.dir_forward_pressed : action == 1 ? R.drawable.dir_forward : -1 ;
         } else if( view == binding.backward ) {
             dir = "Backward" ;
+            imageId = action == 0 ? R.drawable.dir_backward_pressed : action == 1 ? R.drawable.dir_backward : -1 ;
         } else if( view == binding.left ) {
             dir = "Left" ;
+            imageId = action == 0 ? R.drawable.dir_left_pressed : action == 1 ? R.drawable.dir_left : -1 ;
         } else if( view == binding.right ) {
             dir = "Right" ;
+            imageId = action == 0 ? R.drawable.dir_right_pressed : action == 1 ? R.drawable.dir_right : -1 ;
+        }
+
+        if( imageId != -1 ) {
+            imageButton.setImageResource(imageId);
         }
 
         if( dir.length() > 0 && upDown.length() > 0 ) {
