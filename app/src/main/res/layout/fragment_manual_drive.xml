@@ -21,9 +21,10 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="160dp"
                     android:layout_height="60dp"
                     android:gravity="center"
+                    android:clickable="false"
                     android:text=" RGB LED "
                     android:textSize="24dp" />
 
@@ -42,6 +43,49 @@
             </LinearLayout>
         </TableRow>
 
+        <TableRow>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="160dp"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:clickable="false"
+                    android:text=" 속도 설정 "
+                    android:textSize="24dp" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/speed_level"
+                    android:orientation="horizontal">
+
+                    <SeekBar
+                        android:id="@+id/speedSeekBar"
+                        style="@style/Widget.AppCompat.SeekBar.Discrete"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:max="2"
+                        android:progress="3"
+                        android:layout_marginLeft="150dp"
+                        android:layout_marginRight="150dp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </TableRow>
+
         <TableRow android:layout_marginTop="20dp">
 
             <LinearLayout
@@ -52,9 +96,10 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="160dp"
                     android:layout_height="60dp"
                     android:gravity="center"
+                    android:clickable="false"
                     android:text=" 모터 조종 "
                     android:textSize="24dp" />
 
@@ -95,7 +140,7 @@
                             android:src="@drawable/dir_left" />
 
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="80dp"
                             android:layout_height="match_parent"
                             android:text=" " />
 

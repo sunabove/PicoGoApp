@@ -49,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:enabled="false"
+                android:clickable="false"
                 android:text="1 2 3 4 5"
                 android:textSize="18sp" />
 
