@@ -19,7 +19,6 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -27,7 +26,6 @@
                 app:srcCompat="@drawable/bluetooth" />
 
             <TextView
-                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -44,7 +42,6 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:minWidth="20dp"
@@ -57,7 +54,6 @@
                 android:layout_height="match_parent" />
 
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:minWidth="20dp"
@@ -71,7 +67,6 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:minWidth="20dp"
@@ -95,7 +90,6 @@
         >
 
         <TextView
-            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=" " />

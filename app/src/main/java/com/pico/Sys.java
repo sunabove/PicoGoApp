@@ -41,7 +41,8 @@ public class Sys {
     }
 
     @SuppressLint("MissingPermission")
-    public void setBluetoothDevice(BluetoothDevice bluetoothDevice ) {
+    public boolean setBluetoothDevice(BluetoothDevice bluetoothDevice ) {
+        boolean result = true;
         this.bluetoothDevice = bluetoothDevice;
 
         this.bluetoothName = bluetoothDevice.getName();
@@ -55,6 +56,8 @@ public class Sys {
             this.bluetoothSocket = bluetoothSocket;
             this.out = bluetoothSocket.getOutputStream();
             this.in = bluetoothSocket.getInputStream();
+
+            result = true;
         } catch (IOException e) {
             Log.v( "sunabove", "Cannot create bluetooth socket" );
 
@@ -62,7 +65,11 @@ public class Sys {
             this.bluetoothSocket = null;
             this.out = null;
             this.in = null;
+
+            result = false;
         }
+
+        return result;
     }
 
     public void disconnectBluetoothDevice() {
@@ -100,7 +107,7 @@ public class Sys {
 
     }
 
-    public int sendCommand( final String message ) {
+    public boolean sendCommand( final String message ) {
         Log.v( "sunabove", "sendCommand() message = " + message );
 
         OutputStream out = this.out;
@@ -114,12 +121,12 @@ public class Sys {
             } catch (IOException e) {
                 e.printStackTrace();
 
-                return -1;
+                return false ;
             }
 
-            return 0;
+            return true ;
         } else {
-            return -1 ;
+            return false ;
         }
     }
 }

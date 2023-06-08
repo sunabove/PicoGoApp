@@ -19,6 +19,7 @@ public class SplashActivity extends ComActivity  {
     private boolean paused = false ;
     private Button permissionButton;
     private ImageView logoImage;
+    private TextView status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,21 +28,22 @@ public class SplashActivity extends ComActivity  {
 
         this.permissionButton = this.findViewById(R.id.permissionButton);
         this.logoImage = this.findViewById(R.id.logoImage);
+        this.status = this.findViewById(R.id.status);
 
         this.setTitle( " ★☆ 안녕하세요? 반갑습니다.");
 
         this.logoImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                moveToNextActivity( 100 );
+                whenLogoImageClicked(view);
             }
         });
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.v("sunabove", "onResume");
+    protected void onStart() {
+        super.onStart();
+        Log.v("sunabove", "onStart");
 
         paused = false ;
 
@@ -57,6 +59,14 @@ public class SplashActivity extends ComActivity  {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v("sunabove", "onStart");
+
+        // Do nothing, please!
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         Log.v("sunabove", "onBackPressed()");
@@ -68,10 +78,21 @@ public class SplashActivity extends ComActivity  {
 
         this.paused = true ;
 
-        Log.v("sunabove", "onPause");
+        Log.i("sunabove", "onPause");
     }
 
-    final String[] allPermission = new String[]{
+    public void whenLogoImageClicked(View view) {
+
+        int badPermIdx = this.checkBadPermissionIndex();
+
+        Log.i("sunabove", "whenLogoImageClicked perm badPermIdx = " + badPermIdx );
+
+        if( badPermIdx < 0 ) {
+            moveToNextActivity(100);
+        }
+    } // -- whenLogoImageClicked
+
+    private final String[] allPermission = new String[]{
             android.Manifest.permission.BLUETOOTH,
             android.Manifest.permission.BLUETOOTH_ADMIN,
 
@@ -96,44 +117,50 @@ public class SplashActivity extends ComActivity  {
             if ( ! permitted ) {
                 Log.i("sunabove", "permission check = " + perm + ", " + permitted);
 
-                permissionButton.setText( "권한 승인 실패 " );
+                permissionButton.setText( "권한 설정 실패 " );
                 permissionButton.setEnabled( false );
 
                 return index;
             }
         }
 
-        permissionButton.setText( "권한 승인 완료" );
+        permissionButton.setText( "권한 설정 완료" );
         permissionButton.setEnabled( true );
 
         return -1;
     }
 
     public void requestPermissions(int index) {
-        Log.v("sunabove", "requestPermissions");
+        Log.i("sunabove", "requestPermissions");
 
         String perm = allPermission[index];
         boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
 
-        if (!permitted) {
-            Log.i("sunabove", "permission request = " + perm + ", " + permitted);
+        if ( ! permitted ) {
+            Log.i("sunabove", "permission request = " + perm + " " + permitted );
 
             ActivityCompat.requestPermissions(this, new String[]{perm}, index);
         }
     }
 
+    private int prePermReqIdx = -2 ;
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         int index = checkBadPermissionIndex();
 
-        if( index > -1 ) {
+        Log.i( "sunabove", "badPermmisionIndex = " + index + ", prePermReqIdx = " + this.prePermReqIdx );
+
+        if( index > -1 && this.prePermReqIdx != index ) {
+            this.prePermReqIdx = index;
+
             requestPermissions( index );
-        } else if( false ){
-            String title = "블루투스 권한 설정 성공" ;
-            String message = "블루투스를 검색할 수 있습니다.";
+        } else if( false && index > -1 && this.prePermReqIdx == index ){
+            String title = "권한 설정 실패" ;
+            String message = "권할 설정을 다시 하여 주십시오.";
+
+            status.setText( message );
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle( title );
@@ -142,17 +169,19 @@ public class SplashActivity extends ComActivity  {
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    moveToNextActivity( 2500 );
+                    status.setText( message );
                 }
             });
 
             builder.show();
-        } else {
+        } else if( index < 0 ){
             this.moveToNextActivity( 2500 );
         }
     }
 
     private void moveToNextActivity( int delayMillis ) {
+        Log.v( "sunabove", "moveToNextActivity" );
+
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             public void run() {
                 if ( ! paused ) {
