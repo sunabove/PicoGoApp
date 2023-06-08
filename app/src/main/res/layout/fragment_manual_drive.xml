@@ -1,88 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".ui.manualDrive.ManualDriveFragment">
 
-    <TableRow>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:text=""
-            />
-    </TableRow>
-    <TableRow
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <TableRow>
 
-            <ImageButton
-                android:id="@+id/forward"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/windowBackground"
-                android:src="@drawable/dir_forward" />
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:text=" RGB LED "
+                    android:textSize="24dp" />
 
-    </TableRow>
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
 
-    <TableRow>
+                <SeekBar
+                    android:id="@+id/colorSeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/color_table"
+                    android:max="10"
+                    android:progress="3" />
+            </LinearLayout>
+        </TableRow>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <TableRow android:layout_marginTop="20dp">
 
-            <ImageButton
-                android:id="@+id/left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/windowBackground"
-                android:src="@drawable/dir_left" />
-
-            <TextView
-                android:layout_width="140dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="      "
-                />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/windowBackground"
-                android:src="@drawable/dir_right" />
-        </LinearLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:text=" 모터 조종 "
+                    android:textSize="24dp" />
 
-    </TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-    <TableRow>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/backward"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/windowBackground"
-                android:src="@drawable/dir_backward" />
-        </LinearLayout>
-    </TableRow>
+                        <ImageButton
+                            android:id="@+id/forward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/windowBackground"
+                            android:src="@drawable/dir_forward" />
 
-</TableLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/windowBackground"
+                            android:src="@drawable/dir_left" />
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:text=" " />
+
+                        <ImageButton
+                            android:id="@+id/right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/windowBackground"
+                            android:src="@drawable/dir_right" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/backward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/windowBackground"
+                            android:src="@drawable/dir_backward" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
