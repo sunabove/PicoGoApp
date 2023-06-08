@@ -39,7 +39,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        //actionBar.setHomeAsUpIndicator( R.drawable.action_bar_logo_2 );
+        //actionBar.setHomeAsUpIndicator( R.drawable.action_bar_logo_3 );
         actionBar.setHomeAsUpIndicator( R.drawable.picogo_front_round_48);
     }
 

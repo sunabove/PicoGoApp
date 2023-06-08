@@ -87,7 +87,6 @@ public class SplashActivity extends ComActivity  {
         int index = -1;
 
         Button permissionButton = this.permissionButton;
-        String text = "";
 
         for (String perm : allPermission) {
             boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
@@ -97,12 +96,10 @@ public class SplashActivity extends ComActivity  {
             if ( ! permitted ) {
                 Log.i("sunabove", "permission check = " + perm + ", " + permitted);
 
-                permissionButton.setText( "권한 승인 실패 : " + text );
+                permissionButton.setText( "권한 승인 실패 " );
                 permissionButton.setEnabled( false );
 
                 return index;
-            } else {
-                text += ( index + 1 ) + " ";
             }
         }
 

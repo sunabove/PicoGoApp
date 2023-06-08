@@ -18,5 +18,6 @@
     <color name="teal_700">#FF018786</color>
 
     <color name="ic_launcher_background_01">#d5d6d6</color>
-    <color name="ic_launcher_background">#1da1f2</color>
+    <color name="ic_launcher_background_02">#1da1f2</color>
+    <color name="ic_launcher_background">#70C656</color>
 </resources>
