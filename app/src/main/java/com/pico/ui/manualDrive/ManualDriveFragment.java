@@ -54,8 +54,6 @@ public class ManualDriveFragment extends ComFragment {
 
         if( action == 0 ) {
             upDown = "Down";
-
-            view.setBackgroundColor( greenLight );
         } else if( action == 1 ) {
             upDown = "Up";
         } else {

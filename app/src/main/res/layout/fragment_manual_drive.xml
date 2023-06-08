@@ -29,7 +29,6 @@
                 android:id="@+id/forward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/windowBackground"
                 android:src="@drawable/dir_forward" />
 
         </LinearLayout>
@@ -49,7 +48,6 @@
                 android:id="@+id/left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/windowBackground"
                 android:src="@drawable/dir_left" />
 
             <TextView
@@ -62,7 +60,6 @@
                 android:id="@+id/right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/windowBackground"
                 android:src="@drawable/dir_right" />
         </LinearLayout>
 
@@ -80,7 +77,6 @@
                 android:id="@+id/backward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/windowBackground"
                 android:src="@drawable/dir_backward" />
         </LinearLayout>
     </TableRow>
