@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/navigation_autonomous_drive"
         android:name="com.pico.ui.autoDrive.AutoDriveFragment"
-        android:label="자율 주행"
+        android:label="장애물 회피"
         tools:layout="@layout/fragment_auto_drive" />
 
     <fragment
