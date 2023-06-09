@@ -1,6 +1,8 @@
 package com.pico.ui.manualDrive;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -84,19 +86,34 @@ public class ManualDriveFragment extends ComFragment {
     };
 
     private void onColorSeekBarProgressChanged(SeekBar seekBar, int i, boolean b) {
+        // Do nothing!
     }
 
     public void onColorSeekBarStopTrackingTouch(SeekBar seekBar) {
-        Log.i(tag, "onColorSeekBarStopTrackingTouch()");
+        Log.v(tag, "onColorSeekBarStopTrackingTouch()");
 
         String message = "{\"RGB\": \"%d,%d,%d\"}";
 
-        Color color = Color.valueOf( getResources().getColor( R.color.red, getActivity().getTheme() ) );
-        int c = color.toArgb();
+        //Color color = Color.valueOf( getResources().getColor( R.color.red, getActivity().getTheme() ) );
+        //int c = color.toArgb();
 
-        int red = Color.red( c );
-        int blue = Color.blue( c );
-        int green = Color.green( c );
+        int i = seekBar.getProgress();
+
+        Log.v( tag, "colorSeekBar progress = " + i );
+
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) seekBar.getBackground();
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        int x = w*i/(seekBar.getMax() - seekBar.getMin());
+        int y = h/2;
+
+        int pickColor = bitmap.getPixel( x, y );
+
+        int red = Color.red( pickColor );
+        int blue = Color.blue( pickColor );
+        int green = Color.green( pickColor );
 
         message = String.format( message, red, blue, green );
 
@@ -112,7 +129,7 @@ public class ManualDriveFragment extends ComFragment {
     };
 
     private void whenToggleButtonClicked(CompoundButton toggleButton, boolean isChecked) {
-        Log.i(tag, "whenToggleButtonClicked()");
+        Log.v(tag, "whenToggleButtonClicked()");
 
         FragmentManualDriveBinding binding = this.binding;
 
@@ -154,7 +171,7 @@ public class ManualDriveFragment extends ComFragment {
     };
 
     private void whenSpeedRadioButtonClicked(View view) {
-        Log.i( tag, "whenSpeedRadioButtonClicked" );
+        Log.v( tag, "whenSpeedRadioButtonClicked" );
 
         FragmentManualDriveBinding binding = this.binding;
 
@@ -194,7 +211,7 @@ public class ManualDriveFragment extends ComFragment {
     };
 
     private void whenDirButtonTouched(View view, MotionEvent motionEvent ) {
-        Log.i( tag, "whenDirButtonTouched()" );
+        Log.v( tag, "whenDirButtonTouched()" );
 
         FragmentManualDriveBinding binding = this.binding;
         ImageButton imageButton = (ImageButton) view ;
