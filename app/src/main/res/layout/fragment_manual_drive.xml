@@ -18,6 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <Button
@@ -35,7 +36,7 @@
                 <SeekBar
                     android:id="@+id/colorSeekBar"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="@drawable/color_table"
                     android:max="10"
@@ -49,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <Button
@@ -64,24 +66,56 @@
                     android:layout_height="match_parent" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/speed_level"
                     android:orientation="horizontal">
 
-                    <SeekBar
-                        android:id="@+id/speedSeekBar"
-                        style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent" />
+
+                    <RadioGroup
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:max="2"
-                        android:progress="3"
-                        android:layout_marginLeft="150dp"
-                        android:layout_marginRight="150dp"
-                        />
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
+                            android:text="  낮음 " />
+
+                        <RadioButton
+                            android:id="@+id/radioButton2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
+                            android:text="  보통 " />
+
+                        <RadioButton
+                            android:id="@+id/radioButton3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
+                            android:text="  높음 " />
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent" />
 
                 </LinearLayout>
+
 
             </LinearLayout>
         </TableRow>
