@@ -28,25 +28,44 @@ public class ManualDriveFragment extends ComFragment {
         ImageButton right = binding.right;
 
         RadioButton speedLow = binding.speedLow;
+        RadioButton speedMedium = binding.speedMedium;
+        RadioButton speedHigh = binding.speedHigh;
 
         speedLow.setSelected( true );
 
-        View.OnTouchListener listener = new View.OnTouchListener() {
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                whenDirButtonTouched(view, motionEvent);
-                return false;
-            }
-        };
+        speedLow.setOnClickListener( speedListener );
+        speedMedium.setOnClickListener( speedListener );
+        speedHigh.setOnClickListener( speedListener );
 
-        forward.setOnTouchListener( listener );
-        backward.setOnTouchListener( listener );
-        left.setOnTouchListener( listener );
-        right.setOnTouchListener( listener );
+        forward.setOnTouchListener( dirListener );
+        backward.setOnTouchListener( dirListener );
+        left.setOnTouchListener( dirListener );
+        right.setOnTouchListener( dirListener );
 
         return root;
     }
 
+    View.OnClickListener speedListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            whenSpeedRadioButtonClicked( view );
+        }
+    };
+
+    private void whenSpeedRadioButtonClicked(View view) {
+        Log.i( tag, "whenSpeedRadioButtonClicked" );
+    }
+
+    private View.OnTouchListener dirListener = new View.OnTouchListener() {
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            whenDirButtonTouched(view, motionEvent);
+            return false;
+        }
+    };
+
     private void whenDirButtonTouched(View view, MotionEvent motionEvent ) {
+        Log.i( tag, "whenDirButtonTouched()" );
+        
         FragmentManualDriveBinding binding = this.binding;
         ImageButton imageButton = (ImageButton) view ;
         int action = motionEvent.getAction();
@@ -97,7 +116,7 @@ public class ManualDriveFragment extends ComFragment {
     public void onResume() {
         super.onResume();
 
-        Log.v( "sunabove", "onResume()" );
+        Log.v( tag, "onResume()" );
 
         if( false ) {
             String message = "{\"Forward\":\"Down\"}";

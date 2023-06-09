@@ -7,7 +7,7 @@ import android.graphics.Color;
  */
 public interface ComInterface {
 
-    public static final String TAG = "picogo";
+    public static final String tag = "picogo";
 
     public static final int gray = Color.parseColor("#d3d3d3") ;
     public static final int yellow = Color.parseColor("#ffff00") ;
