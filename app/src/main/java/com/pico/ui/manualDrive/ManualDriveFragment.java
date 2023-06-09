@@ -103,11 +103,17 @@ public class ManualDriveFragment extends ComFragment {
 
         BitmapDrawable bitmapDrawable = (BitmapDrawable) seekBar.getBackground();
         Bitmap bitmap = bitmapDrawable.getBitmap();
-        int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
+        final int w = bitmap.getWidth();
+        final int h = bitmap.getHeight();
 
         int x = w*i/(seekBar.getMax() - seekBar.getMin());
-        int y = h/2;
+        int y = h/5;
+
+        if( x >= w ) {
+            x = w - 1;
+        } else if( x < 0 ) {
+            x = 0 ;
+        }
 
         int pickColor = bitmap.getPixel( x, y );
 
@@ -115,7 +121,7 @@ public class ManualDriveFragment extends ComFragment {
         int blue = Color.blue( pickColor );
         int green = Color.green( pickColor );
 
-        message = String.format( message, red, blue, green );
+        message = String.format( message, red, green, blue );
 
         sys.sendMessage(message);
 

@@ -49,6 +49,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/color_table"
                     android:max="100"
+                    android:min="0"
                     android:progress="50" />
             </LinearLayout>
         </TableRow>
@@ -126,7 +127,7 @@
                         android:layout_height="60dp"
                         android:clickable="false"
                         android:gravity="center"
-                        android:text="L E D"
+                        android:text="L   E   D"
                         android:textSize="24dp" />
 
                     <TextView
@@ -171,7 +172,7 @@
                     android:layout_height="60dp"
                     android:gravity="center"
                     android:clickable="false"
-                    android:text=" 속도 설정 "
+                    android:text="속       도"
                     android:textSize="24dp" />
 
                 <TextView
@@ -258,7 +259,7 @@
                     android:layout_height="60dp"
                     android:gravity="center"
                     android:clickable="false"
-                    android:text=" 모터 조종 "
+                    android:text="모       터"
                     android:textSize="24dp" />
 
                 <LinearLayout
