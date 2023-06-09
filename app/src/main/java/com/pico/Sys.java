@@ -108,7 +108,7 @@ public class Sys {
 
     }
 
-    public boolean sendMessage(final String message ) {
+    public boolean sendMessage(final String message) {
         Log.v( "sunabove", "sendCommand() message = " + message );
 
         OutputStream out = this.out;

@@ -32,4 +32,5 @@ public class ObstacleAvoidanceFragment extends ComFragment {
         super.onDestroyView();
         binding = null;
     }
+
 }

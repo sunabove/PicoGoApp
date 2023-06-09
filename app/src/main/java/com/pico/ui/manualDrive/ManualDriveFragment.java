@@ -137,7 +137,7 @@ public class ManualDriveFragment extends ComFragment {
 
         message = String.format( message, red, green, blue );
 
-        sys.sendMessage(message);
+        this.sendMessage(message);
 
     }
 
@@ -179,7 +179,7 @@ public class ManualDriveFragment extends ComFragment {
         if( command.length() > 0 && onOff.length() > 0 ) {
             message = String.format(message, command, onOff );
 
-            sys.sendMessage(message);
+            this.sendMessage(message );
         }
     }
 
@@ -218,7 +218,7 @@ public class ManualDriveFragment extends ComFragment {
         if( command.length() > 0 && upDown.length() > 0 ) {
             message = String.format(message, command, upDown);
 
-            sys.sendMessage(message);
+            this.sendMessage( message );
         }
 
     }
@@ -287,7 +287,7 @@ public class ManualDriveFragment extends ComFragment {
         if( command.length() > 0 && upDown.length() > 0 ) {
             message = String.format(message, command, upDown);
 
-            sys.sendMessage(message);
+            this.sendMessage(message);
         }
     }
 
@@ -296,18 +296,13 @@ public class ManualDriveFragment extends ComFragment {
         super.onResume();
 
         Log.v( tag, "onResume()" );
-
-        if( false ) {
-            String message = "{\"Forward\":\"Down\"}";
-            sys.sendMessage(message);
-        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        sys.sendMessage( "{\"Forward\":\"Up\"}" );
+        this.sendMessage( "{\"Forward\":\"Up\"}" );
 
         binding = null;
     }
