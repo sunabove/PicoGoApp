@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public abstract class ComFragment extends Fragment implements ComInterface, SysListener {
 
     protected final Sys sys = Sys.getSys();
@@ -35,8 +37,21 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
         if( null == this.reconnectButton ) {
             this.reconnectButton = this.findViewById(R.id.reconnectButton);
+
+            if( null != this.reconnectButton ) {
+                this.reconnectButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        whenReconnectButtonClicked(view);
+                    }
+                });
+            }
         }
 
+    }
+
+    private void whenReconnectButtonClicked(View view) {
+        this.moveToFragment( 0 );
     }
 
     @Override
@@ -71,7 +86,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         Log.v( tag, "whenSysSucceeded()" );
 
         if( this.status != null ) {
-            this.status.setText("통신 성공");
+            this.status.setText("블루트스 통신 성공");
             this.status.setTextColor( greenLight );
 
             this.reconnectButton.setVisibility(View.GONE);
@@ -84,11 +99,11 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         Log.v( tag, "whenSysFailed()" );
 
         if( null != this.status ) {
-            String message = "통신 실패: 재접속하여 주세요.";
+            String message = "블루투스 통신 실패: 재접속하여 주세요.";
             if( sys.getBluetoothDevice() == null ) {
                 message = "블루투스를 먼저 연결하세요.";
             }
-            
+
             this.status.setText( message );
             this.status.setTextColor( red );
 
@@ -100,4 +115,12 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     public <T extends View> T findViewById(@IdRes int id) {
         return (T) this.getView().findViewById(id);
     }
+
+    protected void moveToFragment(int navIdx ) {
+        TabActivity activity = (TabActivity) this.getActivity();
+        BottomNavigationView navView = activity.findViewById(R.id.nav_view);
+
+        navView.setSelectedItemId( activity.navigationIds[ navIdx ] );
+    }
+
 }

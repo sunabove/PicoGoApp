@@ -108,13 +108,6 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         binding = null;
     }
 
-    private void moveToFragment(int navIdx ) {
-        TabActivity activity = (TabActivity) this.getActivity();
-        BottomNavigationView navView = activity.findViewById(R.id.nav_view);
-
-        navView.setSelectedItemId( activity.navigationIds[ navIdx ] );
-    }
-
     private void whenBluetoothListViewItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String msg = "whenBluetoothListViewItemClick() i = " + i + ", l = " + l ;
 
