@@ -22,7 +22,7 @@ public class ManualDriveFragment extends ComFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ManualDriveViewModel manualDriveViewModel = new ViewModelProvider(this).get(ManualDriveViewModel.class);
 
-        binding = FragmentManualDriveBinding.inflate(inflater, container, false);
+        this.binding = FragmentManualDriveBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         if( true ) {
@@ -43,9 +43,6 @@ public class ManualDriveFragment extends ComFragment {
             RadioButton speedMedium = binding.speedMedium;
             RadioButton speedHigh = binding.speedHigh;
 
-            speedMedium.setChecked(true);
-            this.whenSpeedRadioButtonClicked(speedMedium);
-
             speedLow.setOnClickListener(speedListener);
             speedMedium.setOnClickListener(speedListener);
             speedHigh.setOnClickListener(speedListener);
@@ -64,18 +61,32 @@ public class ManualDriveFragment extends ComFragment {
             colorSeekBar.setOnSeekBarChangeListener( colorSeekBarListner );
         }
 
+        this.initRobot();
+
         return root;
+    }
+
+    
+
+    private void initRobot() {
+        FragmentManualDriveBinding binding = this.binding;
+
+        binding.speedLow.setChecked(true);
+
+        this.whenSpeedRadioButtonClicked(binding.speedLow);
+        this.whenDirButtonTouched( binding.forward, MotionEvent.ACTION_UP );
+        this.whenColorSeekBarStopTrackingTouch( binding.colorSeekBar );
     }
 
     private SeekBar.OnSeekBarChangeListener colorSeekBarListner = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-            onColorSeekBarProgressChanged(seekBar, i, b);
+            whenColorSeekBarProgressChanged(seekBar, i, b);
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            onColorSeekBarStopTrackingTouch( seekBar );
+            whenColorSeekBarStopTrackingTouch( seekBar );
         }
 
         @Override
@@ -85,11 +96,11 @@ public class ManualDriveFragment extends ComFragment {
 
     };
 
-    private void onColorSeekBarProgressChanged(SeekBar seekBar, int i, boolean b) {
+    private void whenColorSeekBarProgressChanged(SeekBar seekBar, int i, boolean b) {
         // Do nothing!
     }
 
-    public void onColorSeekBarStopTrackingTouch(SeekBar seekBar) {
+    public void whenColorSeekBarStopTrackingTouch(SeekBar seekBar) {
         Log.v(tag, "onColorSeekBarStopTrackingTouch()");
 
         String message = "{\"RGB\": \"%d,%d,%d\"}";
@@ -211,17 +222,30 @@ public class ManualDriveFragment extends ComFragment {
 
     private View.OnTouchListener dirListener = new View.OnTouchListener() {
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            whenDirButtonTouched(view, motionEvent);
+            whenDirButtonTouched(view, motionEvent.getAction());
             return false;
         }
     };
 
-    private void whenDirButtonTouched(View view, MotionEvent motionEvent ) {
+    private void whenDirButtonTouched(View view, int action ) {
         Log.v( tag, "whenDirButtonTouched()" );
 
         FragmentManualDriveBinding binding = this.binding;
-        ImageButton imageButton = (ImageButton) view ;
-        int action = motionEvent.getAction();
+        ImageButton currDirButton = (ImageButton) view ;
+
+        if( action == MotionEvent.ACTION_DOWN ) {
+            binding.forward.setEnabled( false );
+            binding.backward.setEnabled( false );
+            binding.left.setEnabled( false );
+            binding.right.setEnabled( false );
+
+            currDirButton.setEnabled( true );
+        } else if( action == MotionEvent.ACTION_UP ) {
+            binding.forward.setEnabled( true );
+            binding.backward.setEnabled( true );
+            binding.left.setEnabled( true );
+            binding.right.setEnabled( true );
+        }
 
         //String message = "{\"Forward\":\"Down\"}" ;
         String message = "{\"%s\":\"%s\"}" ;
@@ -254,7 +278,7 @@ public class ManualDriveFragment extends ComFragment {
         }
 
         if( imageId != -1 ) {
-            imageButton.setImageResource(imageId);
+            currDirButton.setImageResource(imageId);
         }
 
         if( command.length() > 0 && upDown.length() > 0 ) {
