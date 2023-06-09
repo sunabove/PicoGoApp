@@ -71,11 +71,14 @@ public class ManualDriveFragment extends ComFragment {
     private void initRobot() {
         FragmentManualDriveBinding binding = this.binding;
 
-        binding.speedLow.setChecked(true);
-
+        binding.speedLow.setChecked( true );
         this.whenSpeedRadioButtonClicked(binding.speedLow);
         this.whenDirButtonTouched( binding.forward, MotionEvent.ACTION_UP );
         this.whenColorSeekBarStopTrackingTouch( binding.colorSeekBar );
+
+        binding.ledToggleButton.setChecked( true );
+        this.whenToggleButtonClicked(binding.buzzerToggleButton, false);
+        this.whenToggleButtonClicked(binding.ledToggleButton, true);
     }
 
     private SeekBar.OnSeekBarChangeListener colorSeekBarListner = new SeekBar.OnSeekBarChangeListener() {

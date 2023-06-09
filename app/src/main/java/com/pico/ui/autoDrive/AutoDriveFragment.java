@@ -23,8 +23,9 @@ public class AutoDriveFragment extends ComFragment {
         binding = FragmentAutoDriveBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        autoDriveViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        //final TextView textView = binding.textNotifications;
+        //autoDriveViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
         return root;
     }
 

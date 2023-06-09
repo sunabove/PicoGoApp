@@ -24,7 +24,7 @@
 
             <ImageView
                 android:id="@+id/logoImage"
-                android:layout_width="500dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/picogo_300" />
 
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:text=" "
                 android:textAlignment="center"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:layout_width="match_parent"

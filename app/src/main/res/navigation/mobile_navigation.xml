@@ -18,7 +18,7 @@
         tools:layout="@layout/fragment_manual_drive" />
 
     <fragment
-        android:id="@+id/navigation_autonomous_drive"
+        android:id="@+id/navigation_avoidance"
         android:name="com.pico.ui.autoDrive.AutoDriveFragment"
         android:label="장애물 회피"
         tools:layout="@layout/fragment_auto_drive" />

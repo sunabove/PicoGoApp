@@ -13,9 +13,9 @@
         android:title="수동 주행" />
 
     <item
-        android:id="@+id/navigation_autonomous_drive"
+        android:id="@+id/navigation_avoidance"
         android:icon="@drawable/smart_car_24"
-        android:title="자율 주행" />
+        android:title="장애물 회피" />
 
     <item
         android:id="@+id/navigation_line_follow"
