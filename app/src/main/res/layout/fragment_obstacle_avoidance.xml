@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/windowBackground"
-                android:src="@drawable/bluetooth_64" />
+                android:src="@drawable/bluetooth_fail_64" />
 
             <TextView
                 android:layout_width="10dp"
@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="재 연 결" />
+                android:text="연 결" />
 
             <TextView
                 android:layout_width="10dp"

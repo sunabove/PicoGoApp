@@ -20,6 +20,7 @@ public class ManualDriveFragment extends ComFragment {
     private FragmentManualDriveBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         ManualDriveViewModel manualDriveViewModel = new ViewModelProvider(this).get(ManualDriveViewModel.class);
 
         this.binding = FragmentManualDriveBinding.inflate(inflater, container, false);
@@ -65,8 +66,6 @@ public class ManualDriveFragment extends ComFragment {
 
         return root;
     }
-
-
 
     private void initRobot() {
         FragmentManualDriveBinding binding = this.binding;
