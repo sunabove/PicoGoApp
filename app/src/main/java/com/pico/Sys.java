@@ -98,6 +98,7 @@ public class Sys {
             } catch (IOException e) {
             }
         }
+        
         if( null != bluetoothSocket ) {
             try {
                 bluetoothSocket.close();

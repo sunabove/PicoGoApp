@@ -31,11 +31,11 @@ public class ManualDriveFragment extends ComFragment {
         RadioButton speedMedium = binding.speedMedium;
         RadioButton speedHigh = binding.speedHigh;
 
-        speedLow.setSelected( true );
-
         speedLow.setOnClickListener( speedListener );
         speedMedium.setOnClickListener( speedListener );
         speedHigh.setOnClickListener( speedListener );
+
+        speedMedium.setChecked( true );
 
         forward.setOnTouchListener( dirListener );
         backward.setOnTouchListener( dirListener );
@@ -54,6 +54,28 @@ public class ManualDriveFragment extends ComFragment {
 
     private void whenSpeedRadioButtonClicked(View view) {
         Log.i( tag, "whenSpeedRadioButtonClicked" );
+
+        FragmentManualDriveBinding binding = this.binding;
+
+        String message = "{\"%s\":\"%s\"}" ;
+
+        String command = "" ;
+        String upDown = "Down" ;
+
+        if( view == binding.speedHigh ) {
+            command = "High";
+        } else if( view == binding.speedMedium ) {
+            command = "Medium";
+        } if( view == binding.speedLow ) {
+            command = "Low";
+        }
+
+        if( command.length() > 0 && upDown.length() > 0 ) {
+            message = String.format(message, command, upDown);
+
+            sys.sendMessage(message);
+        }
+
     }
 
     private View.OnTouchListener dirListener = new View.OnTouchListener() {
@@ -65,7 +87,7 @@ public class ManualDriveFragment extends ComFragment {
 
     private void whenDirButtonTouched(View view, MotionEvent motionEvent ) {
         Log.i( tag, "whenDirButtonTouched()" );
-        
+
         FragmentManualDriveBinding binding = this.binding;
         ImageButton imageButton = (ImageButton) view ;
         int action = motionEvent.getAction();
@@ -73,7 +95,7 @@ public class ManualDriveFragment extends ComFragment {
         //String message = "{\"Forward\":\"Down\"}" ;
         String message = "{\"%s\":\"%s\"}" ;
 
-        String dir ="Forward" ;
+        String command ="Forward" ;
         String upDown = "Up" ;
 
         if( action == 0 ) {
@@ -87,17 +109,17 @@ public class ManualDriveFragment extends ComFragment {
         int imageId = -1 ;
 
         if( view == binding.forward ) {
-            dir = "Forward" ;
+            command = "Forward" ;
 
             imageId = action == 0 ? R.drawable.dir_forward_pressed : action == 1 ? R.drawable.dir_forward : -1 ;
         } else if( view == binding.backward ) {
-            dir = "Backward" ;
+            command = "Backward" ;
             imageId = action == 0 ? R.drawable.dir_backward_pressed : action == 1 ? R.drawable.dir_backward : -1 ;
         } else if( view == binding.left ) {
-            dir = "Left" ;
+            command = "Left" ;
             imageId = action == 0 ? R.drawable.dir_left_pressed : action == 1 ? R.drawable.dir_left : -1 ;
         } else if( view == binding.right ) {
-            dir = "Right" ;
+            command = "Right" ;
             imageId = action == 0 ? R.drawable.dir_right_pressed : action == 1 ? R.drawable.dir_right : -1 ;
         }
 
@@ -105,8 +127,8 @@ public class ManualDriveFragment extends ComFragment {
             imageButton.setImageResource(imageId);
         }
 
-        if( dir.length() > 0 && upDown.length() > 0 ) {
-            message = String.format(message, dir, upDown);
+        if( command.length() > 0 && upDown.length() > 0 ) {
+            message = String.format(message, command, upDown);
 
             sys.sendMessage(message);
         }
