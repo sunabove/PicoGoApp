@@ -86,7 +86,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         Log.v( tag, "whenSysSucceeded()" );
 
         if( this.status != null ) {
-            this.status.setText("블루트스 통신 성공");
+            this.status.setText("블루투스 통신 성공");
             this.status.setTextColor( greenLight );
 
             this.reconnectButton.setVisibility(View.GONE);
