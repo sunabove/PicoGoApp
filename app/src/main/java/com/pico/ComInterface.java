@@ -9,7 +9,8 @@ public interface ComInterface {
 
     public static final String tag = "picogo";
 
-    public static final int gray = Color.parseColor("#d3d3d3") ;
+    public static final int grey = Color.parseColor("#d3d3d3") ;
+    public static final int greyLight = Color.parseColor("#d3d3d3") ;
     public static final int yellow = Color.parseColor("#ffff00") ;
     public static final int green = Color.parseColor("#00FF00") ;
     public static final int black = Color.parseColor("#000000") ;

@@ -38,12 +38,39 @@ public class ManualDriveFragment extends ComFragment {
         speedMedium.setOnClickListener( speedListener );
         speedHigh.setOnClickListener( speedListener );
 
+        CheckBox buzzerToggle = binding.buzzerToggle;
+        CheckBox ledToggle = binding.ledToggle;
+
+        buzzerToggle.setOnCheckedChangeListener( toggleButtonListener );
+        ledToggle.setOnCheckedChangeListener( toggleButtonListener );
+
         forward.setOnTouchListener( dirListener );
         backward.setOnTouchListener( dirListener );
         left.setOnTouchListener( dirListener );
         right.setOnTouchListener( dirListener );
 
         return root;
+    }
+
+    private CompoundButton.OnCheckedChangeListener toggleButtonListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton toggleButton, boolean isChecked) {
+            whenToggleButtonClicked( toggleButton, isChecked );
+        }
+    };
+
+    private void whenToggleButtonClicked(CompoundButton toggleButton, boolean isChecked) {
+        Log.i(tag, "whenToggleButtonClicked()");
+
+        FragmentManualDriveBinding binding = this.binding;
+
+        if( isChecked ) {
+            toggleButton.setText( " 켜 짐 " );
+            toggleButton.setTextColor( red );
+        } else {
+            toggleButton.setText( " 꺼 짐 " );
+            toggleButton.setTextColor( black );
+        }
     }
 
     View.OnClickListener speedListener = new View.OnClickListener() {
@@ -118,17 +145,16 @@ public class ManualDriveFragment extends ComFragment {
 
         if( view == binding.forward ) {
             command = "Forward" ;
-
-            imageId = action == 0 ? R.drawable.dir_forward_pressed : action == 1 ? R.drawable.dir_forward : -1 ;
+            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_forward_pressed : action == MotionEvent.ACTION_UP ? R.drawable.dir_forward : -1 ;
         } else if( view == binding.backward ) {
             command = "Backward" ;
-            imageId = action == 0 ? R.drawable.dir_backward_pressed : action == 1 ? R.drawable.dir_backward : -1 ;
+            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_backward_pressed : action == MotionEvent.ACTION_UP ? R.drawable.dir_backward : -1 ;
         } else if( view == binding.left ) {
             command = "Left" ;
-            imageId = action == 0 ? R.drawable.dir_left_pressed : action == 1 ? R.drawable.dir_left : -1 ;
+            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_left_pressed : action == MotionEvent.ACTION_UP ? R.drawable.dir_left : -1 ;
         } else if( view == binding.right ) {
             command = "Right" ;
-            imageId = action == 0 ? R.drawable.dir_right_pressed : action == 1 ? R.drawable.dir_right : -1 ;
+            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_right_pressed : action == MotionEvent.ACTION_UP ? R.drawable.dir_right : -1 ;
         }
 
         if( imageId != -1 ) {

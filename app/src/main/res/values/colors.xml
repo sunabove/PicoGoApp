@@ -6,6 +6,8 @@
     <color name="red">#FFFF0000</color>
 
     <color name="grey">#7A7A7A</color>
+    <color name="greyLight">#d3d3d3</color>
+
     <color name="backGround">#0044AA</color>
     <color name="blueDark">#2F6699</color>
     <color name="greenLight">#70C656</color>
