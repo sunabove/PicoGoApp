@@ -66,7 +66,7 @@ public class ManualDriveFragment extends ComFragment {
         return root;
     }
 
-    
+
 
     private void initRobot() {
         FragmentManualDriveBinding binding = this.binding;

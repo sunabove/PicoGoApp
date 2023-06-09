@@ -92,7 +92,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     public void onPause() {
         super.onPause();
 
-        Log.v("sunabove", "onPause()");
+        Log.v( tag, "onPause()");
 
         this.scanningBluetooth = false;
 
