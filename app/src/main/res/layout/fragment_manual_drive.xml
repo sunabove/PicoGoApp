@@ -7,7 +7,66 @@
     android:padding="10dp"
     tools:context=".ui.manualDrive.ManualDriveFragment">
 
-    <TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/manual_drive_64" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/windowBackground"
+                android:src="@drawable/bluetooth_64" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="재 연 결" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:inputType="none"
+                android:enabled="false"
+                android:textColor="@color/black"
+                android:text="Status" />
+
+
+        </LinearLayout>
+
+    </TableRow>
+
+    <TableRow android:layout_marginTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +109,7 @@
     </TableRow>
 
 
-    <TableRow>
+    <TableRow android:layout_marginTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -144,7 +203,7 @@
     </TableRow>
 
 
-    <TableRow>
+    <TableRow android:layout_marginTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -235,7 +294,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="280dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
@@ -275,6 +334,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/windowBackground"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/dir_forward" />
 
                 </LinearLayout>
@@ -290,6 +350,7 @@
                         android:id="@+id/left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType="fitCenter"
                         android:background="?android:attr/windowBackground"
                         android:src="@drawable/dir_left" />
 
@@ -302,6 +363,7 @@
                         android:id="@+id/right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType="fitCenter"
                         android:background="?android:attr/windowBackground"
                         android:src="@drawable/dir_right" />
                 </LinearLayout>
@@ -317,6 +379,7 @@
                         android:id="@+id/backward"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType="fitCenter"
                         android:background="?android:attr/windowBackground"
                         android:src="@drawable/dir_backward" />
                 </LinearLayout>

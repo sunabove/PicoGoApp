@@ -1,6 +1,7 @@
 package com.pico;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -32,6 +33,17 @@ public class TabActivity extends ComActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_tab);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        boolean useOptionMenu = false;
+
+        if( useOptionMenu ) {
+            getMenuInflater().inflate(R.menu.option_menu, menu);
+        }
+
+        return true;
     }
 
 }
