@@ -1,5 +1,6 @@
 package com.pico.ui.manualDrive;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -22,34 +23,85 @@ public class ManualDriveFragment extends ComFragment {
         binding = FragmentManualDriveBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        ImageButton forward = binding.forward;
-        ImageButton backward = binding.backward;
-        ImageButton left = binding.left;
-        ImageButton right = binding.right;
+        if( true ) {
+            ImageButton forward = binding.forward;
+            ImageButton backward = binding.backward;
+            ImageButton left = binding.left;
+            ImageButton right = binding.right;
 
-        RadioButton speedLow = binding.speedLow;
-        RadioButton speedMedium = binding.speedMedium;
-        RadioButton speedHigh = binding.speedHigh;
+            forward.setOnTouchListener(dirListener);
+            backward.setOnTouchListener(dirListener);
+            left.setOnTouchListener(dirListener);
+            right.setOnTouchListener(dirListener);
+        }
 
-        speedMedium.setChecked( true );
-        this.whenSpeedRadioButtonClicked( speedMedium );
+        if( true ) {
 
-        speedLow.setOnClickListener( speedListener );
-        speedMedium.setOnClickListener( speedListener );
-        speedHigh.setOnClickListener( speedListener );
+            RadioButton speedLow = binding.speedLow;
+            RadioButton speedMedium = binding.speedMedium;
+            RadioButton speedHigh = binding.speedHigh;
 
-        CheckBox buzzerToggle = binding.buzzerToggle;
-        CheckBox ledToggle = binding.ledToggle;
+            speedMedium.setChecked(true);
+            this.whenSpeedRadioButtonClicked(speedMedium);
 
-        buzzerToggle.setOnCheckedChangeListener( toggleButtonListener );
-        ledToggle.setOnCheckedChangeListener( toggleButtonListener );
+            speedLow.setOnClickListener(speedListener);
+            speedMedium.setOnClickListener(speedListener);
+            speedHigh.setOnClickListener(speedListener);
+        }
 
-        forward.setOnTouchListener( dirListener );
-        backward.setOnTouchListener( dirListener );
-        left.setOnTouchListener( dirListener );
-        right.setOnTouchListener( dirListener );
+        if( true ) {
+            CheckBox buzzerToggleButton = binding.buzzerToggleButton;
+            CheckBox ledToggleButton = binding.ledToggleButton;
+
+            buzzerToggleButton.setOnCheckedChangeListener(toggleButtonListener);
+            ledToggleButton.setOnCheckedChangeListener(toggleButtonListener);
+        }
+
+        if( true ) {
+            SeekBar colorSeekBar = binding.colorSeekBar;
+            colorSeekBar.setOnSeekBarChangeListener( colorSeekBarListner );
+        }
 
         return root;
+    }
+
+    private SeekBar.OnSeekBarChangeListener colorSeekBarListner = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            onColorSeekBarProgressChanged(seekBar, i, b);
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            onColorSeekBarStopTrackingTouch( seekBar );
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            // do nothing!
+        }
+
+    };
+
+    private void onColorSeekBarProgressChanged(SeekBar seekBar, int i, boolean b) {
+    }
+
+    public void onColorSeekBarStopTrackingTouch(SeekBar seekBar) {
+        Log.i(tag, "onColorSeekBarStopTrackingTouch()");
+
+        String message = "{\"RGB\": \"%d,%d,%d\"}";
+
+        Color color = Color.valueOf( getResources().getColor( R.color.red, getActivity().getTheme() ) );
+        int c = color.toArgb();
+
+        int red = Color.red( c );
+        int blue = Color.blue( c );
+        int green = Color.green( c );
+
+        message = String.format( message, red, blue, green );
+
+        sys.sendMessage(message);
+
     }
 
     private CompoundButton.OnCheckedChangeListener toggleButtonListener = new CompoundButton.OnCheckedChangeListener() {
@@ -64,12 +116,33 @@ public class ManualDriveFragment extends ComFragment {
 
         FragmentManualDriveBinding binding = this.binding;
 
+        String message = "{\"%s\":\"%s\"}" ;
+
+        String command = "" ;
+        String onOff = "" ;
+
         if( isChecked ) {
+            onOff = "on";
+
             toggleButton.setText( " 켜 짐 " );
             toggleButton.setTextColor( red );
         } else {
+            onOff = "off";
+
             toggleButton.setText( " 꺼 짐 " );
             toggleButton.setTextColor( black );
+        }
+
+        if( toggleButton == binding.buzzerToggleButton ) {
+            command = "BZ";
+        } else if( toggleButton == binding.ledToggleButton ) {
+            command = "LED";
+        }
+
+        if( command.length() > 0 && onOff.length() > 0 ) {
+            message = String.format(message, command, onOff );
+
+            sys.sendMessage(message);
         }
     }
 
