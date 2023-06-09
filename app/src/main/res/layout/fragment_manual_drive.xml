@@ -1,155 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="10dp"
     tools:context=".ui.manualDrive.ManualDriveFragment">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TableRow>
 
-        <TableRow>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:src="@drawable/rgb_led_64" />
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:clickable="false"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:text=" RGB LED "
+                android:textSize="24dp" />
 
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/rgb_led_64" />
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
 
-                <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent" />
-
-                <Button
-                    android:layout_width="160dp"
-                    android:layout_height="60dp"
-                    android:gravity="center"
-                    android:clickable="false"
-                    android:text=" RGB LED "
-                    android:textSize="24dp" />
-
-                <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent" />
-
-                <SeekBar
-                    android:id="@+id/colorSeekBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/color_table"
-                    android:max="100"
-                    android:min="0"
-                    android:progress="50" />
-            </LinearLayout>
-        </TableRow>
-
-
-        <TableRow>
-
-            <LinearLayout
+            <SeekBar
+                android:id="@+id/colorSeekBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/buzzer_64" />
-
-                    <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent" />
-
-                    <Button
-                        android:layout_width="160dp"
-                        android:layout_height="60dp"
-                        android:clickable="false"
-                        android:gravity="center"
-                        android:text="부       저"
-                        android:textSize="24dp" />
-
-                    <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent" />
-
-                    <CheckBox
-                        android:id="@+id/buzzerToggleButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text=" 꺼 짐 "
-                        android:textStyle="bold"
-                        android:textSize="26dp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/led_64" />
-
-                    <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent" />
-
-                    <Button
-                        android:layout_width="160dp"
-                        android:layout_height="60dp"
-                        android:clickable="false"
-                        android:gravity="center"
-                        android:text="L   E   D"
-                        android:textSize="24dp" />
-
-                    <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent" />
-
-                    <CheckBox
-                        android:id="@+id/ledToggleButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text=" 꺼 짐 "
-                        android:textStyle="bold"
-                        android:textSize="26dp" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-        </TableRow>
+                android:background="@drawable/color_table"
+                android:max="100"
+                android:min="0"
+                android:progress="50" />
+        </LinearLayout>
+    </TableRow>
 
 
-        <TableRow>
+    <TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -161,7 +68,7 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/speedometer_64" />
+                    android:src="@drawable/buzzer_64" />
 
                 <TextView
                     android:layout_width="20dp"
@@ -170,85 +77,41 @@
                 <Button
                     android:layout_width="160dp"
                     android:layout_height="60dp"
-                    android:gravity="center"
                     android:clickable="false"
-                    android:text="속       도"
+                    android:gravity="center"
+                    android:text="부       저"
                     android:textSize="24dp" />
 
                 <TextView
                     android:layout_width="20dp"
                     android:layout_height="match_parent" />
 
-                <LinearLayout
+                <CheckBox
+                    android:id="@+id/buzzerToggleButton"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/speed_level"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent" />
-
-                    <RadioGroup
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/speedLow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textSize="26sp"
-                            android:textStyle="bold"
-                            android:text="  낮음 " />
-
-                        <RadioButton
-                            android:id="@+id/speedMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="  보통 "
-                            android:textSize="26sp"
-                            android:textStyle="bold" />
-
-                        <RadioButton
-                            android:id="@+id/speedHigh"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textSize="26sp"
-                            android:textStyle="bold"
-                            android:text="  높음 " />
-                    </RadioGroup>
-
-                    <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent" />
-
-                </LinearLayout>
-
+                    android:text=" 꺼 짐 "
+                    android:textSize="26dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
-        </TableRow>
 
-        <TableRow android:layout_marginTop="20dp">
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/handle_64" />
+                    android:layout_height="60dp"
+                    android:src="@drawable/led_64" />
 
                 <TextView
                     android:layout_width="20dp"
@@ -257,79 +120,210 @@
                 <Button
                     android:layout_width="160dp"
                     android:layout_height="60dp"
-                    android:gravity="center"
                     android:clickable="false"
-                    android:text="모       터"
+                    android:gravity="center"
+                    android:text="L   E   D"
                     android:textSize="24dp" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
+
+                <CheckBox
+                    android:id="@+id/ledToggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=" 꺼 짐 "
+                    android:textSize="26dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </TableRow>
+
+
+    <TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/speedometer_64" />
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:clickable="false"
+                android:gravity="center"
+                android:text="속       도"
+                android:textSize="24dp" />
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/speed_level"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/speedLow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="  낮음 "
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/speedMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="  보통 "
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/speedHigh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="  높음 "
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+                </RadioGroup>
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </TableRow>
+
+    <TableRow android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/handle_64" />
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:clickable="false"
+                android:gravity="center"
+                android:text="모       터"
+                android:textSize="24dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <ImageButton
+                        android:id="@+id/forward"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/forward"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/windowBackground"
-                            android:src="@drawable/dir_forward" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/left"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/windowBackground"
-                            android:src="@drawable/dir_left" />
-
-                        <TextView
-                            android:layout_width="80dp"
-                            android:layout_height="match_parent"
-                            android:text=" " />
-
-                        <ImageButton
-                            android:id="@+id/right"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/windowBackground"
-                            android:src="@drawable/dir_right" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/backward"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/windowBackground"
-                            android:src="@drawable/dir_backward" />
-                    </LinearLayout>
+                        android:background="?android:attr/windowBackground"
+                        android:src="@drawable/dir_forward" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/windowBackground"
+                        android:src="@drawable/dir_left" />
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:text=" " />
+
+                    <ImageButton
+                        android:id="@+id/right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/windowBackground"
+                        android:src="@drawable/dir_right" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/backward"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/windowBackground"
+                        android:src="@drawable/dir_backward" />
+                </LinearLayout>
+
             </LinearLayout>
+        </LinearLayout>
 
-        </TableRow>
-    </TableLayout>
+    </TableRow>
 
-</LinearLayout>
+</TableLayout>
