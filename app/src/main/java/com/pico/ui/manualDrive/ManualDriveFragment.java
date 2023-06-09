@@ -27,6 +27,10 @@ public class ManualDriveFragment extends ComFragment {
         ImageButton left = binding.left;
         ImageButton right = binding.right;
 
+        RadioButton speedLow = binding.speedLow;
+
+        speedLow.setSelected( true );
+
         View.OnTouchListener listener = new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 whenDirButtonTouched(view, motionEvent);

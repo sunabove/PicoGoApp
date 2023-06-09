@@ -69,6 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/speed_level"
                     android:orientation="horizontal">
 
                     <TextView
@@ -83,7 +84,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:id="@+id/radioButton"
+                            android:id="@+id/speedLow"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -92,7 +93,7 @@
                             android:text="  낮음 " />
 
                         <RadioButton
-                            android:id="@+id/radioButton2"
+                            android:id="@+id/speedMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -101,7 +102,7 @@
                             android:text="  보통 " />
 
                         <RadioButton
-                            android:id="@+id/radioButton3"
+                            android:id="@+id/speedHigh"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
