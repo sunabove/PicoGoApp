@@ -98,9 +98,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:checked="true"
+                            android:text="  보통 "
+                            android:textColor="@color/red"
                             android:textSize="26sp"
-                            android:textStyle="bold"
-                            android:text="  보통 " />
+                            android:textStyle="bold" />
 
                         <RadioButton
                             android:id="@+id/speedHigh"

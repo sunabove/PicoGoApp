@@ -57,6 +57,10 @@ public class ManualDriveFragment extends ComFragment {
 
         FragmentManualDriveBinding binding = this.binding;
 
+        binding.speedHigh.setTextColor( black );
+        binding.speedMedium.setTextColor( black );
+        binding.speedLow.setTextColor( black );
+
         String message = "{\"%s\":\"%s\"}" ;
 
         String command = "" ;
@@ -69,6 +73,9 @@ public class ManualDriveFragment extends ComFragment {
         } if( view == binding.speedLow ) {
             command = "Low";
         }
+
+        RadioButton button = (RadioButton) view ;
+        button.setTextColor( red );
 
         if( command.length() > 0 && upDown.length() > 0 ) {
             message = String.format(message, command, upDown);
