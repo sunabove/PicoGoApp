@@ -1,14 +1,14 @@
-package com.pico.ui.autoDrive;
+package com.pico.ui.avoidance;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class AutoDriveViewModel extends ViewModel {
+public class ObstacleAvoidanceViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public AutoDriveViewModel() {
+    public ObstacleAvoidanceViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is Auto Drive fragment");
     }

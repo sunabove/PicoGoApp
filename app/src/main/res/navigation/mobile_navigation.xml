@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_manual_drive" />
 
     <fragment
-        android:id="@+id/navigation_avoidance"
-        android:name="com.pico.ui.autoDrive.AutoDriveFragment"
+        android:id="@+id/navigation_obstacle_avoidance"
+        android:name="com.pico.ui.avoidance.ObstacleAvoidanceFragment"
         android:label="장애물 회피"
-        tools:layout="@layout/fragment_auto_drive" />
+        tools:layout="@layout/fragment_obstacle_avoidance" />
 
     <fragment
         android:id="@+id/navigation_line_follow"

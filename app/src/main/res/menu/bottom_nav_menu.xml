@@ -13,7 +13,7 @@
         android:title="수동 주행" />
 
     <item
-        android:id="@+id/navigation_avoidance"
+        android:id="@+id/navigation_obstacle_avoidance"
         android:icon="@drawable/smart_car_24"
         android:title="장애물 회피" />
 
