@@ -31,11 +31,12 @@ public class ManualDriveFragment extends ComFragment {
         RadioButton speedMedium = binding.speedMedium;
         RadioButton speedHigh = binding.speedHigh;
 
+        speedMedium.setChecked( true );
+        this.whenSpeedRadioButtonClicked( speedMedium );
+
         speedLow.setOnClickListener( speedListener );
         speedMedium.setOnClickListener( speedListener );
         speedHigh.setOnClickListener( speedListener );
-
-        speedMedium.setChecked( true );
 
         forward.setOnTouchListener( dirListener );
         backward.setOnTouchListener( dirListener );

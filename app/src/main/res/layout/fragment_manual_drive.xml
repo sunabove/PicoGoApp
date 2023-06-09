@@ -21,6 +21,15 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/rgb_led_64" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
+
                 <Button
                     android:layout_width="160dp"
                     android:layout_height="60dp"
@@ -52,6 +61,15 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/speedometer_64" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
 
                 <Button
                     android:layout_width="160dp"
@@ -98,9 +116,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:checked="true"
                             android:text="  보통 "
-                            android:textColor="@color/red"
                             android:textSize="26sp"
                             android:textStyle="bold" />
 
@@ -132,6 +148,15 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/handle_64" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
 
                 <Button
                     android:layout_width="160dp"
