@@ -27,7 +27,7 @@
                 android:layout_height="match_parent" />
 
             <ImageView
-                android:id="@+id/imageButton"
+                android:id="@+id/commStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/windowBackground"
@@ -38,7 +38,7 @@
                 android:layout_height="match_parent" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/reconnectButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="20sp"
@@ -105,7 +105,7 @@
                 android:layout_height="20dp"
                 android:text="   " />
 
-            <Button
+            <ToggleButton
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
