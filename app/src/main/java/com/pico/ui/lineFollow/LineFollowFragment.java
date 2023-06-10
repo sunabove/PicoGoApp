@@ -42,4 +42,13 @@ public class LineFollowFragment extends ComFragment {
         binding = null;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if( this.startCount <=1 ) {
+            this.sendWelcomeBeep();
+        }
+    }
+
 }

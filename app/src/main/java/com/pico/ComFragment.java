@@ -1,5 +1,7 @@
 package com.pico;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +21,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     private Button reconnectButton;
     private EditText commStatus;
 
-    private int startCount = 0 ;
+    protected int startCount = 0 ;
 
     public ComFragment() {
 
@@ -66,7 +68,37 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
         this.startCount += 1;
 
+        this.sendHelloMessage( );
+    }
+
+    public void sendHelloMessage() {
         this.sendMessage( "hello" );
+    }
+
+    public void sendWelcomeBeep( ) {
+        int delay = 500 ;
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        Runnable runnable = new Runnable() {
+            private int count = 0 ;
+            private int maxCount = 8;
+            @Override
+            public void run() {
+                if( count < maxCount ) {
+                    if (count % 2 == 0) {
+                        sendMessage("{\"BZ\":\"on\"}");
+                    } else {
+                        sendMessage("{\"BZ\":\"off\"}");
+                    }
+
+                    handler.postDelayed(this, delay);
+
+                    count += 1 ;
+                }
+            }
+        };
+
+        handler.postDelayed( runnable, delay);
     }
 
     public boolean sendMessage( String message ) {

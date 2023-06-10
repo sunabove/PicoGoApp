@@ -67,6 +67,15 @@ public class ManualDriveFragment extends ComFragment {
         return root;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if( this.startCount <=1 ) {
+            this.sendWelcomeBeep();
+        }
+    }
+
     private void initRobot() {
         FragmentManualDriveBinding binding = this.binding;
 
