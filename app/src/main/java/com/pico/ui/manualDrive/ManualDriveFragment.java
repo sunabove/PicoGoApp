@@ -235,18 +235,22 @@ public class ManualDriveFragment extends ComFragment {
         FragmentManualDriveBinding binding = this.binding;
         ImageButton currDirButton = (ImageButton) view ;
 
-        if( action == MotionEvent.ACTION_DOWN ) {
-            binding.forward.setEnabled( false );
-            binding.backward.setEnabled( false );
-            binding.left.setEnabled( false );
-            binding.right.setEnabled( false );
+        boolean disableButtons = false ;
 
-            currDirButton.setEnabled( true );
-        } else if( action == MotionEvent.ACTION_UP ) {
-            binding.forward.setEnabled( true );
-            binding.backward.setEnabled( true );
-            binding.left.setEnabled( true );
-            binding.right.setEnabled( true );
+        if( disableButtons ) {
+            if (action == MotionEvent.ACTION_DOWN) {
+                binding.forward.setEnabled(false);
+                binding.backward.setEnabled(false);
+                binding.left.setEnabled(false);
+                binding.right.setEnabled(false);
+
+                currDirButton.setEnabled(true);
+            } else if (action == MotionEvent.ACTION_UP) {
+                binding.forward.setEnabled(true);
+                binding.backward.setEnabled(true);
+                binding.left.setEnabled(true);
+                binding.right.setEnabled(true);
+            }
         }
 
         //String message = "{\"Forward\":\"Down\"}" ;
@@ -280,6 +284,11 @@ public class ManualDriveFragment extends ComFragment {
         }
 
         if( imageId != -1 ) {
+            binding.forward.setImageResource( R.drawable.dir_forward  );
+            binding.backward.setImageResource( R.drawable.dir_backward  );
+            binding.left.setImageResource( R.drawable.dir_left  );
+            binding.right.setImageResource( R.drawable.dir_right );
+            
             currDirButton.setImageResource(imageId);
         }
 
