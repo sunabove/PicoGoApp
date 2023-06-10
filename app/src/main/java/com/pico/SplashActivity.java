@@ -29,7 +29,7 @@ public class SplashActivity extends ComActivity  {
         this.logoImage = this.findViewById(R.id.logoImage);
         this.status = this.findViewById(R.id.commStatus);
 
-        this.setTitle( " ★☆ 안녕하세요? 반갑습니다.");
+        this.setTitle( " ★ 안녕하세요? 반갑습니다. ★ ");
 
         this.logoImage.setOnClickListener(new View.OnClickListener() {
             @Override

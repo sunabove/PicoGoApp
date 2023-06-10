@@ -19,10 +19,13 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         super.onCreate(savedInstanceState);
         this.activity = this;
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        //actionBar.setHomeAsUpIndicator( R.drawable.action_bar_logo_3 );
-        actionBar.setHomeAsUpIndicator( R.drawable.picogo_front_round_48);
+        boolean useActionBar = false ;
+
+        if( useActionBar ) {
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.pico_bot_48);
+        }
     }
 
     public void postDelayed( Runnable runnable, int delayMillis ) {
