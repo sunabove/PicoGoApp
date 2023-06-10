@@ -15,9 +15,9 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
     protected final Sys sys = Sys.getSys();
 
-    private ImageView commStatus;
+    private ImageView commStatusImage;
     private Button reconnectButton;
-    private EditText status;
+    private EditText commStatus;
 
     private int startCount = 0 ;
 
@@ -27,12 +27,12 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
     public void initFragment() {
 
-        if( null == this.status ) {
-            this.status = this.findViewById(R.id.status);
+        if( null == this.commStatus) {
+            this.commStatus = this.findViewById(R.id.commStatus);
         }
 
-        if( null == this.commStatus ) {
-            this.commStatus = this.findViewById(R.id.commStatus);
+        if( null == this.commStatusImage) {
+            this.commStatusImage = this.findViewById(R.id.commStatusImage);
         }
 
         if( null == this.reconnectButton ) {
@@ -85,12 +85,12 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     public void whenSysSucceeded() {
         Log.v( tag, "whenSysSucceeded()" );
 
-        if( this.status != null ) {
-            this.status.setText("블루투스 통신 성공");
-            this.status.setTextColor( greenLight );
+        if( this.commStatus != null ) {
+            this.commStatus.setText("블루투스 통신 성공");
+            this.commStatus.setTextColor( greenLight );
 
             this.reconnectButton.setVisibility(View.GONE);
-            this.commStatus.setImageResource( R.drawable.bluetooth_succ_64);
+            this.commStatusImage.setImageResource( R.drawable.bluetooth_succ_64);
         }
     }
 
@@ -98,17 +98,17 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     public void whenSysFailed() {
         Log.v( tag, "whenSysFailed()" );
 
-        if( null != this.status ) {
+        if( null != this.commStatus) {
             String message = "블루투스 통신 실패: 재접속하여 주세요.";
             if( sys.getBluetoothDevice() == null ) {
                 message = "블루투스를 먼저 연결하세요.";
             }
 
-            this.status.setText( message );
-            this.status.setTextColor( red );
+            this.commStatus.setText( message );
+            this.commStatus.setTextColor( red );
 
             this.reconnectButton.setVisibility(View.VISIBLE);
-            this.commStatus.setImageResource( R.drawable.bluetooth_fail_64);
+            this.commStatusImage.setImageResource( R.drawable.bluetooth_fail_64);
         }
     }
 

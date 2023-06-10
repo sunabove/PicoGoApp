@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.core.app.ActivityCompat;
 
 public class SplashActivity extends ComActivity  {
@@ -28,7 +27,7 @@ public class SplashActivity extends ComActivity  {
 
         this.permissionButton = this.findViewById(R.id.permissionButton);
         this.logoImage = this.findViewById(R.id.logoImage);
-        this.status = this.findViewById(R.id.status);
+        this.status = this.findViewById(R.id.commStatus);
 
         this.setTitle( " ★☆ 안녕하세요? 반갑습니다.");
 
