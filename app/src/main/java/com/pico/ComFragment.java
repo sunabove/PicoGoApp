@@ -125,9 +125,9 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
                     sendingBeep = true;
 
                     if (count % 2 == 0) {
-                        sendMessage("{\"BZ\":\"on\"}");
+                        sendBuzzerMessage( true );
                     } else {
-                        sendMessage("{\"BZ\":\"off\"}");
+                        sendBuzzerMessage( false );
                     }
 
                     handler.postDelayed(this, delay);
@@ -140,6 +140,13 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         };
 
         handler.postDelayed( runnable, delay);
+    }
+
+    public boolean sendBuzzerMessage( boolean on) {
+        String message = "{\"BZ\":\"%s\"}";
+        message = String.format( message, on ? "on" : "off" );
+
+        return sendMessage( message );
     }
 
     public boolean sendMessage( String message ) {

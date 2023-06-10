@@ -104,6 +104,13 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        this.sendBuzzerMessage( false );
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
 
@@ -111,6 +118,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         this.scanningBluetooth = false;
 
+        this.autoConnect.setChecked( false );
         this.connectingStatus.setText( "" );
 
         this.whenBluetoothScanningFinished();
@@ -164,11 +172,13 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         if( ! this.connectingBluetooth ) {
             this.connectingBluetooth = true;
 
+            this.autoConnect.setEnabled( false );
+
             this.connectingProgressBar.setVisibility(View.VISIBLE);
             this.connectingProgressBar.setIndeterminate( true );
 
             this.connectingStatus.setTextColor( greenDark );
-            this.connectingStatus.setText( "선택한 블루투스 장치를 연결중입니다.");
+            this.connectingStatus.setText( "블루투스 장치를 연결중입니다.");
 
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
@@ -213,6 +223,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             this.connectingStatus.setTextColor( red );
             this.connectingStatus.setText( "블루투스 장치 연결에 실패하였습니다.");
         }
+
+        this.autoConnect.setEnabled( true );
 
         this.connectingBluetooth = false ;
 
