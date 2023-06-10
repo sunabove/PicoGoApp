@@ -30,10 +30,6 @@
             android:exported="false"
             android:screenOrientation="landscape"
             android:label="@string/title_activity_tab" />
-        <activity
-            android:name=".ControlActivity"
-            android:screenOrientation="landscape"
-            android:exported="false" />
 
         <activity
             android:name=".SplashActivity"

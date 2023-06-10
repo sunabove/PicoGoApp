@@ -10,8 +10,10 @@
 
     <color name="backGround">#0044AA</color>
     <color name="blueDark">#2F6699</color>
+
     <color name="greenLight">#70C656</color>
     <color name="greenDark">#53933F</color>
+
     <color name="orangeLight">#F3AE1B</color>
     <color name="orangeDark">#BB6008</color>
 

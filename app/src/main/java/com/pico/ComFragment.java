@@ -1,5 +1,7 @@
 package com.pico;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -17,6 +19,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
     protected final Sys sys = Sys.getSys();
 
+    private TabActivity activity ;
     private ImageView commStatusImage;
     private Button reconnectButton;
     private EditText commStatus;
@@ -24,10 +27,14 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     protected int startCount = 0 ;
 
     public ComFragment() {
-
+        // do nothing!
     }
 
     public void initFragment() {
+
+        if( null == this.activity ) {
+            this.activity = (TabActivity) this.getActivity();
+        }
 
         if( null == this.commStatus) {
             this.commStatus = this.findViewById(R.id.commStatus);
@@ -75,16 +82,48 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         this.sendMessage( "hello" );
     }
 
+    public void saveProperty( String key, String value ) {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putString( key, value );
+        editor.apply();
+
+        Log.i( tag, "Property save: key = " + key + " value = " + value );
+    }
+
+    public String getProperty( String key ) {
+        return this.getProperty( key, "" );
+    }
+
+    public String getProperty( String key, String def ) {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+        String value = sharedPref.getString( key, def );
+
+        Log.i( tag, "Property read : key = " + key + " value = " + value );
+
+        return value;
+    }
+
+    private boolean sendingBeep = false ;
+
     public void sendWelcomeBeep( ) {
+        if( sendingBeep ) {
+            return;
+        }
+
         int delay = 500 ;
 
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             private int count = 0 ;
-            private int maxCount = 8;
+            private int maxCount = 6;
             @Override
             public void run() {
                 if( count < maxCount ) {
+                    sendingBeep = true;
+
                     if (count % 2 == 0) {
                         sendMessage("{\"BZ\":\"on\"}");
                     } else {
@@ -94,6 +133,8 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
                     handler.postDelayed(this, delay);
 
                     count += 1 ;
+                } else {
+                    sendingBeep = false;
                 }
             }
         };

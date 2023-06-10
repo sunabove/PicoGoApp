@@ -25,12 +25,10 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pico.BlueDeviceListAdapter;
 import com.pico.BluetoothInterface;
+import com.pico.ComActivity;
 import com.pico.ComFragment;
-import com.pico.R;
-import com.pico.TabActivity;
 import com.pico.databinding.FragmentBluetoothBinding;
 
 public class BluetoothFragment extends ComFragment implements BluetoothInterface  {
@@ -42,8 +40,12 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     private ListView bluetoothListView;
     private BlueDeviceListAdapter blueDeviceListAdapter;
 
-    private Button blueScanButton;
+    private Button blueScanButton ;
+    private CheckBox autoConnect ;
     private CheckBox scanPicoOnlyCheckBox;
+
+    private ProgressBar connectingProgressBar;
+    private EditText connectingStatus;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.v("sunabove", "onCreateView()");
@@ -57,6 +59,12 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.bluetoothListView = binding.bluetoothListView;
         this.blueScanButton = binding.blueScanButton;
         this.scanPicoOnlyCheckBox = binding.scanPicoOnlyCheckBox;
+        this.autoConnect = binding.autoConnect;
+
+        this.connectingProgressBar = binding.connectingProgressBar;
+        this.connectingStatus = binding.connectingStatus;
+
+        this.connectingStatus.setText( "" );
 
         this.blueScanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -83,6 +91,13 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             }
         });
 
+        this.autoConnect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                whenAutoConnectChecked( compoundButton, checked );
+            }
+        });
+
         this.scanBlueDevices();
 
         return root;
@@ -96,6 +111,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         this.scanningBluetooth = false;
 
+        this.connectingStatus.setText( "" );
+
         this.whenBluetoothScanningFinished();
     }
 
@@ -108,24 +125,102 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         binding = null;
     }
 
+    private void whenAutoConnectChecked( CompoundButton compoundButton, boolean checked ) {
+        String addressLast = this.getProperty( BLUETOOTH_ADDRESS_KEY );
+
+        if( checked && addressLast.length() > 0 ) {
+            BlueDeviceListAdapter blueDeviceListAdapter = this.blueDeviceListAdapter;
+
+            BluetoothDevice device ;
+
+            for( int i = 0 ; i < blueDeviceListAdapter.getCount() ; i ++ ) {
+                device = blueDeviceListAdapter.getItem( i );
+                if( device != null && device.getAddress().equals( addressLast ) ) {
+                    this.connectBluetooth( device );
+
+                    return;
+                }
+            }
+        }
+    }
+
     private void whenBluetoothListViewItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String msg = "whenBluetoothListViewItemClick() i = " + i + ", l = " + l ;
+
+        Log.v("sunabove", msg );
 
         BluetoothDevice device = this.blueDeviceListAdapter.getItem( i );
 
         if( null != device ) {
-            @SuppressLint("MissingPermission") String name = device.getName();
-            String address = device.getAddress();
-            msg += " BLE Device Name : " + name + " address : " + address ;
-
-            sys.setBluetoothDevice( device );
-
-            int navIdx = 1  ;
-            this.moveToFragment( navIdx );
+            this.connectBluetooth( device );
         }
 
-        Log.v("sunabove", msg );
     } // -- whenBluetoothListViewItemClick
+
+    private boolean connectingBluetooth = false ;
+
+    private void connectBluetooth(BluetoothDevice device ) {
+
+        if( ! this.connectingBluetooth ) {
+            this.connectingBluetooth = true;
+
+            this.connectingProgressBar.setVisibility(View.VISIBLE);
+            this.connectingProgressBar.setIndeterminate( true );
+
+            this.connectingStatus.setTextColor( greenDark );
+            this.connectingStatus.setText( "선택한 블루투스 장치를 연결중입니다.");
+
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    connectBluetoothImpl(device);
+                }
+            }, 2_500);
+        }
+
+    }
+
+    private void connectBluetoothImpl(BluetoothDevice device ) {
+
+        @SuppressLint("MissingPermission") String name = device.getName();
+        String address = device.getAddress();
+        String msg = " BLE Device Name : " + name + " address : " + address ;
+
+        Log.v("sunabove", msg );
+
+        boolean success = sys.setBluetoothDevice( device );
+
+        if( success ) {
+            this.saveProperty(BLUETOOTH_ADDRESS_KEY, address );
+
+            this.connectingProgressBar.setVisibility( View.VISIBLE) ;
+            this.connectingProgressBar.setIndeterminate( true );
+
+            this.connectingStatus.setTextColor( greenDark );
+            this.connectingStatus.setText( "블루투스 장치 연결에 성공하였습니다.");
+
+            new Handler( Looper.getMainLooper() ).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int navIdx = 1;
+                    moveToFragment(navIdx);
+                }
+            }, 1_000);
+        } else {
+            this.connectingProgressBar.setVisibility(View.GONE );
+            this.connectingProgressBar.setIndeterminate( false );
+
+            this.connectingStatus.setTextColor( red );
+            this.connectingStatus.setText( "블루투스 장치 연결에 실패하였습니다.");
+        }
+
+        this.connectingBluetooth = false ;
+
+    }
+
+    public ComActivity getComActivity() {
+        return (ComActivity) super.getActivity();
+    }
 
     public boolean isScanning() {
         return this.scanningBluetooth ;
@@ -145,6 +240,10 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.blueScanButton.setEnabled(false);
         this.scanPicoOnlyCheckBox.setEnabled(false);
         this.bluetoothProgressBar.setVisibility(View.VISIBLE);
+
+        this.connectingProgressBar.setIndeterminate( false );
+        this.connectingProgressBar.setVisibility(View.GONE );
+        this.connectingStatus.setText( "" );
 
         this.blueDeviceListAdapter.clear();
         this.blueDeviceListAdapter.notifyDataSetChanged();
@@ -238,6 +337,11 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 this.blueDeviceListAdapter.addDevice(device);
                 this.blueDeviceListAdapter.notifyDataSetChanged();
                 Log.v("sunabove", msg);
+
+                if( this.autoConnect.isChecked() && address.equals( this.getProperty( BLUETOOTH_ADDRESS_KEY))) {
+
+                    this.connectBluetooth( device );
+                }
             } else {
                 String msg = "BLE Device Name : " + name + " address : " + address + " not appended";
                 Log.v("sunabove", msg);

@@ -18,5 +18,8 @@ public interface ComInterface {
     public static final int red = Color.parseColor("#FF0000") ;
 
     public static final int greenLight = Color.parseColor("#70C656") ;
+    public static final int greenDark = Color.parseColor("#53933F") ;
+
+    public static final String BLUETOOTH_ADDRESS_KEY = "bluetooth_name" ;
 
 }

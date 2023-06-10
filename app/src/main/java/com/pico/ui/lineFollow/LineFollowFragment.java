@@ -45,10 +45,6 @@ public class LineFollowFragment extends ComFragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        if( this.startCount <=1 ) {
-            this.sendWelcomeBeep();
-        }
     }
 
 }

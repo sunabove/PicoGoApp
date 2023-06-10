@@ -71,9 +71,7 @@ public class ManualDriveFragment extends ComFragment {
     public void onStart() {
         super.onStart();
 
-        if( this.startCount <=1 ) {
-            this.sendWelcomeBeep();
-        }
+        this.sendWelcomeBeep();
     }
 
     private void initRobot() {

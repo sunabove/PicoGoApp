@@ -1,6 +1,7 @@
 package com.pico;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,6 +45,15 @@ public class TabActivity extends ComActivity {
         }
 
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();;
+
+        Log.i( tag, "TabActivity onBackPressed()" );
+
+        sys.disconnectBluetoothDevice();
     }
 
 }

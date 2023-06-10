@@ -41,6 +41,10 @@ public class BlueDeviceListAdapter extends BaseAdapter {
         return this.devices.size();
     }
 
+    public int getSize() {
+        return  this.getCount();
+    }
+
     public BluetoothDevice getItem(int i) {
         return this.devices.get(i);
     }

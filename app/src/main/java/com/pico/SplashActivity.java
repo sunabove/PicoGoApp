@@ -68,7 +68,8 @@ public class SplashActivity extends ComActivity  {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Log.v("sunabove", "onBackPressed()");
+
+        Log.v("sunabove", "SplashActivity onBackPressed()");
     }
 
     @Override
