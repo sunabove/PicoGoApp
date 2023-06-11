@@ -1,10 +1,14 @@
 package com.pico;
 
+import android.annotation.TargetApi;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowInsets;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,5 +65,4 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     public void postDelayed( Runnable runnable, int delayMillis ) {
         new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMillis);
     }
-
 }

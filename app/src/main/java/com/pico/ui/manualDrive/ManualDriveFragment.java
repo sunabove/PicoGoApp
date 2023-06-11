@@ -31,11 +31,13 @@ public class ManualDriveFragment extends ComFragment {
             ImageButton backward = binding.backward;
             ImageButton left = binding.left;
             ImageButton right = binding.right;
+            ImageButton stop = binding.stop;
 
             forward.setOnTouchListener(dirListener);
             backward.setOnTouchListener(dirListener);
             left.setOnTouchListener(dirListener);
             right.setOnTouchListener(dirListener);
+            stop.setOnTouchListener(dirListener);
         }
 
         if( true ) {
@@ -82,9 +84,8 @@ public class ManualDriveFragment extends ComFragment {
         this.whenDirButtonTouched( binding.forward, MotionEvent.ACTION_UP );
         this.whenColorSeekBarStopTrackingTouch( binding.colorSeekBar );
 
-        binding.ledToggleButton.setChecked( true );
         this.whenToggleButtonClicked(binding.buzzerToggleButton, false);
-        this.whenToggleButtonClicked(binding.ledToggleButton, true);
+        this.whenToggleButtonClicked(binding.ledToggleButton, false);
     }
 
     private SeekBar.OnSeekBarChangeListener colorSeekBarListner = new SeekBar.OnSeekBarChangeListener() {
@@ -251,12 +252,15 @@ public class ManualDriveFragment extends ComFragment {
                 binding.left.setEnabled(false);
                 binding.right.setEnabled(false);
 
+                binding.stop.setEnabled(true);
+
                 currDirButton.setEnabled(true);
             } else if (action == MotionEvent.ACTION_UP) {
                 binding.forward.setEnabled(true);
                 binding.backward.setEnabled(true);
                 binding.left.setEnabled(true);
                 binding.right.setEnabled(true);
+                binding.stop.setEnabled(true);
             }
         }
 
@@ -278,23 +282,28 @@ public class ManualDriveFragment extends ComFragment {
 
         if( view == binding.forward ) {
             command = "Forward" ;
-            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_forward_pressed : action == MotionEvent.ACTION_UP ? R.drawable.dir_forward : -1 ;
+            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_forward_pressed_128 : action == MotionEvent.ACTION_UP ? R.drawable.dir_forward_128 : -1 ;
         } else if( view == binding.backward ) {
             command = "Backward" ;
-            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_backward_pressed : action == MotionEvent.ACTION_UP ? R.drawable.dir_backward : -1 ;
+            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_backward_pressed_128 : action == MotionEvent.ACTION_UP ? R.drawable.dir_backward_128 : -1 ;
         } else if( view == binding.left ) {
             command = "Left" ;
-            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_left_pressed : action == MotionEvent.ACTION_UP ? R.drawable.dir_left : -1 ;
+            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_left_pressed_128 : action == MotionEvent.ACTION_UP ? R.drawable.dir_left_128 : -1 ;
         } else if( view == binding.right ) {
             command = "Right" ;
-            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_right_pressed : action == MotionEvent.ACTION_UP ? R.drawable.dir_right : -1 ;
+            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_right_pressed_128 : action == MotionEvent.ACTION_UP ? R.drawable.dir_right_128 : -1 ;
+        } else if( view == binding.stop ) {
+            command = "Forward" ;
+            upDown = "Up";
+            imageId = action == MotionEvent.ACTION_DOWN ? R.drawable.dir_stop_pressed_128 : action == MotionEvent.ACTION_UP ? R.drawable.dir_stop_128 : -1 ;
         }
 
         if( imageId != -1 ) {
-            binding.forward.setImageResource( R.drawable.dir_forward  );
-            binding.backward.setImageResource( R.drawable.dir_backward  );
-            binding.left.setImageResource( R.drawable.dir_left  );
-            binding.right.setImageResource( R.drawable.dir_right );
+            binding.forward.setImageResource( R.drawable.dir_forward_128);
+            binding.backward.setImageResource( R.drawable.dir_backward_128);
+            binding.left.setImageResource( R.drawable.dir_left_128);
+            binding.right.setImageResource( R.drawable.dir_right_128);
+            binding.stop.setImageResource( R.drawable.dir_stop_128);
             
             currDirButton.setImageResource(imageId);
         }

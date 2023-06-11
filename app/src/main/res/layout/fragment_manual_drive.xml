@@ -362,7 +362,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="?android:attr/windowBackground"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/dir_forward" />
+                                android:src="@drawable/dir_forward_128" />
 
                         </LinearLayout>
 
@@ -379,12 +379,15 @@
                                 android:layout_height="wrap_content"
                                 android:background="?android:attr/windowBackground"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/dir_left" />
+                                android:src="@drawable/dir_left_128" />
 
-                            <TextView
+                            <ImageButton
+                                android:id="@+id/stop"
                                 android:layout_width="80dp"
-                                android:layout_height="match_parent"
-                                android:text=" " />
+                                android:layout_height="80dp"
+                                android:background="?android:attr/windowBackground"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/dir_stop_128" />
 
                             <ImageButton
                                 android:id="@+id/right"
@@ -392,7 +395,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="?android:attr/windowBackground"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/dir_right" />
+                                android:src="@drawable/dir_right_128" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -408,7 +411,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="?android:attr/windowBackground"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/dir_backward" />
+                                android:src="@drawable/dir_backward_128" />
                         </LinearLayout>
 
                     </LinearLayout>
