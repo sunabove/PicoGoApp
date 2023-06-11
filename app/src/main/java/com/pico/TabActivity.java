@@ -35,11 +35,8 @@ public class TabActivity extends ComActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_tab);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+        this.getSupportActionBar().hide();
     }
 
     @Override

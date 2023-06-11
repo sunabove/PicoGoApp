@@ -118,7 +118,6 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         this.scanningBluetooth = false;
 
-        this.autoConnect.setChecked( false );
         this.connectingStatus.setText( "" );
 
         this.whenBluetoothScanningFinished();

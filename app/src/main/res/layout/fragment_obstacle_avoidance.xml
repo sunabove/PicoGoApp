@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="30dp"
     tools:context=".ui.avoidance.ObstacleAvoidanceFragment">
 
-    <TableRow
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,6 +23,20 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/obstacle_avoidance_64" />
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:enabled="false"
+                android:gravity="center"
+                android:text=" 장애물 회피 "
+                android:textColor="@color/black"
+                android:textSize="24dp" />
 
             <TextView
                 android:layout_width="20dp"
@@ -41,9 +57,9 @@
                 android:id="@+id/reconnectButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:text="연 결"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="연 결" />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="10dp"
@@ -53,73 +69,87 @@
                 android:id="@+id/commStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="24sp"
-                android:textStyle="bold"
                 android:layout_weight="1"
-                android:inputType="none"
                 android:enabled="false"
+                android:inputType="none"
+                android:text="Status"
                 android:textColor="@color/black"
-                android:text="Status" />
-
-        </LinearLayout>
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="690dp"
-                android:layout_height="350dp"
-                android:background="@drawable/picogo_front_690_350"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </TableRow>
-
-    <TableRow>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="10dp"
-                android:text="   " />
-
-            <ToggleButton
-                android:id="@+id/startAvoidanceButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textOff = " 시   작 "
-                android:textOn  = " 중   지 "
-                android:textSize="24dp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="20dp"
-                android:text="   " />
-
         </LinearLayout>
 
-    </TableRow>
-</TableLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="550dp"
+                        android:background="@drawable/picogo_front_690_350"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="10dp"
+                        android:text="   " />
+
+                    <ToggleButton
+                        android:id="@+id/startAvoidanceButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textOff=" 시   작 "
+                        android:textOn=" 중   지 "
+                        android:textSize="24dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="20dp"
+                        android:text="   " />
+
+                </LinearLayout>
+
+            </TableRow>
+
+        </TableLayout>
+
+    </ScrollView>
+</LinearLayout>
