@@ -15,7 +15,6 @@ import androidx.core.app.ActivityCompat;
 
 public class SplashActivity extends ComActivity  {
 
-    private boolean paused = false ;
     private Button permissionButton;
     private ImageView logoImage;
     private TextView status;
@@ -42,25 +41,14 @@ public class SplashActivity extends ComActivity  {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.v("sunabove", "onStart");
 
-        paused = false ;
-
-        this.permissionButton.setText( "" );
-
-        int index = this.checkBadPermissionIndex();
-
-        if( index > -1 ) {
-            this.requestPermissions( index );
-        } else {
-            this.moveToNextActivity( 2500 );
-        }
+        this.whenLogoImageClicked( this.logoImage );
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.v("sunabove", "onStart");
+        Log.v( tag, "onResume");
 
         // Do nothing, please!
     }
@@ -69,27 +57,28 @@ public class SplashActivity extends ComActivity  {
     public void onBackPressed() {
         super.onBackPressed();
 
-        Log.v("sunabove", "SplashActivity onBackPressed()");
+        Log.v( tag, "SplashActivity onBackPressed()");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        this.paused = true ;
-
-        Log.i("sunabove", "onPause");
+        Log.i( tag, "onPause");
     }
 
     public void whenLogoImageClicked(View view) {
 
-        int badPermIdx = this.checkBadPermissionIndex();
+        this.permissionButton.setText( "" );
 
-        Log.i("sunabove", "whenLogoImageClicked perm badPermIdx = " + badPermIdx );
+        StringList badPermissions = this.checkBadPermissions();
 
-        if( badPermIdx < 0 ) {
-            moveToNextActivity(100);
+        if( badPermissions.size() > 0 ) {
+            this.requestPermissions( badPermissions );
+        } else {
+            this.moveToNextActivity( 2500 );
         }
+
     } // -- whenLogoImageClicked
 
     private final String[] allPermission = new String[]{
@@ -101,46 +90,40 @@ public class SplashActivity extends ComActivity  {
             android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
 
             android.Manifest.permission.BLUETOOTH_CONNECT,
-            Manifest.permission.BLUETOOTH_SCAN,
+            android.Manifest.permission.BLUETOOTH_SCAN,
     };
 
-    public int checkBadPermissionIndex() {
-        int index = -1;
+    public StringList checkBadPermissions() {
+
+        StringList badPermissions = new StringList();
 
         Button permissionButton = this.permissionButton;
 
         for (String perm : allPermission) {
             boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
 
-            index += 1;
-
             if ( ! permitted ) {
-                Log.i("sunabove", "permission check = " + perm + ", " + permitted);
-
-                permissionButton.setText( "권한 설정 실패 " );
-                permissionButton.setEnabled( false );
-
-                return index;
+                badPermissions.add( perm );
+                Log.i( tag, "permission check = " + perm + ", " + permitted);
             }
         }
 
-        permissionButton.setText( "권한 설정 완료" );
-        permissionButton.setEnabled( true );
+        if( badPermissions.size() < 1 ) {
+            permissionButton.setText("권한 설정 완료");
+            permissionButton.setEnabled(true);
+        } else {
+            permissionButton.setText( "권한 설정 실패 " );
+            permissionButton.setEnabled( false );
+        }
 
-        return -1;
+        return badPermissions ;
     }
 
-    public void requestPermissions(int index) {
-        Log.i("sunabove", "requestPermissions");
+    public void requestPermissions(StringList badPermissions) {
+        Log.i( tag, "requestPermissions");
 
-        String perm = allPermission[index];
-        boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
-
-        if ( ! permitted ) {
-            Log.i("sunabove", "permission request = " + perm + " " + permitted );
-
-            ActivityCompat.requestPermissions(this, new String[]{perm}, index);
-        }
+        String reqPermissions [] = { badPermissions.get(0) };
+        ActivityCompat.requestPermissions( this, reqPermissions, 0 );
     }
 
     private int prePermReqIdx = -2 ;
@@ -148,15 +131,26 @@ public class SplashActivity extends ComActivity  {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        int index = checkBadPermissionIndex();
+        boolean permitted = true;
+        boolean showDialog = false;
 
-        Log.i( "sunabove", "badPermmisionIndex = " + index + ", prePermReqIdx = " + this.prePermReqIdx );
+        for( int i = 0; i < grantResults.length ; i ++ ) {
+            if( grantResults[i] != PackageManager.PERMISSION_GRANTED ) {
+                permitted = false;
 
-        if( index > -1 && this.prePermReqIdx != index ) {
-            this.prePermReqIdx = index;
+                Log.v( tag, "OnRequestPermissionResult " + permissions[i] + " grantResult : " + grantResults[i] );
+            }
+        }
 
-            requestPermissions( index );
-        } else if( false && index > -1 && this.prePermReqIdx == index ){
+        if( permitted ) {
+            StringList badPermissions = this.checkBadPermissions();
+
+            if( badPermissions.size() > 0 ) {
+                this.requestPermissions( badPermissions );
+            } else {
+                this.moveToNextActivity( 2500 );
+            }
+        } else if(! permitted ){
             String title = "권한 설정 실패" ;
             String message = "권할 설정을 다시 하여 주십시오.";
 
@@ -174,17 +168,17 @@ public class SplashActivity extends ComActivity  {
             });
 
             builder.show();
-        } else if( index < 0 ){
-            this.moveToNextActivity( 2500 );
         }
     }
 
     private void moveToNextActivity( int delayMillis ) {
-        Log.v( "sunabove", "moveToNextActivity" );
+        Log.v( tag, "moveToNextActivity is requested." );
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             public void run() {
-                if ( ! paused ) {
+                if( paused ) {
+                    Log.v( tag, "moveToNextActivity current activity is paused." );
+                } else if ( ! paused ) {
                     //Class klass = ControlActivity.class;
                     Class klass = TabActivity.class;
 

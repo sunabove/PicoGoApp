@@ -7,49 +7,44 @@
     android:layout_gravity="center_vertical"
     android:gravity="center"
     android:padding="10dp"
-    android:layout_weight="1"
     tools:context=".SplashActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center" >
+        android:layout_weight="1"
+        android:gravity="center">
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"  >
+            android:gravity="center">
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:id="@+id/logoImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="300dp"
-                            android:layout_weight="1"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/picogo_301" />
-                    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/logoImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="450dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/picogo_301" />
 
                 </LinearLayout>
 
             </TableRow>
 
-            <TableRow >
+            <TableRow>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,8 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     protected final Sys sys = Sys.getSys();
 
     protected ComActivity activity ;
+    protected int startCount;
+    protected boolean paused ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,33 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.pico_bot_48);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        this.paused = false;
+
+        this.startCount += 1;
+
+        Log.v( tag, "onStart() startCount = " + this.startCount );
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        this.paused = true;
+
+        Log.i( tag, "onPause()");
+    }
+
+    protected void onResume() {
+        super.onResume();
+        Log.v( tag, "onResume");
+
+        this.paused = false;
     }
 
     public void postDelayed( Runnable runnable, int delayMillis ) {
