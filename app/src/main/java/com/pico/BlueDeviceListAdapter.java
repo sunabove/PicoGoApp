@@ -105,7 +105,7 @@ public class BlueDeviceListAdapter extends BaseAdapter implements ComInterface {
         rowNumber = String.format( "%02d", i );
 
         if( device == null && i < 1 ) {
-            bgColor = black ;
+            bgColor = greenDark ;
             rowNumber = "    ";
 
             if( this.bluetoothInterface.isScanning() ) {
@@ -129,7 +129,7 @@ public class BlueDeviceListAdapter extends BaseAdapter implements ComInterface {
                 name = "알 수 없는 장치";
             }
 
-            bgColor = address.equals( activity.getBluetoothAddressLastConnected()) ? redDark : greenLight;
+            bgColor = address.equals( activity.getBluetoothAddressLastConnected()) ? redDark : greenDark ;
         }
 
         viewHolder.rowNumber.setText( rowNumber );
