@@ -2,6 +2,7 @@ package com.pico;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
@@ -21,13 +23,54 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
     protected TabActivity activity ;
     private ImageView commStatusImage;
+    private ProgressBar reconnectProgressBar ;
     private Button reconnectButton;
     private EditText commStatus;
 
+    protected boolean paused = false ;
     protected int startCount = 0 ;
+    protected int resumeCount = 0 ;
 
     public ComFragment() {
         // do nothing!
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        this.paused = false ;
+
+        Log.v( tag, "onStart() startCount = " + this.startCount );
+
+        if( this.startCount < 1 ) {
+            this.initFragment();
+        }
+
+        this.startCount += 1;
+
+        this.sendHelloMessage( );
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        this.paused = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        this.paused = false;
+        this.resumeCount += 1;
+
+        ProgressBar reconnectProgressBar = this.reconnectProgressBar;
+
+        if( reconnectProgressBar != null ) {
+            reconnectProgressBar.setVisibility( View.GONE );
+        }
     }
 
     public void initFragment() {
@@ -42,6 +85,10 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
         if( null == this.commStatusImage) {
             this.commStatusImage = this.findViewById(R.id.commStatusImage);
+        }
+
+        if( null== this.reconnectProgressBar ) {
+            this.reconnectProgressBar = this.findViewById( R.id.reconnectProgressBar );
         }
 
         if( null == this.reconnectButton ) {
@@ -60,50 +107,82 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     }
 
     private void whenReconnectButtonClicked(View view) {
-        this.moveToFragment( 0 );
-    }
+        ImageView commStatusImage = this.commStatusImage;
+        ProgressBar reconnectProgressBar = this.reconnectProgressBar;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        Log.v( tag, "onStart() startCount = " + this.startCount );
-
-        if( this.startCount < 1 ) {
-            this.initFragment();
+        if( null != commStatusImage ) {
+            commStatusImage.setVisibility( View.GONE );
         }
 
-        this.startCount += 1;
+        if( null != reconnectProgressBar ) {
+            reconnectProgressBar.setVisibility( View.VISIBLE );
+        }
 
-        this.sendHelloMessage( );
+        this.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                whenReconnectButtonClickedImpl(view);
+            }
+        }, 500);
+    }
+
+    private void whenReconnectButtonClickedImpl(View view) {
+        Sys sys = this.sys;
+
+        ImageView commStatusImage = this.commStatusImage;
+        ProgressBar reconnectProgressBar = this.reconnectProgressBar;
+
+        boolean success = false ;
+
+        if( null != commStatusImage ) {
+            commStatusImage.setVisibility( View.GONE );
+        }
+
+        if( null != reconnectProgressBar ) {
+            reconnectProgressBar.setVisibility( View.VISIBLE );
+        }
+
+        if( ! success && ! paused ) {
+            success = sys.reConnectBluetoothDevice();
+        }
+
+        if( ! success && ! paused ) {
+            success = sys.reConnectBluetoothDevice();
+        }
+
+        if( ! success && ! paused ) {
+            success = sys.reConnectBluetoothDevice();
+        }
+
+        if( null != commStatusImage ) {
+            commStatusImage.setVisibility( View.VISIBLE );
+        }
+        if( reconnectProgressBar != null ) {
+            reconnectProgressBar.setVisibility( View.GONE );
+        }
+
+        if( ! success && ! paused ) {
+            this.moveToFragment(0);
+        } else {
+            this.sendHelloMessage();
+        }
     }
 
     public void sendHelloMessage() {
         this.sendMessage( "hello" );
     }
 
-    public void saveProperty( String key, String value ) {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
+    public void sendRgbLedMessage(int color) {
 
-        editor.putString( key, value );
-        editor.apply();
+        String message = "{\"RGB\": \"%d,%d,%d\"}";
 
-        Log.i( tag, "Property save: key = " + key + " value = " + value );
-    }
+        int red = Color.red( color );
+        int blue = Color.blue( color );
+        int green = Color.green( color );
 
-    public String getProperty( String key ) {
-        return this.getProperty( key, "" );
-    }
+        message = String.format( message, red, green, blue );
 
-    public String getProperty( String key, String def ) {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-
-        String value = sharedPref.getString( key, def );
-
-        Log.i( tag, "Property read : key = " + key + " value = " + value );
-
-        return value;
+        this.sendMessage(message);
     }
 
     private boolean sendingBeep = false ;
@@ -205,11 +284,43 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     protected void moveToFragment(int navIdx ) {
         TabActivity activity = (TabActivity) this.getActivity();
 
-        if( null != activity ) {
+        if( null != activity && ! paused ) {
             BottomNavigationView navView = activity.findViewById(R.id.nav_view);
 
             navView.setSelectedItemId(activity.navigationIds[navIdx]);
         }
+    }
+
+    public void postDelayed( Runnable runnable ) {
+        this.postDelayed(runnable, 0 );
+    }
+
+    public void postDelayed( Runnable runnable, int delayMillis ) {
+        new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMillis);
+    }
+
+    public void saveProperty( String key, String value ) {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putString( key, value );
+        editor.apply();
+
+        Log.i( tag, "Property save: key = " + key + " value = " + value );
+    }
+
+    public String getProperty( String key ) {
+        return this.getProperty( key, "" );
+    }
+
+    public String getProperty( String key, String def ) {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+        String value = sharedPref.getString( key, def );
+
+        Log.i( tag, "Property read : key = " + key + " value = " + value );
+
+        return value;
     }
 
 }

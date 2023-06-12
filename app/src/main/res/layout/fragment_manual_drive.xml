@@ -49,6 +49,12 @@
                 android:background="?android:attr/windowBackground"
                 android:src="@drawable/bluetooth_fail_64" />
 
+            <ProgressBar
+                android:id="@+id/reconnectProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
             <TextView
                 android:layout_width="10dp"
                 android:layout_height="match_parent" />
@@ -72,7 +78,10 @@
                 android:layout_weight="1"
                 android:enabled="false"
                 android:inputType="none"
+                android:focusable="false"
                 android:maxLines="1"
+                android:lines="1"
+                android:singleLine="true"
                 android:ellipsize="end"
                 android:text="Status"
                 android:textColor="@color/black"

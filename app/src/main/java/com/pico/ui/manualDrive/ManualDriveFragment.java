@@ -115,11 +115,6 @@ public class ManualDriveFragment extends ComFragment {
     public void whenColorSeekBarStopTrackingTouch(SeekBar seekBar) {
         Log.v(tag, "onColorSeekBarStopTrackingTouch()");
 
-        String message = "{\"RGB\": \"%d,%d,%d\"}";
-
-        //Color color = Color.valueOf( getResources().getColor( R.color.red, getActivity().getTheme() ) );
-        //int c = color.toArgb();
-
         int i = seekBar.getProgress();
 
         Log.v( tag, "colorSeekBar progress = " + i );
@@ -138,16 +133,9 @@ public class ManualDriveFragment extends ComFragment {
             x = 0 ;
         }
 
-        int pickColor = bitmap.getPixel( x, y );
+        int color = bitmap.getPixel( x, y );
 
-        int red = Color.red( pickColor );
-        int blue = Color.blue( pickColor );
-        int green = Color.green( pickColor );
-
-        message = String.format( message, red, green, blue );
-
-        this.sendMessage(message);
-
+        this.sendRgbLedMessage( color );
     }
 
     private CompoundButton.OnCheckedChangeListener toggleButtonListener = new CompoundButton.OnCheckedChangeListener() {
@@ -334,6 +322,9 @@ public class ManualDriveFragment extends ComFragment {
 
         this.sendMotorStopMessage( );
         this.sendBuzzerMessage( false );
+
+        int color = 0;
+        this.sendRgbLedMessage( color );
     }
 
     @Override

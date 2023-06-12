@@ -129,8 +129,10 @@
                         android:enabled="false"
                         android:inputType="none"
                         android:maxLines="1"
+                        android:lines="1"
+                        android:singleLine="true"
                         android:ellipsize="end"
-                        android:text="블루투스를 연결중입니다."
+                        android:text="블루투스 연결중"
                         android:textColor="@color/greenDark"
                         android:textSize="24sp"
                         android:textStyle="bold" />

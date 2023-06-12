@@ -68,6 +68,10 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         Log.v( tag, "onResume() resumeCount = " + this.resumeCount );
     }
 
+    public void postDelayed( Runnable runnable ) {
+        this.postDelayed(runnable, 0 );
+    }
+
     public void postDelayed( Runnable runnable, int delayMillis ) {
         new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMillis);
     }
