@@ -31,11 +31,13 @@
             android:name=".TabActivity"
             android:exported="false"
             android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_tab" />
 
         <activity
             android:name=".SplashActivity"
             android:exported="true"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

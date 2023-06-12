@@ -127,7 +127,7 @@ public class ManualDriveFragment extends ComFragment {
         final int w = bitmap.getWidth();
         final int h = bitmap.getHeight();
 
-        int x = w*i/(seekBar.getMax() - seekBar.getMin());
+        int x = w*i/100;
         int y = h/5;
 
         if( x >= w ) {

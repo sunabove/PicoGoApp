@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -71,64 +72,25 @@ public class SplashActivity extends ComActivity  {
 
     public void whenLogoImageClicked(View view) {
 
-        this.permissionButton.setText( "" );
+        Button permissionButton = this.permissionButton;
+        permissionButton.setText( "" );
 
         StringList badPermissions = this.checkBadPermissions();
 
         if( badPermissions.size() > 0 ) {
+            permissionButton.setText( "권한 설정 중 ... " );
+            permissionButton.setEnabled( false );
+
             this.requestPermissions( badPermissions );
         } else {
+            permissionButton.setText("권한 설정 완료");
+            permissionButton.setEnabled(true);
+
             this.moveToNextActivity( 2500 );
         }
 
     } // -- whenLogoImageClicked
 
-    private final String[] allPermission = new String[]{
-            android.Manifest.permission.BLUETOOTH,
-            android.Manifest.permission.BLUETOOTH_ADMIN,
-
-            android.Manifest.permission.ACCESS_FINE_LOCATION,
-            android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-
-            android.Manifest.permission.BLUETOOTH_CONNECT,
-            android.Manifest.permission.BLUETOOTH_SCAN,
-    };
-
-    public StringList checkBadPermissions() {
-
-        StringList badPermissions = new StringList();
-
-        Button permissionButton = this.permissionButton;
-
-        for (String perm : allPermission) {
-            boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
-
-            if ( ! permitted ) {
-                badPermissions.add( perm );
-                Log.i( tag, "permission check = " + perm + ", " + permitted);
-            }
-        }
-
-        if( badPermissions.size() < 1 ) {
-            permissionButton.setText("권한 설정 완료");
-            permissionButton.setEnabled(true);
-        } else {
-            permissionButton.setText( "권한 설정 실패 " );
-            permissionButton.setEnabled( false );
-        }
-
-        return badPermissions ;
-    }
-
-    public void requestPermissions(StringList badPermissions) {
-        Log.i( tag, "requestPermissions");
-
-        String reqPermissions [] = { badPermissions.get(0) };
-        ActivityCompat.requestPermissions( this, reqPermissions, 0 );
-    }
-
-    private int prePermReqIdx = -2 ;
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

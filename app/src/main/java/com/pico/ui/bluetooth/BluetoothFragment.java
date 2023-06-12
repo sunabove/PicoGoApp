@@ -292,11 +292,9 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         return receiver ;
     }
 
+    @SuppressLint("MissingPermission")
     public void whenBluetoothScanningFinished() {
-
-        Activity activity = this.getActivity();
-
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
+        if ( activity.checkBadPermissions().getSize() < 1 ) {
             BluetoothManager btManager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
             BluetoothAdapter btAdapter = btManager.getAdapter();
 

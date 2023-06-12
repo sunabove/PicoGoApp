@@ -19,7 +19,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
     protected final Sys sys = Sys.getSys();
 
-    private TabActivity activity ;
+    protected TabActivity activity ;
     private ImageView commStatusImage;
     private Button reconnectButton;
     private EditText commStatus;
@@ -198,9 +198,12 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
     protected void moveToFragment(int navIdx ) {
         TabActivity activity = (TabActivity) this.getActivity();
-        BottomNavigationView navView = activity.findViewById(R.id.nav_view);
 
-        navView.setSelectedItemId( activity.navigationIds[ navIdx ] );
+        if( null != activity ) {
+            BottomNavigationView navView = activity.findViewById(R.id.nav_view);
+
+            navView.setSelectedItemId(activity.navigationIds[navIdx]);
+        }
     }
 
 }
