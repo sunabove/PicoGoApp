@@ -52,8 +52,8 @@ public class ManualDriveFragment extends ComFragment {
         }
 
         if( true ) {
-            CheckBox buzzerToggleButton = binding.buzzerToggleButton;
-            CheckBox ledToggleButton = binding.ledToggleButton;
+            Switch buzzerToggleButton = binding.buzzerToggleButton;
+            Switch ledToggleButton = binding.ledToggleButton;
 
             buzzerToggleButton.setOnCheckedChangeListener(toggleButtonListener);
             ledToggleButton.setOnCheckedChangeListener(toggleButtonListener);
@@ -168,13 +168,17 @@ public class ManualDriveFragment extends ComFragment {
         if( isChecked ) {
             onOff = "on";
 
-            toggleButton.setText( " 켜 짐 " );
-            toggleButton.setTextColor( red );
+            if( toggleButton instanceof ToggleButton ) {
+                toggleButton.setText(" 켜 짐 ");
+                toggleButton.setTextColor(red);
+            }
         } else {
             onOff = "off";
 
-            toggleButton.setText( " 꺼 짐 " );
-            toggleButton.setTextColor( black );
+            if( toggleButton instanceof ToggleButton ) {
+                toggleButton.setText(" 꺼 짐 ");
+                toggleButton.setTextColor(black);
+            }
         }
 
         if( toggleButton == binding.buzzerToggleButton ) {

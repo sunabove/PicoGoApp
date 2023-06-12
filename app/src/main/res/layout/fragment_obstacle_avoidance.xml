@@ -74,6 +74,8 @@
                 android:layout_weight="1"
                 android:enabled="false"
                 android:inputType="none"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="Status"
                 android:textColor="@color/black"
                 android:textSize="24sp"
