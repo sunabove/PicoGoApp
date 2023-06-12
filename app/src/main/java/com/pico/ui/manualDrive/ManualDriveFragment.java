@@ -64,8 +64,6 @@ public class ManualDriveFragment extends ComFragment {
             colorSeekBar.setOnSeekBarChangeListener( colorSeekBarListner );
         }
 
-        this.initRobot();
-
         return root;
     }
 
@@ -74,9 +72,13 @@ public class ManualDriveFragment extends ComFragment {
         super.onStart();
 
         this.sendWelcomeBeep();
+
+        this.initRobot();
     }
 
     private void initRobot() {
+        Log.v( tag, "initRobot()" );
+
         FragmentManualDriveBinding binding = this.binding;
 
         binding.speedLow.setChecked( true );
@@ -327,10 +329,16 @@ public class ManualDriveFragment extends ComFragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        this.sendMotorStopMessage( );
+        this.sendBuzzerMessage( false );
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        this.sendMessage( "{\"Forward\":\"Up\"}" );
 
         binding = null;
     }

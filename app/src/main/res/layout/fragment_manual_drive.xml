@@ -226,12 +226,12 @@
                             android:layout_height="match_parent" />
 
                         <Button
-                            android:layout_width="140dp"
+                            android:layout_width="100dp"
                             android:layout_height="match_parent"
                             android:clickable="false"
                             android:enabled="false"
                             android:gravity="center"
-                            android:text="L   E   D"
+                            android:text="L E D"
                             android:textColor="@color/black"
                             android:textSize="24dp"
                             android:textStyle="bold" />

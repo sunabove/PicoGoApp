@@ -142,6 +142,12 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         handler.postDelayed( runnable, delay);
     }
 
+    public boolean sendMotorStopMessage() {
+        String message = "{\"Forward\":\"Up\"}" ;
+
+        return sendMessage( message );
+    }
+
     public boolean sendBuzzerMessage( boolean on) {
         String message = "{\"BZ\":\"%s\"}";
         message = String.format( message, on ? "on" : "off" );
