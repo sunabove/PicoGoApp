@@ -110,10 +110,6 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         ImageView commStatusImage = this.commStatusImage;
         ProgressBar reconnectProgressBar = this.reconnectProgressBar;
 
-        if( null != commStatusImage ) {
-            commStatusImage.setVisibility( View.GONE );
-        }
-
         if( null != reconnectProgressBar ) {
             reconnectProgressBar.setVisibility( View.VISIBLE );
         }
@@ -133,10 +129,6 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         ProgressBar reconnectProgressBar = this.reconnectProgressBar;
 
         boolean success = false ;
-
-        if( null != commStatusImage ) {
-            commStatusImage.setVisibility( View.GONE );
-        }
 
         if( null != reconnectProgressBar ) {
             reconnectProgressBar.setVisibility( View.VISIBLE );

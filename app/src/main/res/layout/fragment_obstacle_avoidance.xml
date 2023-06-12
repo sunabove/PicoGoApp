@@ -51,6 +51,12 @@
                 android:background="?android:attr/windowBackground"
                 android:src="@drawable/bluetooth_fail_64" />
 
+            <ProgressBar
+                android:id="@+id/reconnectProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
             <TextView
                 android:layout_width="10dp"
                 android:layout_height="match_parent" />

@@ -37,8 +37,6 @@ public class SplashActivity extends ComActivity  {
                 whenLogoImageClicked(view);
             }
         });
-
-        this.getSupportActionBar().hide();
     }
 
     @Override

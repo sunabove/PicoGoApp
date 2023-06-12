@@ -30,6 +30,10 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         super.onCreate(savedInstanceState);
         this.activity = this;
 
+        if( this.isHideSupporingActionBar() ) {
+            this.getSupportActionBar().hide();
+        }
+
         boolean useActionBar = false ;
 
         if( useActionBar ) {
@@ -66,6 +70,10 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         this.resumeCount += 1 ;
 
         Log.v( tag, "onResume() resumeCount = " + this.resumeCount );
+    }
+
+    public boolean isHideSupporingActionBar() {
+        return true;
     }
 
     public void postDelayed( Runnable runnable ) {
