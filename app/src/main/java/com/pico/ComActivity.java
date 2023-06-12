@@ -22,7 +22,8 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
     protected ComActivity activity ;
     protected int startCount;
-    protected boolean paused ;
+    protected int resumeCount = 0 ;
+    public boolean paused ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +61,11 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
     protected void onResume() {
         super.onResume();
-        Log.v( tag, "onResume");
 
         this.paused = false;
+        this.resumeCount += 1 ;
+
+        Log.v( tag, "onResume() resumeCount = " + this.resumeCount );
     }
 
     public void postDelayed( Runnable runnable, int delayMillis ) {

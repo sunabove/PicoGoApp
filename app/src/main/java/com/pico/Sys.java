@@ -41,41 +41,53 @@ public class Sys {
     }
 
     @SuppressLint("MissingPermission")
-    public boolean setBluetoothDevice(BluetoothDevice bluetoothDevice ) {
-        boolean success = true;
+    public boolean connectBluetoothDevice(BluetoothDevice bluetoothDevice ) {
+        boolean success = false;
 
         this.bluetoothDevice = bluetoothDevice;
 
         this.bluetoothName = bluetoothDevice.getName();
         this.bluetoothAddress = bluetoothDevice.getAddress();
 
-        try {
-            BluetoothSocket bluetoothSocket = bluetoothDevice.createInsecureRfcommSocketToServiceRecord( UUID.fromString(MY_UUID) );
+        success = this.reConnectBluetoothDevice();
 
-            bluetoothSocket.connect();
+        return success;
+    }
 
-            this.bluetoothSocket = bluetoothSocket;
-            this.out = bluetoothSocket.getOutputStream();
-            this.in = bluetoothSocket.getInputStream();
+    @SuppressLint("MissingPermission")
+    public boolean reConnectBluetoothDevice() {
+        boolean success = false ;
 
-            success = true;
-        } catch (IOException e) {
-            Log.v( "sunabove", "Cannot create bluetooth socket" );
+        BluetoothDevice bluetoothDevice = this.bluetoothDevice;
 
-            e.printStackTrace();
-
-            this.bluetoothSocket = null;
-            this.out = null;
-            this.in = null;
-
+        if( null == bluetoothDevice ) {
             success = false;
-        }
+        } else if( null != bluetoothDevice ) {
+            try {
+                @SuppressLint("MissingPermission") BluetoothSocket bluetoothSocket = bluetoothDevice.createInsecureRfcommSocketToServiceRecord( UUID.fromString(MY_UUID) );
 
-        if( success ) {
+                bluetoothSocket.connect();
 
+                this.bluetoothSocket = bluetoothSocket;
+                this.out = bluetoothSocket.getOutputStream();
+                this.in = bluetoothSocket.getInputStream();
+
+                success = true;
+            } catch (IOException e) {
+                Log.v( "sunabove", "Cannot create bluetooth socket" );
+
+                e.printStackTrace();
+
+                this.bluetoothSocket = null;
+                this.out = null;
+                this.in = null;
+
+                success = false;
+            }
         }
 
         return success;
+
     }
 
     public void disconnectBluetoothDevice() {

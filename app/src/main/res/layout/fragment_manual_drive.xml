@@ -29,12 +29,12 @@
                 android:layout_height="match_parent" />
 
             <Button
-                android:layout_width="160dp"
+                android:layout_width="140dp"
                 android:layout_height="match_parent"
                 android:clickable="false"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="수 동 주 행"
+                android:text="수동 주행"
                 android:textColor="@color/black"
                 android:textSize="24dp" />
 
@@ -118,14 +118,14 @@
                         android:layout_height="match_parent" />
 
                     <Button
-                        android:layout_width="160dp"
+                        android:layout_width="140dp"
                         android:layout_height="60dp"
                         android:clickable="false"
                         android:enabled="false"
                         android:gravity="center"
-                        android:text=" RGB LED "
+                        android:text="RGB LED"
                         android:textColor="@color/black"
-                        android:textSize="24dp" />
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="20dp"
@@ -169,12 +169,12 @@
                             android:layout_height="match_parent" />
 
                         <Button
-                            android:layout_width="160dp"
+                            android:layout_width="140dp"
                             android:layout_height="60dp"
                             android:clickable="false"
                             android:enabled="false"
                             android:gravity="center"
-                            android:text="부       저"
+                            android:text="부      저"
                             android:textColor="@color/black"
                             android:textSize="24dp"
                             android:textStyle="bold" />
@@ -263,12 +263,12 @@
                         android:layout_height="match_parent" />
 
                     <Button
-                        android:layout_width="160dp"
+                        android:layout_width="140dp"
                         android:layout_height="60dp"
                         android:clickable="false"
                         android:enabled="false"
                         android:gravity="center"
-                        android:text="속       도"
+                        android:text="속      도"
                         android:textColor="@color/black"
                         android:textSize="24dp"
                         android:textStyle="bold" />
@@ -354,12 +354,12 @@
                         android:layout_height="match_parent" />
 
                     <Button
-                        android:layout_width="160dp"
+                        android:layout_width="140dp"
                         android:layout_height="60dp"
                         android:clickable="false"
                         android:enabled="false"
                         android:gravity="center"
-                        android:text="모       터"
+                        android:text="모      터"
                         android:textColor="@color/black"
                         android:textSize="24dp"
                         android:textStyle="bold" />

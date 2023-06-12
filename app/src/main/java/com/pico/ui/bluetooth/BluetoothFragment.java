@@ -1,6 +1,5 @@
 package com.pico.ui.bluetooth;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
@@ -11,7 +10,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.pico.BlueDeviceListAdapter;
@@ -197,7 +194,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         Log.v("sunabove", msg );
 
-        boolean success = sys.setBluetoothDevice( device );
+        boolean success = sys.connectBluetoothDevice( device );
 
         if( success ) {
             this.saveProperty(BLUETOOTH_ADDRESS_KEY, address );
@@ -208,13 +205,17 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             this.connectingStatus.setTextColor( greenDark );
             this.connectingStatus.setText( "블루투스 장치 연결에 성공하였습니다.");
 
-            new Handler( Looper.getMainLooper() ).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    int navIdx = 1;
-                    moveToFragment(navIdx);
-                }
-            }, 1_000);
+            if( activity.paused ) {
+                Log.v( tag, "activity is paused. cannot move to fragment" );
+            } else if( ! activity.paused ) {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        int navIdx = 1;
+                        moveToFragment(navIdx);
+                    }
+                }, 1_000);
+            }
         } else {
             this.connectingProgressBar.setVisibility(View.GONE );
             this.connectingProgressBar.setIndeterminate( false );
