@@ -66,7 +66,6 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.blueScanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 blueScanButton.setEnabled(false);
-                scanPicoOnlyCheckBox.setEnabled(false);
 
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
@@ -168,8 +167,6 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         if( ! this.connectingBluetooth ) {
             this.connectingBluetooth = true;
 
-            this.autoConnect.setEnabled( false );
-
             this.connectingProgressBar.setVisibility(View.VISIBLE);
             this.connectingProgressBar.setIndeterminate( true );
 
@@ -193,6 +190,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         String msg = " BLE Device Name : " + name + " address : " + address ;
 
         Log.v("sunabove", msg );
+
+        this.autoConnect.setEnabled( false );
 
         boolean success = sys.connectBluetoothDevice( device );
 
@@ -250,7 +249,6 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         Log.v("sunabove", "scanBleDevices");
 
         this.blueScanButton.setEnabled(false);
-        this.scanPicoOnlyCheckBox.setEnabled(false);
         this.bluetoothProgressBar.setVisibility(View.VISIBLE);
 
         this.connectingProgressBar.setIndeterminate( false );
@@ -265,7 +263,13 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.blueDeviceListAdapter.addDevice(null);
         this.blueDeviceListAdapter.notifyDataSetChanged();
 
-        this.scanBlueDevicesByIntentFilter();
+        this.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                scanBlueDevicesImpl();
+            }
+        }, 1_000 );
+
     }
 
     private BroadcastReceiver receiver = null;
@@ -319,7 +323,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     }
 
     @SuppressLint("MissingPermission")
-    public void scanBlueDevicesByIntentFilter() {
+    public void scanBlueDevicesImpl() {
         Log.v("sunabove", "scanBleDevicesByIntentFilter()");
 
         Activity activity = this.getActivity();
@@ -348,7 +352,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 this.blueDeviceListAdapter.notifyDataSetChanged();
                 Log.v("sunabove", msg);
 
-                if( this.autoConnect.isChecked() && address.equals( this.getProperty( BLUETOOTH_ADDRESS_KEY))) {
+                if( this.autoConnect.isChecked() && address.equals( this.getBluetoothAddressLastConnected()) ) {
 
                     this.connectBluetooth( device );
                 }

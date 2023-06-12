@@ -1,6 +1,8 @@
 package com.pico;
 
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -131,5 +133,33 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
         String reqPermissions [] = { badPermissions.get(0) };
         ActivityCompat.requestPermissions( this, reqPermissions, 0 );
+    }
+
+    public void saveProperty( String key, String value ) {
+        SharedPreferences sharedPref = this.activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putString( key, value );
+        editor.apply();
+
+        Log.i( tag, "Property save: key = " + key + " value = " + value );
+    }
+
+    public String getBluetoothAddressLastConnected() {
+        return this.getProperty( BLUETOOTH_ADDRESS_KEY );
+    }
+
+    public String getProperty( String key ) {
+        return this.getProperty( key, "" );
+    }
+
+    public String getProperty( String key, String def ) {
+        SharedPreferences sharedPref = this.activity.getPreferences(Context.MODE_PRIVATE);
+
+        String value = sharedPref.getString( key, def );
+
+        Log.i( tag, "Property read : key = " + key + " value = " + value );
+
+        return value;
     }
 }

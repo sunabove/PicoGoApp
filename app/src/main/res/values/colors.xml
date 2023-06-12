@@ -6,6 +6,7 @@
     <color name="whiteLight">#FFDDDDDD</color>
 
     <color name="red">#FFFF0000</color>
+    <color name="redDark">#FFFF4500</color>
 
     <color name="grey">#7A7A7A</color>
     <color name="greyLight">#d3d3d3</color>

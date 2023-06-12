@@ -9,13 +9,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class BlueDeviceListAdapter extends BaseAdapter {
+public class BlueDeviceListAdapter extends BaseAdapter implements ComInterface {
     private ArrayList<BluetoothDevice> devices = new ArrayList<>();
 
     private BluetoothInterface bluetoothInterface  ;
+    private ComActivity activity ;
 
     public BlueDeviceListAdapter(BluetoothInterface bluetoothInterface) {
         this.bluetoothInterface = bluetoothInterface;
+        this.activity = bluetoothInterface.getComActivity();
     }
 
     public long getItemId(int i) {
@@ -26,10 +28,26 @@ public class BlueDeviceListAdapter extends BaseAdapter {
     }
 
     public void addDevice(BluetoothDevice device) {
+        boolean test = false  ;
+
+        if( test ) {
+            int testCount = (int) (5 + (5 * Math.random()));
+            for (int i = 0; i < testCount; i++) {
+                this.devices.add( null );
+            }
+        }
+
         if( null == device ) {
             this.devices.add( device );
         } else if ( ! this.devices.contains(device) ) {
             this.devices.add(device);
+        }
+
+        if( test ) {
+            int testCount = (int) (5 + (5 * Math.random()));
+            for (int i = 0; i < testCount; i++) {
+                this.devices.add( null );
+            }
         }
     }
 
@@ -49,7 +67,7 @@ public class BlueDeviceListAdapter extends BaseAdapter {
         return this.devices.get(i);
     }
 
-    static class ViewHolder {
+    public static class ViewHolder {
         TextView rowNumber;
         TextView deviceName;
         TextView deviceAddress;
@@ -61,6 +79,8 @@ public class BlueDeviceListAdapter extends BaseAdapter {
     @SuppressLint({"WrongViewCast", "MissingPermission"})
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder = null ;
+
+        int bgColor = black;
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.bluetoothInterface.getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -82,7 +102,12 @@ public class BlueDeviceListAdapter extends BaseAdapter {
         String name = "" ;
         String address = "" ;
 
-        if( device == null ) {
+        rowNumber = String.format( "%02d", i );
+
+        if( device == null && i < 1 ) {
+            bgColor = black ;
+            rowNumber = "    ";
+
             if( this.bluetoothInterface.isScanning() ) {
                 name = "장치 검색 중";
                 address = String.format( " (%d 개)", this.devices.size() -1 );
@@ -90,19 +115,30 @@ public class BlueDeviceListAdapter extends BaseAdapter {
                 name = "장치 검색 완료";
                 address = String.format( " (%d 개)", this.devices.size() -1 );
             }
+
+        } else if( device == null ) {
+            bgColor = greyLight ;
+
+            name = "알 수 없는 장치";
+            address = "" ; 
         } else {
-            rowNumber = String.format( "%02d", i );
             name = device.getName();
             address = device.getAddress();
 
             if( name == null || name.trim().length() < 1 ) {
                 name = "알 수 없는 장치";
             }
+
+            bgColor = address.equals( activity.getBluetoothAddressLastConnected()) ? redDark : greenLight;
         }
 
         viewHolder.rowNumber.setText( rowNumber );
         viewHolder.deviceName.setText( name );
         viewHolder.deviceAddress.setText( address );
+
+        viewHolder.rowNumber.setTextColor( bgColor );
+        viewHolder.deviceName.setTextColor( bgColor );
+        viewHolder.deviceAddress.setTextColor( bgColor );
 
         return view;
     }
