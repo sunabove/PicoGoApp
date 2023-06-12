@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@drawable/my_switch_on"
+        android:drawable="@drawable/my_switch_on_40"
         android:state_checked="true"/>
 
     <item
-        android:drawable="@drawable/my_switch_off"
+        android:drawable="@drawable/my_switch_off_40"
         android:state_checked="false"/>
 
 </selector>
