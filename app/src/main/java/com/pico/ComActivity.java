@@ -23,6 +23,8 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
     protected final Sys sys = Sys.getSys();
 
+    protected static ComActivity activityBefore ;
+
     protected ComActivity activity ;
     protected int startCount;
     protected int resumeCount = 0 ;
@@ -66,6 +68,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         Log.i( tag, "onPause()");
     }
 
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -73,6 +76,14 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         this.resumeCount += 1 ;
 
         Log.v( tag, "onResume() resumeCount = " + this.resumeCount );
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        ComActivity.activityBefore = this;
+
+        Log.i( tag, "onBackPressed()");
     }
 
     public boolean isHideSupporingActionBar() {

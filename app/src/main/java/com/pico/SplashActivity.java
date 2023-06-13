@@ -34,10 +34,11 @@ public class SplashActivity extends ComActivity  {
         this.logoImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                whenLogoImageClicked(view);
+                whenLogoImageClicked(view, 500);
             }
         });
 
+        this.justifyLogoImageHeight();
     }
 
     private void justifyLogoImageHeight() {
@@ -57,9 +58,9 @@ public class SplashActivity extends ComActivity  {
     protected void onStart() {
         super.onStart();
 
-        this.justifyLogoImageHeight();
-
-        this.whenLogoImageClicked( this.logoImage );
+        if( null == ComActivity.activityBefore ) {
+            this.whenLogoImageClicked(this.logoImage, 2500 );
+        }
     }
 
     @Override
@@ -74,6 +75,8 @@ public class SplashActivity extends ComActivity  {
     public void onBackPressed() {
         super.onBackPressed();
 
+        ComActivity.activityBefore = null;
+
         Log.v( tag, "SplashActivity onBackPressed()");
     }
 
@@ -84,23 +87,37 @@ public class SplashActivity extends ComActivity  {
         Log.i( tag, "onPause");
     }
 
-    public void whenLogoImageClicked(View view) {
+    private boolean logoImageClicked = false ;
 
-        Button permissionButton = this.permissionButton;
-        permissionButton.setText( "" );
+    public void whenLogoImageClicked(View view, int delay) {
 
-        StringList badPermissions = this.checkBadPermissions();
+        if( this.logoImageClicked ) {
+            return;
+        }
 
-        if( badPermissions.size() > 0 ) {
-            permissionButton.setText( "권한 설정 중 ... " );
-            permissionButton.setEnabled( false );
+        this.logoImageClicked = true;
 
-            this.requestPermissions( badPermissions );
-        } else {
-            permissionButton.setText("권한 설정 완료");
-            permissionButton.setEnabled(true);
+        try {
+            Button permissionButton = this.permissionButton;
+            permissionButton.setText("");
 
-            this.moveToNextActivity( 2500 );
+            StringList badPermissions = this.checkBadPermissions();
+
+            if (badPermissions.size() > 0) {
+                permissionButton.setText("권한 설정 중 ... ");
+                permissionButton.setEnabled(false);
+
+                this.requestPermissions(badPermissions);
+            } else {
+                permissionButton.setText("권한 설정 완료");
+                permissionButton.setEnabled(true);
+
+                this.moveToNextActivity( delay );
+            }
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        } finally {
+            this.logoImageClicked = false;
         }
 
     } // -- whenLogoImageClicked
