@@ -37,11 +37,27 @@ public class SplashActivity extends ComActivity  {
                 whenLogoImageClicked(view);
             }
         });
+
+    }
+
+    private void justifyLogoImageHeight() {
+        int sw = this.getScreenWidth();
+        int sh = this.getScreenHeight();
+
+        int h = (int) ( Math.min( sw, sh )*0.6);
+
+        ImageView logoImage = this.logoImage;
+        logoImage.getLayoutParams().height = h ;
+        logoImage.setMaxHeight( h );
+
+        Log.v( tag, "sw = " + sw + ", sh = " + sh + ", h = " + h );
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        this.justifyLogoImageHeight();
 
         this.whenLogoImageClicked( this.logoImage );
     }

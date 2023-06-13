@@ -220,7 +220,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             this.connectingProgressBar.setIndeterminate( false );
 
             this.connectingStatus.setTextColor( red );
-            this.connectingStatus.setText( "블루투스 장치 연결에 실패하였습니다.");
+            this.connectingStatus.setText( "블루투스 연결 실패");
         }
 
         this.autoConnect.setEnabled( true );
