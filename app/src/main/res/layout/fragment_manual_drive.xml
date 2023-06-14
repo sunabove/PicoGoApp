@@ -36,6 +36,7 @@
                 android:gravity="center"
                 android:text="수동 주행"
                 android:textColor="@color/black"
+                android:background="@drawable/my_button_rounded_corner"
                 android:textSize="24dp" />
 
             <TextView
@@ -136,6 +137,7 @@
                         android:gravity="center"
                         android:text="RGB LED"
                         android:textColor="@color/black"
+                        android:background="@drawable/my_button_rounded_corner"
                         android:textSize="23dp" />
 
                     <TextView
@@ -187,6 +189,7 @@
                             android:gravity="center"
                             android:text="부      저"
                             android:textColor="@color/black"
+                            android:background="@drawable/my_button_rounded_corner"
                             android:textSize="24dp"
                             android:textStyle="bold" />
 
@@ -242,6 +245,7 @@
                             android:gravity="center"
                             android:text="L E D"
                             android:textColor="@color/black"
+                            android:background="@drawable/my_button_rounded_corner"
                             android:textSize="24dp"
                             android:textStyle="bold" />
 
@@ -297,6 +301,7 @@
                         android:gravity="center"
                         android:text="속      도"
                         android:textColor="@color/black"
+                        android:background="@drawable/my_button_rounded_corner"
                         android:textSize="24dp"
                         android:textStyle="bold" />
 
@@ -388,6 +393,7 @@
                         android:gravity="center"
                         android:text="모      터"
                         android:textColor="@color/black"
+                        android:background="@drawable/my_button_rounded_corner"
                         android:textSize="24dp"
                         android:textStyle="bold" />
 
