@@ -13,12 +13,14 @@
 
     <TextView
         android:id="@+id/row_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:text="01"
         android:textSize="24sp"
         android:textColor="@color/greenLight"
         android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/background_circle_green_dark"
         />
 
     <TextView
