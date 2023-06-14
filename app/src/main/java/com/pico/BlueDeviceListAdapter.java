@@ -98,7 +98,7 @@ public class BlueDeviceListAdapter extends BaseAdapter implements ComInterface {
 
         BluetoothDevice device = this.devices.get(i);
 
-        String rowNumber = "  ";
+        String rowNumber = "";
         String name = "" ;
         String address = "" ;
 
@@ -106,7 +106,7 @@ public class BlueDeviceListAdapter extends BaseAdapter implements ComInterface {
 
         if( device == null && i < 1 ) {
             bgColor = greenDark ;
-            rowNumber = "    ";
+            rowNumber = "";
 
             if( this.bluetoothInterface.isScanning() ) {
                 name = "장치 검색 중";
