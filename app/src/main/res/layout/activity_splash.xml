@@ -37,7 +37,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="470dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/picogo_301" />
+                        android:src="@drawable/picogo_ani_300" />
 
                 </LinearLayout>
 

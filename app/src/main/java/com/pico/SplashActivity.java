@@ -33,7 +33,8 @@ public class SplashActivity extends ComActivity  {
         this.logoImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                whenLogoImageClicked(view, 500);
+                boolean aniRotation = false ;
+                whenLogoImageClicked(view, aniRotation, 500);
             }
         });
 
@@ -58,7 +59,8 @@ public class SplashActivity extends ComActivity  {
         super.onStart();
 
         if( null == ComActivity.activityBefore ) {
-            whenLogoImageClicked( logoImage, 2500 );
+            boolean aniRotation = true;
+            whenLogoImageClicked( logoImage, aniRotation, 2500 );
         }
     }
 
@@ -90,7 +92,7 @@ public class SplashActivity extends ComActivity  {
 
     private boolean logoImageClicked = false ;
 
-    public void whenLogoImageClicked(View view, int delay) {
+    public void whenLogoImageClicked(View view, boolean aniRotation, int delay) {
 
         if( this.logoImageClicked ) {
             return;
@@ -121,7 +123,12 @@ public class SplashActivity extends ComActivity  {
                         moveToNextActivity( delay );
                     }
                 } ;
-                this.animateRotation( logoImage, dir, count, runnable );
+                if( aniRotation ) {
+                    this.animateRotation(logoImage, dir, count, runnable);
+                } else {
+                    int duration = 1500;
+                    this.animateTranslation(logoImage, duration, runnable );
+                }
 
             }
         } catch ( Exception e ) {
@@ -251,8 +258,8 @@ public class SplashActivity extends ComActivity  {
         // logo animation
         int relative = Animation.RELATIVE_TO_SELF ;
         TranslateAnimation animation = new TranslateAnimation(
-                relative,  0.0f,
-                relative, -0.99f,
+                relative,  0.1f,
+                relative, -0.25f,
                 relative,  0.0f,
                 relative,  0.0f);
 
