@@ -1,18 +1,17 @@
 package com.pico;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.*;
-
-import androidx.core.app.ActivityCompat;
 
 public class SplashActivity extends ComActivity  {
 
@@ -59,7 +58,7 @@ public class SplashActivity extends ComActivity  {
         super.onStart();
 
         if( null == ComActivity.activityBefore ) {
-            this.whenLogoImageClicked(this.logoImage, 2500 );
+            whenLogoImageClicked( logoImage, 2500 );
         }
     }
 
@@ -85,6 +84,8 @@ public class SplashActivity extends ComActivity  {
         super.onPause();
 
         Log.i( tag, "onPause");
+
+        this.logoImage.clearAnimation();
     }
 
     private boolean logoImageClicked = false ;
@@ -112,7 +113,16 @@ public class SplashActivity extends ComActivity  {
                 permissionButton.setText("권한 설정 완료");
                 permissionButton.setEnabled(true);
 
-                this.moveToNextActivity( delay );
+                ImageView logoImage = this.logoImage;
+                int dir = 1 ; int count = 0 ;
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        moveToNextActivity( delay );
+                    }
+                } ;
+                this.animateRotation( logoImage, dir, count, runnable );
+
             }
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -182,4 +192,98 @@ public class SplashActivity extends ComActivity  {
             }
         }, delayMillis);
     }
+
+    private int mode = 0;
+
+    private void animateRotation(ImageView imageView, final int dir, int count, Runnable runnable ) {
+        //this.logo.setImageResource(R.drawable.splash_icon );
+
+        int relative = Animation.RELATIVE_TO_SELF ;
+
+        int angleDegree = 20 ;
+        int fromDegree = -angleDegree ;
+        int toDegree = angleDegree ;
+
+        if( 0 > dir ) {
+            fromDegree = angleDegree ;
+            toDegree = -angleDegree ;
+        }
+
+        int maxCount = 1;
+
+        if( count == maxCount ) {
+            toDegree = 0;
+        }
+
+        Animation animation = new RotateAnimation( fromDegree, toDegree,
+                relative, 0.5f, relative, 0.5f);
+
+        animation.setDuration( 2_500 );
+        animation.setRepeatCount( 0 );
+        animation.setFillAfter(true);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if( count >= maxCount ) {
+                    int duration = 1500 ;
+                    animateTranslation( imageView, duration, runnable );
+                } else {
+                    animateRotation( imageView, -dir, count + 1, runnable );
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+
+        imageView.startAnimation( animation );
+    } // -- animateLogoRotate
+
+    private void animateTranslation(ImageView imageView, final long duration, Runnable runnable ) {
+        imageView.clearAnimation();
+
+        // logo animation
+        int relative = Animation.RELATIVE_TO_SELF ;
+        TranslateAnimation animation = new TranslateAnimation(
+                relative,  0.0f,
+                relative, -0.99f,
+                relative,  0.0f,
+                relative,  0.0f);
+
+        animation.setDuration(duration);
+        animation.setRepeatCount( -1 );
+        //animation.setRepeatMode(Animation.RESTART);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            int animationCnt = 0 ;
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+                Log.v( tag, "onAnimationRepeat "  + animationCnt );
+
+                if( animationCnt == 0 ) {
+                    postDelayed( runnable );
+                    // imageView.clearAnimation();
+                }
+
+                animationCnt += 1;
+            }
+        });
+
+        imageView.startAnimation(animation);
+    } // -- animateLogoTranslate
 }

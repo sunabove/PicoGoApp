@@ -13,7 +13,11 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowInsets;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -182,4 +186,5 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     public int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
+
 }
