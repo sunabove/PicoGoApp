@@ -19,7 +19,7 @@ public class Sys {
     private BluetoothDevice bluetoothDevice;
     private BluetoothSocket bluetoothSocket ;
     private OutputStream out ;
-    private InputStream in ;
+    private DataInputStream in ;
 
     public static Sys getSys() {
         return sys;
@@ -70,7 +70,7 @@ public class Sys {
 
                 this.bluetoothSocket = bluetoothSocket;
                 this.out = bluetoothSocket.getOutputStream();
-                this.in = bluetoothSocket.getInputStream();
+                this.in = new DataInputStream( bluetoothSocket.getInputStream() );
 
                 success = true;
             } catch (IOException e) {
