@@ -187,23 +187,32 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     private void connectBluetoothImpl(BluetoothDevice device ) {
         String name = device.getName();
         String address = device.getAddress();
-        String msg = " BLE Device Name : " + name + " address : " + address ;
+        String msg = " BLE Device Name : " + name + " address : " + address;
 
-        Log.v( tag, msg );
+        Log.v(tag, msg);
 
-        this.autoConnect.setEnabled( false );
+        this.autoConnect.setEnabled(false);
 
-        boolean success = sys.connectBluetoothDevice( device );
+        boolean success = sys.connectBluetoothDevice(device);
 
-        boolean isPaired = this.isBluetoothPaired( address ) ;
+        boolean isPaired = this.isBluetoothPaired(address);
 
-        Log.v( tag, "isPared = " + isPaired );
+        Log.v(tag, "isPared = " + isPaired);
 
-        if( success && ! isPaired ) {
+        if (success && !isPaired) {
             String paringCode = this.sendSendMeParingCodeMessage();
 
-            Log.v( tag, "pairing Code = " + paringCode );
+            Log.v(tag, "pairing Code = " + paringCode);
+
+            // show window to match paired code
+        } else if (success) {
+            Log.v(tag, "Sipped pairing. pairing has been done.");
         }
+
+        this.connectBluetoothImplAfterParing( success, address );
+    }
+
+    private void connectBluetoothImplAfterParing( boolean success , String address) {
 
         if( success ) {
             this.saveProperty(BLUETOOTH_ADDRESS_KEY, address );
@@ -236,7 +245,6 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.autoConnect.setEnabled( true );
 
         this.connectingBluetooth = false ;
-
     }
 
     public ComActivity getComActivity() {

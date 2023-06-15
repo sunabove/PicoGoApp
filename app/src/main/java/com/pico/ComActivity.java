@@ -1,23 +1,14 @@
 package com.pico;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowInsets;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.view.animation.TranslateAnimation;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -165,12 +156,18 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         return this.getProperty( BLUETOOTH_ADDRESS_KEY );
     }
 
-    public String getBluetoothPairedCode(String address) {
+    public String getBluetoothPairedCodeProperty(String address) {
         return this.getProperty( BLUETOOTH_PAIRING_KEY + address );
     }
 
+    public void saveBluetoothPairedCodeProperty(String address) {
+        String key = getBluetoothPairedCodeProperty( address );
+
+        this.saveProperty( key, "true" );
+    }
+
     public boolean isBluetoothPaired( String address ) {
-        String pairedCode = this.getBluetoothPairedCode( address );
+        String pairedCode = this.getBluetoothPairedCodeProperty( address );
 
         if( null == pairedCode || pairedCode.trim().length() < 1 ) {
             return false;
