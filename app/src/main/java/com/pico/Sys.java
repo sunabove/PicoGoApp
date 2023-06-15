@@ -2,12 +2,15 @@ package com.pico;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.*;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import java.io.*;
 import java.util.UUID;
 
-public class Sys {
+public class Sys implements  ComInterface {
 
     private static final Sys sys = new Sys();
 
@@ -126,8 +129,16 @@ public class Sys {
 
     }
 
-    public boolean sendMessage(final String message) {
-        Log.v( "sunabove", "sendCommand() message = " + message );
+    public String sendMessage(final String message) {
+        boolean directReply = false;
+
+        return this.sendMessage(message, directReply);
+    }
+
+    public String sendMessage(final String message, final boolean directReply) {
+        Log.v( tag, "sendCommand() message = " + message );
+
+        String reply = null ;
 
         DataOutputStream out = this.out;
 
@@ -147,16 +158,40 @@ public class Sys {
 
                 out.flush();
 
-                Log.v( "sunabove", "Success: sendCommand() message = " + message );
+                Log.v( tag, "Success: sendCommand() message = " + message );
+
+                if( directReply ) {
+                    final DataInputStream in = this.in;
+                    reply = in.readLine();
+
+                    Log.v( tag, "Success: reply direct = " + reply );
+                } else {
+                    reply = " ";
+
+                    final DataInputStream in = this.in;
+
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            String reply = null;
+                            try {
+                                reply = in.readLine();
+
+                                Log.v( tag, "Success: reply undirect = " + reply );
+                            } catch (IOException e) {
+                                reply = "Cannot read reply";
+
+                                Log.v( tag, "Fail: read reply undirect = " + reply );
+                            }
+                        }
+                    }, 0);
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
-
-                return false ;
             }
-
-            return true ;
-        } else {
-            return false ;
         }
+
+        return reply;
     }
 }

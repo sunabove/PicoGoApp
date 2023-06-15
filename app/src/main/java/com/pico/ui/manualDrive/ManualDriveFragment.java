@@ -232,6 +232,10 @@ public class ManualDriveFragment extends ComFragment {
     };
 
     private void whenDirButtonTouched(View view, int action ) {
+        if( action != MotionEvent.ACTION_DOWN && action != MotionEvent.ACTION_UP ){
+            return ;
+        }
+
         Log.v( tag, "whenDirButtonTouched()" );
 
         FragmentManualDriveBinding binding = this.binding;
