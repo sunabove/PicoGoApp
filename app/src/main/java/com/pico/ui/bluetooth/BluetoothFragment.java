@@ -45,7 +45,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     private EditText connectingStatus;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.v("sunabove", "onCreateView()");
+        Log.v( tag, "onCreateView()");
 
         BluetoothViewModel bluetoothViewModel = new ViewModelProvider(this).get(BluetoothViewModel.class);
 
@@ -123,7 +123,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     public void onDestroyView() {
         super.onDestroyView();
 
-        Log.v("sunabove", "onDestroyView()");
+        Log.v( tag, "onDestroyView()");
 
         binding = null;
     }
@@ -150,7 +150,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     private void whenBluetoothListViewItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String msg = "whenBluetoothListViewItemClick() i = " + i + ", l = " + l ;
 
-        Log.v("sunabove", msg );
+        Log.v( tag, msg );
 
         BluetoothDevice device = this.blueDeviceListAdapter.getItem( i );
 
@@ -183,17 +183,27 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
     }
 
+    @SuppressLint("MissingPermission")
     private void connectBluetoothImpl(BluetoothDevice device ) {
-
-        @SuppressLint("MissingPermission") String name = device.getName();
+        String name = device.getName();
         String address = device.getAddress();
         String msg = " BLE Device Name : " + name + " address : " + address ;
 
-        Log.v("sunabove", msg );
+        Log.v( tag, msg );
 
         this.autoConnect.setEnabled( false );
 
         boolean success = sys.connectBluetoothDevice( device );
+
+        boolean isPaired = this.isBluetoothPaired( address ) ;
+
+        Log.v( tag, "isPared = " + isPaired );
+
+        if( success && ! isPaired ) {
+            String paringCode = this.sendSendMeParingCodeMessage();
+
+            Log.v( tag, "pairing Code = " + paringCode );
+        }
 
         if( success ) {
             this.saveProperty(BLUETOOTH_ADDRESS_KEY, address );
@@ -246,7 +256,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     }
 
     public void scanBlueDevices() {
-        Log.v("sunabove", "scanBleDevices");
+        Log.v( tag, "scanBleDevices");
 
         this.blueScanButton.setEnabled(false);
         this.bluetoothProgressBar.setVisibility(View.VISIBLE);
@@ -324,7 +334,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
     @SuppressLint("MissingPermission")
     public void scanBlueDevicesImpl() {
-        Log.v("sunabove", "scanBleDevicesByIntentFilter()");
+        Log.v( tag, "scanBleDevicesByIntentFilter()");
 
         Activity activity = this.getActivity();
 
@@ -350,7 +360,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 String msg = "BLE Device Name : " + name + " address : " + address + " appended";
                 this.blueDeviceListAdapter.addDevice(device);
                 this.blueDeviceListAdapter.notifyDataSetChanged();
-                Log.v("sunabove", msg);
+                Log.v( tag, msg);
 
                 if( this.autoConnect.isChecked() && address.equals( this.getBluetoothAddressLastConnected()) ) {
 
@@ -358,7 +368,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 }
             } else {
                 String msg = "BLE Device Name : " + name + " address : " + address + " not appended";
-                Log.v("sunabove", msg);
+                Log.v( tag, msg);
             }
         }
     }

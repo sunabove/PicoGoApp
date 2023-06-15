@@ -213,6 +213,14 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         handler.postDelayed( runnable, delay);
     }
 
+    public String sendSendMeParingCodeMessage() {
+        String message = "send me pairing code" ;
+
+        boolean directReply = true;
+
+        return sendMessage( message, directReply );
+    }
+
     public String sendMotorStopMessage() {
         String message = "{\"Forward\":\"Up\"}" ;
 
@@ -301,6 +309,9 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         this.activity.saveProperty(key, value);
     }
 
+    public boolean isBluetoothPaired( String address ) {
+        return this.activity.isBluetoothPaired( address );
+    }
     public String getBluetoothAddressLastConnected() {
         return this.activity.getBluetoothAddressLastConnected();
     }

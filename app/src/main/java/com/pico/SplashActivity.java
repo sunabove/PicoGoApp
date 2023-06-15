@@ -126,7 +126,7 @@ public class SplashActivity extends ComActivity  {
                 if( aniRotation ) {
                     this.animateRotation(logoImage, dir, count, runnable);
                 } else {
-                    int duration = 1500;
+                    int duration = 500;
                     this.animateTranslation(logoImage, duration, runnable );
                 }
 
@@ -264,7 +264,7 @@ public class SplashActivity extends ComActivity  {
                 relative,  0.0f);
 
         animation.setDuration(duration);
-        animation.setRepeatCount( -1 );
+        animation.setRepeatCount( 1 );
         //animation.setRepeatMode(Animation.RESTART);
 
         animation.setAnimationListener(new Animation.AnimationListener() {

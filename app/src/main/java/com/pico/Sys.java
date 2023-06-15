@@ -161,28 +161,17 @@ public class Sys implements  ComInterface {
                 Log.v( tag, "Success: sendCommand() message = " + message );
 
                 if( directReply ) {
+                    int replyReadCnt = REPLY_READ_CNT ++ ;
+
                     final DataInputStream in = this.in;
                     reply = in.readLine();
 
-                    Log.v( tag, "Success: reply direct = " + reply );
+                    Log.v( tag, String.format( "Success: [%5d] reply direct = %s", replyReadCnt, reply ) );
                 } else {
-                    reply = " ";
-
-                    final DataInputStream in = this.in;
-
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            String reply = null;
-                            try {
-                                reply = in.readLine();
-
-                                Log.v( tag, "Success: reply undirect = " + reply );
-                            } catch (IOException e) {
-                                reply = "Cannot read reply";
-
-                                Log.v( tag, "Fail: read reply undirect = " + reply );
-                            }
+                            readReplyUndirectByHandler();
                         }
                     }, 0);
                 }
@@ -193,5 +182,29 @@ public class Sys implements  ComInterface {
         }
 
         return reply;
+    }
+
+    private static int REPLY_READ_CNT = 0 ;
+
+    private synchronized String readReplyUndirectByHandler() {
+        String reply = null ;
+
+        final DataInputStream in = this.in;
+
+        if( null != in ) {
+            int replyReadCnt = REPLY_READ_CNT ++ ;
+
+            try {
+                reply = in.readLine();
+
+                Log.v( tag, String.format( "Success: [%5d] reply undirect = %s", replyReadCnt, reply ) );
+            } catch (IOException e) {
+                reply = "Cannot read reply";
+
+                Log.v( tag, String.format( "Fail: [%5d] read reply undirect = %s", replyReadCnt, reply ) );
+            }
+        }
+
+        return reply ;
     }
 }

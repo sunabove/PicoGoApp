@@ -165,6 +165,28 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         return this.getProperty( BLUETOOTH_ADDRESS_KEY );
     }
 
+    public String getBluetoothPairedCode(String address) {
+        return this.getProperty( BLUETOOTH_PAIRING_KEY + address );
+    }
+
+    public boolean isBluetoothPaired( String address ) {
+        String pairedCode = this.getBluetoothPairedCode( address );
+
+        if( null == pairedCode || pairedCode.trim().length() < 1 ) {
+            return false;
+        } else if( null != pairedCode ){
+            pairedCode = pairedCode.trim();
+
+            if( pairedCode.equalsIgnoreCase( "true" ) || pairedCode.equalsIgnoreCase( "0") ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
     public String getProperty( String key ) {
         return this.getProperty( key, "" );
     }
