@@ -218,34 +218,32 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     private void showParingWindow( final String pairingCode ) {
         Context context = this.getContext();
 
-        LayoutInflater li = LayoutInflater.from( context );
-        View promptsView = li.inflate(R.layout.dialog_bluetooth_pairing_code, null);
+        View dialogView = LayoutInflater.from( context ).inflate(R.layout.dialog_bluetooth_pairing_code, null);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder( context );
+        AlertDialog.Builder builder = new AlertDialog.Builder( context );
 
-        alertDialogBuilder.setView(promptsView);
+        builder.setView( dialogView );
 
-        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
+        final EditText userInput = dialogView.findViewById(R.id.paringCode_1);
 
         // set dialog message
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // get user input and set it to result
-                                // edit text
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // get user input and set it to result
+                        // edit text
+                    }
+                });
+        builder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void connectBluetoothImplAfterParing( boolean success , String address) {
