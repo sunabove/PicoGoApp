@@ -18,7 +18,7 @@ public class Sys {
 
     private BluetoothDevice bluetoothDevice;
     private BluetoothSocket bluetoothSocket ;
-    private OutputStream out ;
+    private DataOutputStream out ;
     private DataInputStream in ;
 
     public static Sys getSys() {
@@ -69,7 +69,7 @@ public class Sys {
                 bluetoothSocket.connect();
 
                 this.bluetoothSocket = bluetoothSocket;
-                this.out = bluetoothSocket.getOutputStream();
+                this.out = new DataOutputStream( bluetoothSocket.getOutputStream() );
                 this.in = new DataInputStream( bluetoothSocket.getInputStream() );
 
                 success = true;
@@ -129,11 +129,22 @@ public class Sys {
     public boolean sendMessage(final String message) {
         Log.v( "sunabove", "sendCommand() message = " + message );
 
-        OutputStream out = this.out;
+        DataOutputStream out = this.out;
 
         if( null != out ) {
             try {
-                out.write( message.getBytes() );
+                byte startOfHeading = 1;
+                byte endOfTransmission = 4 ;
+                byte [] data = message.getBytes() ;
+                short dataLen = (short) ( data.length );
+                byte dataType = 's' ;
+
+                out.writeByte( startOfHeading );
+                out.writeByte( dataType );
+                out.writeShort( dataLen );
+                out.write( data );
+                out.writeByte( endOfTransmission );
+
                 out.flush();
 
                 Log.v( "sunabove", "Success: sendCommand() message = " + message );
