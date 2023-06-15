@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -20,12 +21,14 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.pico.BlueDeviceListAdapter;
 import com.pico.BluetoothInterface;
 import com.pico.ComActivity;
 import com.pico.ComFragment;
+import com.pico.R;
 import com.pico.databinding.FragmentBluetoothBinding;
 
 public class BluetoothFragment extends ComFragment implements BluetoothInterface  {
@@ -204,12 +207,45 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
             Log.v(tag, "pairing Code = " + paringCode);
 
-            // show window to match paired code
+            this.showParingWindow( paringCode );
         } else if (success) {
             Log.v(tag, "Sipped pairing. pairing has been done.");
         }
 
         this.connectBluetoothImplAfterParing( success, address );
+    }
+
+    private void showParingWindow( final String pairingCode ) {
+        Context context = this.getContext();
+
+        LayoutInflater li = LayoutInflater.from( context );
+        View promptsView = li.inflate(R.layout.dialog_bluetooth_pairing_code, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder( context );
+
+        alertDialogBuilder.setView(promptsView);
+
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
+
+        // set dialog message
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // get user input and set it to result
+                                // edit text
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     private void connectBluetoothImplAfterParing( boolean success , String address) {
