@@ -157,13 +157,17 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     }
 
     public String getBluetoothPairedCodeProperty(String address) {
-        return this.getProperty( BLUETOOTH_PAIRING_KEY + address );
+        String blueToothPairedAddressKey = BLUETOOTH_PAIRING_KEY + address ;
+
+        return this.getProperty( blueToothPairedAddressKey );
     }
 
     public void saveBluetoothPairedCodeProperty(String address) {
-        String key = getBluetoothPairedCodeProperty( address );
+        String blueToothPairedAddressKey = BLUETOOTH_PAIRING_KEY + address ;
 
-        this.saveProperty( key, "true" );
+        Log.v( tag, "saveBluetoothPairedCodeProperty() key = " + blueToothPairedAddressKey ); 
+
+        this.saveProperty( blueToothPairedAddressKey, "true" );
     }
 
     public boolean isBluetoothPaired( String address ) {

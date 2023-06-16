@@ -3,203 +3,216 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:padding="20dp" >
+    android:orientation="vertical" >
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:lineSpacingExtra="10sp"
-                android:text="Pico (블루투스 주소: "
-                android:textColor="@color/black"
-                android:textSize="24sp" />
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:lineSpacingExtra="10sp"
+                        android:text="Pico (블루투스 주소: "
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/blueToothAddressOfParingCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=" 00:11:22:33:FF:EE"
+                        android:textColor="@color/orangeDark"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=")"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="800dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:lineSpacingExtra="5sp"
+                        android:text="디스플레이에 표시된\n페어링 코드를 입력하세요."
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/blueToothAddressOfParingCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text=" 00:11:22:33:FF:EE"
-                android:textColor="@color/orangeDark"
-                android:textStyle="bold"
-                android:textSize="24sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text=")"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
-        </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="4dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="800dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center"
-                android:lineSpacingExtra="10sp"
-                android:text="디스플레이에 표시된\n페어링 코드를 입력하세요."
-                android:textColor="@color/black"
-                android:textSize="24sp" />
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:padding="0dp">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:gravity="right"
+                    android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:srcCompat="@drawable/picogo_lcd_180" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="7"
-            android:gravity="right"
-            android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                app:srcCompat="@drawable/picogo_lcd_180" />
+                    <EditText
+                        android:id="@+id/paringCodeUserInput"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:hint="1234"
+                        android:inputType="number|numberDecimal"
+                        android:maxLength="4"
+                        android:text="1234"
+                        android:textColor="@color/grey"
+                        android:textSize="80dp"
+                        android:textStyle="bold"
+                        android:windowSoftInputMode="stateHidden">
 
-            <TextView
-                android:layout_width="20dp"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+                        <!--
+                        <requestFocus />
+                        -->
+                    </EditText>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent" />
 
-            <EditText
-                android:id="@+id/paringCodeUserInput"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:hint="1234"
-                android:inputType="number|numberDecimal"
-                android:maxLength="4"
-                android:text="1234"
-                android:textColor="@color/orangeLight"
-                android:textSize="80dp"
-                android:textStyle="bold"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:windowSoftInputMode="stateHidden" >
+                    <ImageView
+                        android:id="@+id/invalidParingCode"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/invalid_paring_code" />
 
-                <!--
-                <requestFocus />
-                -->
-            </EditText>
+                </LinearLayout>
+
+            </LinearLayout>
 
             <TextView
-                android:layout_width="20dp"
-                android:layout_height="match_parent" />
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
 
-            <ImageView
-                android:id="@+id/invalidParingCode"
-                android:layout_width="60dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/invalid_paring_code" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/paringStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="status"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/okBtn"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:text="페어링"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
+
+                <Button
+                    android:id="@+id/cancelBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.5"
+                    android:text="취소"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/paringStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="status"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/okBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:text="페어링" />
-
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/cancelBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:text="취소" />
-
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -321,8 +321,13 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     public boolean isBluetoothPaired( String address ) {
         return this.activity.isBluetoothPaired( address );
     }
+
     public String getBluetoothAddressLastConnected() {
         return this.activity.getBluetoothAddressLastConnected();
+    }
+
+    public void saveBluetoothPairedCodeProperty(String address) {
+        this.activity.saveBluetoothPairedCodeProperty( address );
     }
 
     public String getProperty( String key ) {

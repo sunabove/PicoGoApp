@@ -211,7 +211,9 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         Log.v(tag, "isPared = " + isPaired);
 
-        if (success && isPaired == false ) {
+        boolean testParingAnyway = true ; // 테스트를 위해서 페어링을 무조건 함.
+
+        if (success && ( testParingAnyway || isPaired == false ) ) {
             String paringCode = this.sendSendMeParingCodeMessage();
 
             Log.v(tag, "pairing Code = " + paringCode);
@@ -242,6 +244,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         final Button cancelBtn = dialogView.findViewById( R.id.cancelBtn ) ;
 
         userInput.setText( "" );
+        userInput.setTextColor( grey );
+
         paringStatus.setText( "" );
         invalidParingCode.setVisibility( View.GONE );
         blueToothAddressOfParingCode.setText( address );
@@ -260,11 +264,18 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 invalidParingCode.setVisibility( View.GONE );
-                userInput.setTextColor( orangeLight );
                 paringStatus.setText( "" );
                 cancelBtn.setEnabled( true );
 
                 String userInputText = userInput.getText().toString().trim() ;
+
+                if( pairingCode.equalsIgnoreCase( userInputText ) ) {
+                    userInput.setTextColor( greenLight );
+                } else if( pairingCode.startsWith( userInputText ) ) {
+                    userInput.setTextColor( orangeLight );
+                } else {
+                    userInput.setTextColor( grey );
+                }
 
                 if( userInputText.length() < 4 ) {
                     okBtn.setEnabled( false );
@@ -354,6 +365,11 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             this.connectingStatus.setText( "블루투스 연결 성공");
 
             this.connectingBluetoothNow = false ;
+
+            if( hasParingTried ) {
+                // 페어링 완료 여부 설정
+                this.saveBluetoothPairedCodeProperty( address ) ;
+            }
 
             if( activity.paused ) {
                 Log.v( tag, "activity is paused. cannot move to fragment" );
