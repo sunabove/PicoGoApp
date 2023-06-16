@@ -181,7 +181,7 @@ public class Sys implements  ComInterface {
 
             } catch (IOException e) {
                 reply = null;
-                
+
                 e.printStackTrace();
             }
         }
@@ -192,11 +192,13 @@ public class Sys implements  ComInterface {
     private static int REPLY_READ_CNT = 0 ;
 
     private synchronized String readReplyUndirectByHandler() {
-        String reply = null ;
+        String reply = "" ;
 
         final DataInputStream in = this.in;
 
-        if( null != in ) {
+        if( null == in ) {
+            reply = null ;
+        } else if( null != in ) {
             int replyReadCnt = REPLY_READ_CNT ++ ;
 
             try {
@@ -204,9 +206,9 @@ public class Sys implements  ComInterface {
 
                 Log.v( tag, String.format( "Success: [%5d] reply undirect = %s", replyReadCnt, reply ) );
             } catch (IOException e) {
-                reply = "Cannot read reply";
+                reply = null ;
 
-                Log.v( tag, String.format( "Fail: [%5d] read reply undirect = %s", replyReadCnt, reply ) );
+                Log.v( tag, String.format( "Fail: [%5d] read reply undirect = %s. cannot read reply", replyReadCnt ) );
             }
         }
 

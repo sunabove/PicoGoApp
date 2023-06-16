@@ -255,7 +255,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         if( reply == null ) {
             this.whenSysFailed();
         } else {
-            this.whenSysFailed();
+            this.whenSysSucceeded();
         }
 
         return reply;
