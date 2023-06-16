@@ -126,8 +126,7 @@ public class SplashActivity extends ComActivity  {
                 if( aniRotation ) {
                     this.animateRotation(logoImage, dir, count, runnable);
                 } else {
-                    int duration = 500;
-                    this.animateTranslation(logoImage, duration, runnable );
+                    this.animateTranslation(logoImage, runnable );
                 }
 
             }
@@ -202,32 +201,26 @@ public class SplashActivity extends ComActivity  {
 
     private int mode = 0;
 
-    private void animateRotation(ImageView imageView, final int dir, int count, Runnable runnable ) {
-        //this.logo.setImageResource(R.drawable.splash_icon );
+    private void animateRotation(ImageView imageView, final int dir, final int count, Runnable runnableAfterAnimation ) {
 
-        int relative = Animation.RELATIVE_TO_SELF ;
+        final int maxCount = 1;
+
+        int duration360 = 20_000;
 
         int angleDegree = 20 ;
-        int fromDegree = -angleDegree ;
-        int toDegree = angleDegree ;
 
-        if( 0 > dir ) {
-            fromDegree = angleDegree ;
-            toDegree = -angleDegree ;
-        }
+        int frDegree = dir > 0 ? angleDegree : - angleDegree ;
+        int toDegree = count == maxCount ? 0 : -frDegree ;
 
-        int maxCount = 1;
+        int duration = duration360*Math.abs( toDegree - frDegree)/360;
 
-        if( count == maxCount ) {
-            toDegree = 0;
-        }
-
-        Animation animation = new RotateAnimation( fromDegree, toDegree,
+        int relative = Animation.RELATIVE_TO_SELF ;
+        Animation animation = new RotateAnimation( frDegree, toDegree,
                 relative, 0.5f, relative, 0.5f);
 
-        animation.setDuration( 2_500 );
+        animation.setDuration( duration );
         animation.setRepeatCount( 0 );
-        animation.setFillAfter(true);
+        animation.setFillAfter( true );
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -237,10 +230,9 @@ public class SplashActivity extends ComActivity  {
             @Override
             public void onAnimationEnd(Animation animation) {
                 if( count >= maxCount ) {
-                    int duration = 1500 ;
-                    animateTranslation( imageView, duration, runnable );
+                    animateTranslation( imageView, runnableAfterAnimation );
                 } else {
-                    animateRotation( imageView, -dir, count + 1, runnable );
+                    animateRotation( imageView, -dir, count + 1, runnableAfterAnimation );
                 }
             }
 
@@ -252,34 +244,31 @@ public class SplashActivity extends ComActivity  {
         imageView.startAnimation( animation );
     } // -- animateLogoRotate
 
-    private void animateTranslation(ImageView imageView, final long duration, Runnable runnable ) {
+    private void animateTranslation(ImageView imageView, Runnable runnable ) {
         imageView.clearAnimation();
 
         // logo animation
         int relative = Animation.RELATIVE_TO_SELF ;
         TranslateAnimation animation = new TranslateAnimation(
-                relative,  0.1f,
+                relative,  0.0f,
                 relative, -0.25f,
                 relative,  0.0f,
                 relative,  0.0f);
 
+        long duration = 1_500;
+
         animation.setDuration(duration);
-        animation.setRepeatCount( 1 );
+        animation.setRepeatCount( 0 );
         //animation.setRepeatMode(Animation.RESTART);
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             int animationCnt = 0 ;
 
             @Override
-            public void onAnimationStart(Animation animation) {
-            }
+            public void onAnimationStart(Animation animation) { }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
                 Log.v( tag, "onAnimationRepeat "  + animationCnt );
 
                 if( animationCnt == 0 ) {
@@ -289,6 +278,9 @@ public class SplashActivity extends ComActivity  {
 
                 animationCnt += 1;
             }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) { }
         });
 
         imageView.startAnimation(animation);
