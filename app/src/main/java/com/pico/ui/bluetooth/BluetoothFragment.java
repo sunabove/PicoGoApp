@@ -225,14 +225,15 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         builder.setView( dialogView );
 
-        final TextView blueToothAddressOfParingCode = dialogView.findViewById(R.id.blueToothAddressOfParingCode ) ;
-        final EditText userInput = dialogView.findViewById(R.id.paringCodeUserInput) ;
-        final ImageView invalidParingCode = dialogView.findViewById(R.id.invalidParingCode) ;
-        final Button okBtn = dialogView.findViewById(R.id.okBtn) ;
-        final Button cancelBtn = dialogView.findViewById(R.id.cancelBtn ) ;
-
+        final TextView blueToothAddressOfParingCode = dialogView.findViewById( R.id.blueToothAddressOfParingCode ) ;
+        final TextView userInput = dialogView.findViewById( R.id.paringCodeUserInput ) ;
+        final ImageView invalidParingCode = dialogView.findViewById( R.id.invalidParingCode ) ;
+        final TextView paringStatus = dialogView.findViewById( R.id.paringStatus ) ;
+        final Button okBtn = dialogView.findViewById( R.id.okBtn ) ;
+        final Button cancelBtn = dialogView.findViewById( R.id.cancelBtn ) ;
 
         userInput.setText( "" );
+        paringStatus.setText( "" );
         invalidParingCode.setVisibility( View.GONE );
         blueToothAddressOfParingCode.setText( address );
         okBtn.setEnabled( false );
@@ -248,6 +249,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 invalidParingCode.setVisibility( View.GONE );
                 userInput.setTextColor( orangeLight );
+                paringStatus.setText( "" );
 
                 if( userInput.getText().toString().trim().length() < 4 ) {
                     okBtn.setEnabled( false );
@@ -270,6 +272,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 if( ! success ) {
                     userInput.setTextColor( redDark );
                     invalidParingCode.setVisibility( View.VISIBLE );
+
+                    paringStatus.setText( "페어링 코드가 일치하지 않습니다." );
                 } else if( success ) {
                     userInput.setTextColor( greenLight );
                     dialog.dismiss();
