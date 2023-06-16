@@ -139,11 +139,13 @@ public class Sys implements  ComInterface {
     public String sendMessage(final String message, final boolean directReply) {
         Log.v( tag, "sendCommand() message = " + message );
 
-        String reply = null ;
+        String reply = "" ;
 
         DataOutputStream out = this.out;
 
-        if( null != out ) {
+        if( null == out ) {
+            reply = null;
+        } else if( null != out ) {
             try {
                 byte startOfHeading = 1;
                 byte endOfTransmission = 4 ;
@@ -178,6 +180,8 @@ public class Sys implements  ComInterface {
                 }
 
             } catch (IOException e) {
+                reply = null;
+                
                 e.printStackTrace();
             }
         }

@@ -292,7 +292,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
                 String userInputParingCode = userInput.getText().toString().trim();
 
-                boolean success = pairingCode.equalsIgnoreCase( userInputParingCode );
+                boolean success = userInputParingCode.equalsIgnoreCase( pairingCode );
 
                 if( ! success ) {
                     userInput.setTextColor( redDark );

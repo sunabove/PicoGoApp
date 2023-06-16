@@ -218,7 +218,16 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
         boolean directReply = true;
 
-        return sendMessage( message, directReply );
+        String reply = sendMessage( message, directReply );
+
+        String [] replies = reply.split( ":" );
+
+        if( replies == null || replies.length < 1 ) {
+            return "" ;
+        } else {
+            String paringCode = replies[replies.length - 1].trim();
+            return paringCode ;
+        }
     }
 
     public String sendMotorStopMessage() {
@@ -243,8 +252,8 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     public String sendMessage( String message, boolean  directReply ) {
         String reply = sys.sendMessage(message, directReply );
 
-        if( reply != null ) {
-            this.whenSysSucceeded();
+        if( reply == null ) {
+            this.whenSysFailed();
         } else {
             this.whenSysFailed();
         }
