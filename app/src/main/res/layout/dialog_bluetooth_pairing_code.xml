@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -7,61 +8,119 @@
     android:padding="20dp" >
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pico 디스플레이에 표신된 코드를 입력하세요."
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingExtra="10sp"
+                android:text="Pico (블루투스 주소: "
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/blueToothAddressOfParingCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text=" 00:11:22:33:FF:EE"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text=")"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="800dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:lineSpacingExtra="10sp"
+                android:text="디스플레이에 표시된\n페어링 코드를 입력하세요."
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/paringCode_1"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="24dp" >
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:gravity="right"
+            android:orientation="horizontal">
 
-            <requestFocus />
-        </EditText>
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                app:srcCompat="@drawable/picogo_lcd_180" />
 
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/paringCode_2"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="24dp" />
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
+            <EditText
+                android:id="@+id/paringCodeUserInput"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="#-#-#-#"
+                android:inputType="number|numberDecimal"
+                android:maxLength="4"
+                android:text="1234"
+                android:textSize="80dp">
 
-        <EditText
-            android:id="@+id/paringCode_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
-
-        <EditText
-            android:id="@+id/paringCode_4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+                <requestFocus />
+            </EditText>
+        </LinearLayout>
 
     </LinearLayout>
 

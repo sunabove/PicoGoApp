@@ -207,7 +207,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
             Log.v(tag, "pairing Code = " + paringCode);
 
-            this.showParingWindow( paringCode );
+            this.showParingWindow( paringCode, address );
         } else if (success) {
             Log.v(tag, "Sipped pairing. pairing has been done.");
         }
@@ -215,7 +215,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.connectBluetoothImplAfterParing( success, address );
     }
 
-    private void showParingWindow( final String pairingCode ) {
+    private void showParingWindow( final String pairingCode, String address ) {
         Context context = this.getContext();
 
         View dialogView = LayoutInflater.from( context ).inflate(R.layout.dialog_bluetooth_pairing_code, null);
@@ -224,18 +224,21 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         builder.setView( dialogView );
 
-        final EditText userInput = dialogView.findViewById(R.id.paringCode_1);
+        final TextView blueToothAddressOfParingCode = dialogView.findViewById(R.id.blueToothAddressOfParingCode );
+        final EditText userInput = dialogView.findViewById(R.id.paringCodeUserInput);
+
+        blueToothAddressOfParingCode.setText( address );
 
         // set dialog message
         builder.setCancelable(false);
-        builder.setPositiveButton("OK",
+        builder.setPositiveButton( "페어링",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // get user input and set it to result
                         // edit text
                     }
                 });
-        builder.setNegativeButton("Cancel",
+        builder.setNegativeButton( "취소",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
