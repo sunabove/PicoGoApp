@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -224,16 +225,77 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         builder.setView( dialogView );
 
-        final TextView blueToothAddressOfParingCode = dialogView.findViewById(R.id.blueToothAddressOfParingCode );
-        final EditText userInput = dialogView.findViewById(R.id.paringCodeUserInput);
-        final ImageView invalidParingCode = dialogView.findViewById(R.id.invalidParingCode);
+        final TextView blueToothAddressOfParingCode = dialogView.findViewById(R.id.blueToothAddressOfParingCode ) ;
+        final EditText userInput = dialogView.findViewById(R.id.paringCodeUserInput) ;
+        final ImageView invalidParingCode = dialogView.findViewById(R.id.invalidParingCode) ;
+        final Button okBtn = dialogView.findViewById(R.id.okBtn) ;
+        final Button cancelBtn = dialogView.findViewById(R.id.cancelBtn ) ;
+
 
         userInput.setText( "" );
         invalidParingCode.setVisibility( View.GONE );
         blueToothAddressOfParingCode.setText( address );
+        okBtn.setEnabled( false );
+        cancelBtn.setEnabled( true );
 
-        // set dialog message
+        // set modal dialog
         builder.setCancelable( false );
+
+        AlertDialog dialog = builder.create();
+
+        userInput.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                invalidParingCode.setVisibility( View.GONE );
+                userInput.setTextColor( orangeLight );
+
+                if( userInput.getText().toString().trim().length() < 4 ) {
+                    okBtn.setEnabled( false );
+                } else {
+                    okBtn.setEnabled( true );
+                }
+                return false;
+            }
+        });
+
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelBtn.setEnabled( false );
+
+                String userInputParingCode = userInput.getText().toString().trim();
+
+                boolean success = pairingCode.equalsIgnoreCase( userInputParingCode );
+
+                if( ! success ) {
+                    userInput.setTextColor( redDark );
+                    invalidParingCode.setVisibility( View.VISIBLE );
+                } else if( success ) {
+                    userInput.setTextColor( greenLight );
+                    dialog.dismiss();
+
+                    postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            connectBluetoothImplAfterParing( success, address );
+                        }
+                    }, 500 );
+                }
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userInput.setText( "" );
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
+
+
+        /*
         builder.setPositiveButton( "페어링",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -260,8 +322,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                     }
                 });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+         */
+
     }
 
     private void connectBluetoothImplAfterParing( boolean success , String address) {

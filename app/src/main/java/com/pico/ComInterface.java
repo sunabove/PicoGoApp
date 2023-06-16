@@ -12,11 +12,14 @@ public interface ComInterface {
     public static final int green = Color.parseColor( "#00FF00" ) ;
     public static final int black = Color.parseColor( "#000000" ) ;
     public static final int white = Color.parseColor( "#FFFFFF" ) ;
+
     public static final int red = Color.parseColor( "#FF0000" ) ;
+    public static final int redDark = Color.parseColor( "#FF4500" ) ;
 
     public static final int greenLight = Color.parseColor( "#70C656" ) ;
     public static final int greenDark = Color.parseColor( "#53933F" ) ;
-    public static final int redDark = Color.parseColor( "#FF4500" ) ;
+
+    public static final int orangeLight = Color.parseColor( "#F3AE1B" ) ;
 
     public static final String BLUETOOTH_ADDRESS_KEY = "bluetooth_name" ;
     public static final String BLUETOOTH_PAIRING_KEY = "bluetooth_pairing:" ;
