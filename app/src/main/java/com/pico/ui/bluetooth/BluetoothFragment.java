@@ -202,17 +202,17 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         Log.v(tag, "isPared = " + isPaired);
 
-        if (success && !isPaired) {
+        if (success && isPaired == false ) {
             String paringCode = this.sendSendMeParingCodeMessage();
 
             Log.v(tag, "pairing Code = " + paringCode);
 
             this.showParingWindow( paringCode, address );
-        } else if (success) {
+        } else if (success && isPaired == true ) {
             Log.v(tag, "Sipped pairing. pairing has been done.");
-        }
 
-        this.connectBluetoothImplAfterParing( success, address );
+            this.connectBluetoothImplAfterParing( success, address );
+        }
     }
 
     private void showParingWindow( final String pairingCode, String address ) {
@@ -226,8 +226,10 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         final TextView blueToothAddressOfParingCode = dialogView.findViewById(R.id.blueToothAddressOfParingCode );
         final EditText userInput = dialogView.findViewById(R.id.paringCodeUserInput);
-        userInput.setText( "" );
+        final ImageView invalidParingCode = dialogView.findViewById(R.id.invalidParingCode);
 
+        userInput.setText( "" );
+        invalidParingCode.setVisibility( View.GONE );
         blueToothAddressOfParingCode.setText( address );
 
         // set dialog message
@@ -235,8 +237,21 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         builder.setPositiveButton( "페어링",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        String userInputParingCode = userInput.getText().toString().trim();
+
+                        boolean success = pairingCode.equalsIgnoreCase( userInputParingCode );
+
+                        if( ! success ) {
+                            invalidParingCode.setVisibility( View.VISIBLE );
+                        } else if( success ) {
+                            dialog.dismiss();
+
+                            connectBluetoothImplAfterParing( success, address );
+                        }
+
                     }
                 });
+
         builder.setNegativeButton( "취소",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
