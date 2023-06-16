@@ -226,21 +226,21 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         final TextView blueToothAddressOfParingCode = dialogView.findViewById(R.id.blueToothAddressOfParingCode );
         final EditText userInput = dialogView.findViewById(R.id.paringCodeUserInput);
+        userInput.setText( "" );
 
         blueToothAddressOfParingCode.setText( address );
 
         // set dialog message
-        builder.setCancelable(false);
+        builder.setCancelable( false );
         builder.setPositiveButton( "페어링",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // get user input and set it to result
-                        // edit text
                     }
                 });
         builder.setNegativeButton( "취소",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        userInput.setText( "" );
                         dialog.cancel();
                     }
                 });

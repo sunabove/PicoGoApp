@@ -39,8 +39,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:text=" 00:11:22:33:FF:EE"
+                android:textColor="@color/orangeDark"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 android:textSize="24sp" />
             <TextView
                 android:layout_width="wrap_content"
@@ -112,10 +112,12 @@
                 android:id="@+id/paringCodeUserInput"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:hint="#-#-#-#"
+                android:hint="1234"
                 android:inputType="number|numberDecimal"
                 android:maxLength="4"
                 android:text="1234"
+                android:textColor="@color/orangeLight"
+                android:textStyle="bold"
                 android:textSize="80dp">
 
                 <requestFocus />
