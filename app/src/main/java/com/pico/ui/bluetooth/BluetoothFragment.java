@@ -19,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
@@ -245,17 +246,32 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         AlertDialog dialog = builder.create();
 
         userInput.setOnKeyListener(new View.OnKeyListener() {
+
+            private int preTextLen = 0;
+
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 invalidParingCode.setVisibility( View.GONE );
                 userInput.setTextColor( orangeLight );
                 paringStatus.setText( "" );
+                cancelBtn.setEnabled( true );
 
-                if( userInput.getText().toString().trim().length() < 4 ) {
+                String userInputText = userInput.getText().toString().trim() ;
+
+                if( userInputText.length() < 4 ) {
                     okBtn.setEnabled( false );
                 } else {
                     okBtn.setEnabled( true );
                 }
+
+                if( preTextLen == 3 && userInputText.length() == 4 ) {
+                    // hide key board
+                    InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                }
+
+                this.preTextLen = userInputText.length();
+
                 return false;
             }
         });
@@ -285,6 +301,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                         }
                     }, 500 );
                 }
+
+                cancelBtn.setEnabled( true );
             }
         });
 
@@ -292,7 +310,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             @Override
             public void onClick(View view) {
                 userInput.setText( "" );
-                dialog.cancel();
+
+                dialog.dismiss();
             }
         });
 
