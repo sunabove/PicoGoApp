@@ -8,7 +8,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -144,7 +143,11 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             for( int i = 0 ; i < blueDeviceListAdapter.getCount() ; i ++ ) {
                 device = blueDeviceListAdapter.getItem( i );
                 if( device != null && device.getAddress().equals( addressLast ) ) {
-                    this.connectBluetooth( device );
+                    if( connectingBluetoothNow ) {
+                        Log.v( tag, "connectingBluetoothNow is true." );
+                    } else if( ! connectingBluetoothNow ) {
+                        this.connectBluetooth(device);
+                    }
 
                     return;
                 }
@@ -159,18 +162,22 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         BluetoothDevice device = this.blueDeviceListAdapter.getItem( i );
 
-        if( null != device ) {
+        if( null == device ) {
+            Log.v(tag, "Bluetooth device is null.");
+        } else if( this.connectingBluetoothNow ) {
+            Log.v( tag, "connectingBluetoothNow is true." ) ;
+        } if( null != device && ! this.connectingBluetoothNow ) {
             this.connectBluetooth( device );
         }
 
     } // -- whenBluetoothListViewItemClick
 
-    private boolean connectingBluetooth = false ;
+    private boolean connectingBluetoothNow = false ;
 
     private void connectBluetooth(BluetoothDevice device ) {
 
-        if( ! this.connectingBluetooth ) {
-            this.connectingBluetooth = true;
+        if( ! this.connectingBluetoothNow) {
+            this.connectingBluetoothNow = true;
 
             this.connectingProgressBar.setVisibility(View.VISIBLE);
             this.connectingProgressBar.setIndeterminate( true );
@@ -213,7 +220,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         } else if (success && isPaired == true ) {
             Log.v(tag, "Sipped pairing. pairing has been done.");
 
-            this.connectBluetoothImplAfterParing( success, address );
+            boolean hasParingTried = false ;
+            this.connectBluetoothImplAfterParing( success, address, hasParingTried );
         }
     }
 
@@ -276,6 +284,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             }
         });
 
+        // 확인 버튼 리스너
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -297,7 +306,9 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                     postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            connectBluetoothImplAfterParing( success, address );
+                            boolean paringSuccess = true ;
+                            boolean hasParingTried = true ;
+                            connectBluetoothImplAfterParing( paringSuccess, address, hasParingTried ) ;
                         }
                     }, 500 );
                 }
@@ -306,10 +317,22 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             }
         });
 
+        // 취소 버튼 리스너
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 userInput.setText( "" );
+
+                sys.disconnectBluetoothDevice() ;
+
+                postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean paringSuccess = false ;
+                        boolean hasParingTriedhasParingTried = true ;
+                        connectBluetoothImplAfterParing( paringSuccess, address, true ) ;
+                    }
+                }, 500 );
 
                 dialog.dismiss();
             }
@@ -317,39 +340,9 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         dialog.show();
 
-
-        /*
-        builder.setPositiveButton( "페어링",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String userInputParingCode = userInput.getText().toString().trim();
-
-                        boolean success = pairingCode.equalsIgnoreCase( userInputParingCode );
-
-                        if( ! success ) {
-                            invalidParingCode.setVisibility( View.VISIBLE );
-                        } else if( success ) {
-                            dialog.dismiss();
-
-                            connectBluetoothImplAfterParing( success, address );
-                        }
-
-                    }
-                });
-
-        builder.setNegativeButton( "취소",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        userInput.setText( "" );
-                        dialog.cancel();
-                    }
-                });
-
-         */
-
     }
 
-    private void connectBluetoothImplAfterParing( boolean success , String address) {
+    private void connectBluetoothImplAfterParing( boolean success, String address, boolean hasParingTried ) {
 
         if( success ) {
             this.saveProperty(BLUETOOTH_ADDRESS_KEY, address );
@@ -359,6 +352,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
             this.connectingStatus.setTextColor( greenDark );
             this.connectingStatus.setText( "블루투스 연결 성공");
+
+            this.connectingBluetoothNow = false ;
 
             if( activity.paused ) {
                 Log.v( tag, "activity is paused. cannot move to fragment" );
@@ -372,16 +367,17 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 }, 1_000);
             }
         } else {
+            this.connectingBluetoothNow = false ;
+
             this.connectingProgressBar.setVisibility(View.GONE );
             this.connectingProgressBar.setIndeterminate( false );
 
             this.connectingStatus.setTextColor( red );
-            this.connectingStatus.setText( "블루투스 연결 실패");
+
+            this.connectingStatus.setText( hasParingTried ? "블루투스 페어링 취소" : "블루투스 연결 실패");
         }
 
         this.autoConnect.setEnabled( true );
-
-        this.connectingBluetooth = false ;
     }
 
     public ComActivity getComActivity() {
@@ -509,7 +505,11 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
                 if( this.autoConnect.isChecked() && address.equals( this.getBluetoothAddressLastConnected()) ) {
 
-                    this.connectBluetooth( device );
+                    if( connectingBluetoothNow ) {
+                        Log.v( tag, "connectingBluetoothNow is true." );
+                    } else if( ! connectingBluetoothNow ) {
+                        this.connectBluetooth(device);
+                    }
                 }
             } else {
                 String msg = "BLE Device Name : " + name + " address : " + address + " not appended";

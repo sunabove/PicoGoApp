@@ -270,7 +270,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         Log.v( tag, "whenSysFailed()" );
 
         if( null != this.commStatus) {
-            String message = "블루투스 통신 실패: 재접속하여 주세요.";
+            String message = "블루투스 통신 실패 : 재접속하여 주세요.";
             if( sys.getBluetoothDevice() == null ) {
                 message = "블루투스를 먼저 연결하세요.";
             }

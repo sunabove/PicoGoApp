@@ -100,6 +100,7 @@ public class Sys implements  ComInterface {
 
         this.out = null;
         this.in = null;
+
         this.bluetoothSocket = null;
         this.bluetoothDevice = null ;
 
