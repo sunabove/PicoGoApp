@@ -119,9 +119,14 @@
                 android:text="1234"
                 android:textColor="@color/orangeLight"
                 android:textSize="80dp"
-                android:textStyle="bold">
+                android:textStyle="bold"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:windowSoftInputMode="stateHidden" >
 
+                <!--
                 <requestFocus />
+                -->
             </EditText>
 
             <TextView
