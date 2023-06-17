@@ -1,4 +1,4 @@
-package com.pico;
+package com.picopy;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

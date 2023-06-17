@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/navigation_bluetooth"
-        android:name="com.pico.ui.bluetooth.BluetoothFragment"
+        android:name="com.picopy.ui.bluetooth.BluetoothFragment"
         android:label="◆  블루투스 연결"
         tools:layout="@layout/fragment_bluetooth" />
 
     <fragment
         android:id="@+id/navigation_manual_drive"
-        android:name="com.pico.ui.manualDrive.ManualDriveFragment"
+        android:name="com.picopy.ui.manualDrive.ManualDriveFragment"
         android:label="수동 주행"
         tools:layout="@layout/fragment_manual_drive" />
 
     <fragment
         android:id="@+id/navigation_obstacle_avoidance"
-        android:name="com.pico.ui.avoidance.ObstacleAvoidanceFragment"
+        android:name="com.picopy.ui.avoidance.ObstacleAvoidanceFragment"
         android:label="장애물 회피"
         tools:layout="@layout/fragment_obstacle_avoidance" />
 
     <fragment
         android:id="@+id/navigation_line_follow"
-        android:name="com.pico.ui.lineFollow.LineFollowFragment"
+        android:name="com.picopy.ui.lineFollow.LineFollowFragment"
         android:label="차선 추적"
         tools:layout="@layout/fragment_line_follow" />
 </navigation>
