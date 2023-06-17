@@ -11,7 +11,7 @@ android {
         minSdk 24
         // minSdk 31
         targetSdk 33
-        versionCode 4  // 구글 플레이 콘솔의 버전은 versionCode를 수정하여야 함
+        versionCode 100  // 구글 플레이 콘솔의 버전은 versionCode를 수정하여야 함
         versionName "100"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

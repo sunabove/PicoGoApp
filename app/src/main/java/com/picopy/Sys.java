@@ -22,6 +22,7 @@ public class Sys implements  ComInterface {
     private BluetoothSocket bluetoothSocket ;
     private DataOutputStream out ;
     private DataInputStream in ;
+    private short requestNo = 0 ;
 
     public static Sys getSys() {
         return sys;
@@ -74,6 +75,8 @@ public class Sys implements  ComInterface {
                 this.out = new DataOutputStream( bluetoothSocket.getOutputStream() );
                 this.in = new DataInputStream( bluetoothSocket.getInputStream() );
 
+                this.requestNo = 0 ;
+
                 success = true;
             } catch (IOException e) {
                 Log.v( "sunabove", "Cannot create bluetooth socket" );
@@ -83,6 +86,7 @@ public class Sys implements  ComInterface {
                 this.bluetoothSocket = null;
                 this.out = null;
                 this.in = null;
+                this.requestNo = 0 ;
 
                 success = false;
             }
@@ -105,6 +109,8 @@ public class Sys implements  ComInterface {
 
         this.bluetoothName = null ;
         this.bluetoothAddress = null ;
+
+        this.requestNo = 0 ;
 
         if( null != out ) {
             try {
@@ -148,11 +154,13 @@ public class Sys implements  ComInterface {
             try {
                 byte startOfHeading = 1;
                 byte endOfTransmission = 4 ;
+                short requestNo = this.requestNo;
                 byte [] data = message.getBytes() ;
                 short dataLen = (short) ( data.length );
                 byte dataType = 's' ;
 
                 out.writeByte( startOfHeading );
+                out.writeShort( requestNo );
                 out.writeByte( dataType );
                 out.writeShort( dataLen );
                 out.write( data );
@@ -173,15 +181,16 @@ public class Sys implements  ComInterface {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            readReplyUndirectByHandler();
+                            readReplyUndirectByHandler( requestNo );
                         }
                     }, 0);
                 }
-
             } catch (IOException e) {
                 reply = null;
 
                 e.printStackTrace();
+            } finally {
+                this.requestNo += 1 ;
             }
         }
 
@@ -190,7 +199,7 @@ public class Sys implements  ComInterface {
 
     private static int REPLY_READ_CNT = 0 ;
 
-    private synchronized String readReplyUndirectByHandler() {
+    private synchronized String readReplyUndirectByHandler(short requestNo) {
         String reply = "" ;
 
         final DataInputStream in = this.in;
@@ -203,11 +212,11 @@ public class Sys implements  ComInterface {
             try {
                 reply = in.readLine();
 
-                Log.v( tag, String.format( "Success: [%5d] reply undirect = %s", replyReadCnt, reply ) );
+                Log.v( tag, String.format( "Success: [%5d] reply of request(%d) undirect = %s", replyReadCnt, requestNo, reply ) );
             } catch (IOException e) {
                 reply = null ;
 
-                Log.v( tag, String.format( "Fail: [%5d] read reply undirect = %s. cannot read reply", replyReadCnt ) );
+                Log.v( tag, String.format( "Fail: [%5d] read reply of reqeust(%d) undirect = %s. cannot read reply", replyReadCnt, requestNo ) );
             }
         }
 
