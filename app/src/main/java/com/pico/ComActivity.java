@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -208,6 +209,18 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
     public int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
+
+    public void justifyLogoImageHeight( ImageView logoImage ) {
+        int sw = this.getScreenWidth();
+        int sh = this.getScreenHeight();
+
+        int h = (int) ( Math.min( sw, sh )*0.6);
+
+        logoImage.getLayoutParams().height = h ;
+        logoImage.setMaxHeight( h );
+
+        Log.v( tag, "sw = " + sw + ", sh = " + sh + ", h = " + h );
     }
 
 }

@@ -68,20 +68,6 @@
                         android:text=" "
                         android:textAlignment="center" />
 
-                    <Button
-                        android:id="@+id/permissionButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:clickable="false"
-                        android:enabled="false"
-                        android:text="1 2 3 4 5"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="5dp" />
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -94,11 +80,37 @@
                         android:layout_width="match_parent"
                         android:layout_height="5dp" />
 
+                    <Button
+                        android:id="@+id/permissionButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:clickable="false"
+                        android:enabled="false"
+                        android:text="1 2 3 4 5"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="㈜SkySLAM"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="창의융합미래교육원"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
                 </LinearLayout>

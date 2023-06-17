@@ -38,25 +38,14 @@ public class SplashActivity extends ComActivity  {
             }
         });
 
-        this.justifyLogoImageHeight();
-    }
-
-    private void justifyLogoImageHeight() {
-        int sw = this.getScreenWidth();
-        int sh = this.getScreenHeight();
-
-        int h = (int) ( Math.min( sw, sh )*0.6);
-
-        ImageView logoImage = this.logoImage;
-        logoImage.getLayoutParams().height = h ;
-        logoImage.setMaxHeight( h );
-
-        Log.v( tag, "sw = " + sw + ", sh = " + sh + ", h = " + h );
+        this.justifyLogoImageHeight( this.logoImage );
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        this.logoImage.clearAnimation();
 
         if( null == ComActivity.activityBefore ) {
             boolean aniRotation = true;
@@ -126,7 +115,7 @@ public class SplashActivity extends ComActivity  {
                 if( aniRotation ) {
                     this.animateRotation(logoImage, dir, count, runnable);
                 } else {
-                    this.animateTranslation(logoImage, runnable );
+                    this.animateTranslation(logoImage, -dir, runnable );
                 }
 
             }
@@ -230,7 +219,7 @@ public class SplashActivity extends ComActivity  {
             @Override
             public void onAnimationEnd(Animation animation) {
                 if( count >= maxCount ) {
-                    animateTranslation( imageView, runnableAfterAnimation );
+                    animateTranslation( imageView, -1, runnableAfterAnimation );
                 } else {
                     animateRotation( imageView, -dir, count + 1, runnableAfterAnimation );
                 }
@@ -244,39 +233,36 @@ public class SplashActivity extends ComActivity  {
         imageView.startAnimation( animation );
     } // -- animateLogoRotate
 
-    private void animateTranslation(ImageView imageView, Runnable runnable ) {
-        imageView.clearAnimation();
+    private void animateTranslation(ImageView imageView, final int dir, Runnable runnable ) {
+        //imageView.clearAnimation();
 
         // logo animation
         int relative = Animation.RELATIVE_TO_SELF ;
         TranslateAnimation animation = new TranslateAnimation(
-                relative,  0.0f,
-                relative, -0.25f,
+                relative,  dir < 0 ? 0.0f : -0.25f,
+                relative, dir < 0 ? -0.25f : 0.0f,
                 relative,  0.0f,
                 relative,  0.0f);
 
-        long duration = 1_500;
+        long duration = 1_000;
 
         animation.setDuration(duration);
         animation.setRepeatCount( 0 );
         //animation.setRepeatMode(Animation.RESTART);
 
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            int animationCnt = 0 ;
-
+        animation.setAnimationListener( new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) { }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Log.v( tag, "onAnimationRepeat "  + animationCnt );
+                Log.v( tag, "animationTranslation dir "  + dir );
 
-                if( animationCnt == 0 ) {
+                if( dir < 0 ) {
+                    animateTranslation( imageView, - dir, runnable );
+                } else if( dir >= 0 ) {
                     postDelayed( runnable );
-                    // imageView.clearAnimation();
                 }
-
-                animationCnt += 1;
             }
 
             @Override
