@@ -213,7 +213,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         Log.v(tag, "isPared = " + isPaired);
 
-        boolean testParingAnyway = true ; // 테스트를 위해서 페어링을 무조건 함.
+        boolean testParingAnyway = false ; // 테스트를 위해서 페어링을 무조건 함.
 
         if (success && ( testParingAnyway || isPaired == false ) ) {
             String paringCode = this.sendSendMeParingCodeMessage();
