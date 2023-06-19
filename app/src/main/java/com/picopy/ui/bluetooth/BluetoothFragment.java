@@ -35,19 +35,22 @@ import com.picopy.databinding.FragmentBluetoothBinding;
 
 public class BluetoothFragment extends ComFragment implements BluetoothInterface  {
 
-    private FragmentBluetoothBinding binding;
+    private FragmentBluetoothBinding binding ;
 
-    protected boolean scanningBluetoothNow = false;
-    private ProgressBar bluetoothProgressBar;
-    private ListView bluetoothListView;
-    private BlueDeviceListAdapter blueDeviceListAdapter;
+    protected boolean scanningBluetoothNow = false ;
+    private boolean connectingBluetoothNow = false ;
+
+    private ProgressBar bluetoothProgressBar ;
+    private ListView bluetoothListView ;
+    private BlueDeviceListAdapter blueDeviceListAdapter ;
 
     private Button blueScanButton ;
     private CheckBox autoConnect ;
-    private CheckBox scanPicoOnlyCheckBox;
+    private CheckBox scanPicoOnlyCheckBox ;
 
-    private ProgressBar connectingProgressBar;
-    private EditText connectingStatus;
+    private ProgressBar connectingProgressBar ;
+    private EditText connectingStatus ;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.v( tag, "onCreateView()");
@@ -172,8 +175,6 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         }
 
     } // -- whenBluetoothListViewItemClick
-
-    private boolean connectingBluetoothNow = false ;
 
     private void connectBluetooth(BluetoothDevice device ) {
 
@@ -447,22 +448,26 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
             @SuppressLint("MissingPermission")
             public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-
-                if (action.equals(BluetoothDevice.ACTION_FOUND)) {
-                    BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    addBlueDevice(device);
-                } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetoothNow) {
-                    scanningBluetoothNow = false;
-                }
-
-                if (scanningBluetoothNow == false) {
-                    whenBluetoothScanningFinished();
-                }
+                whenBluetoothDeviceScannedByIntent( context, intent );
             }
         };
 
         return receiver ;
+    }
+
+    private void whenBluetoothDeviceScannedByIntent( Context context, Intent intent ) {
+        String action = intent.getAction();
+
+        if (action.equals(BluetoothDevice.ACTION_FOUND)) {
+            BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            addBlueDevice(device);
+        } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetoothNow) {
+            scanningBluetoothNow = false;
+        }
+
+        if ( scanningBluetoothNow == false ) {
+            whenBluetoothScanningFinished();
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -474,12 +479,9 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             Log.v( tag, "current activity is null." );
         } else if ( null != activity && activity.checkBadPermissions().getSize() < 1 ) {
             BluetoothManager btManager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
+
             if( null != btManager ) {
                 BluetoothAdapter btAdapter = btManager.getAdapter();
-
-                if (null != btAdapter) {
-                    btAdapter.cancelDiscovery();
-                }
 
                 BroadcastReceiver receiver = this.receiver;
 
@@ -487,6 +489,10 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                     this.receiver = null;
 
                     activity.unregisterReceiver(receiver);
+                }
+
+                if (null != btAdapter) {
+                    btAdapter.cancelDiscovery();
                 }
             }
         }
@@ -501,7 +507,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
     @SuppressLint("MissingPermission")
     public void scanBlueDevicesImpl() {
-        Log.v( tag, "scanBleDevicesByIntentFilter()");
+        Log.v( tag, "scanBlueDevicesImpl()");
 
         Activity activity = this.getActivity();
 

@@ -177,7 +177,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
     private boolean sendingBeep = false ;
 
-    public void sendWelcomeBeep( ) {
+    public void sendWelcomeBeep( int beepCount ) {
         if( sendingBeep ) {
             return;
         }
@@ -187,7 +187,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             private int count = 0 ;
-            private int maxCount = 6;
+            private int maxCount = 2*beepCount ;
             @Override
             public void run() {
                 if( count < maxCount ) {
