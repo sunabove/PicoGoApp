@@ -22,9 +22,11 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     protected static ComActivity activityBefore ;
 
     protected ComActivity activity ;
+
+    public boolean paused ;
     protected int startCount;
     protected int resumeCount = 0 ;
-    public boolean paused ;
+    protected int permissionCheckCount = 0 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
         this.paused = false;
         this.resumeCount += 1 ;
+        this.permissionCheckCount = 0 ;
 
         Log.v( tag, "onResume() resumeCount = " + this.resumeCount );
     }
@@ -94,7 +97,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMillis);
     }
 
-    private String [] getAllPermissions() {
+    public String [] getAllPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return new String[]{
                     android.Manifest.permission.BLUETOOTH,
@@ -120,16 +123,18 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
     public StringList checkBadPermissions() {
 
+        this.permissionCheckCount += 1 ;
+
         StringList badPermissions = new StringList();
 
         String [] allPermission = this.getAllPermissions();
 
-        for (String perm : allPermission) {
-            boolean permitted = ActivityCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED;
+        for (String permission : allPermission) {
+            boolean permitted = ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
 
             if ( ! permitted ) {
-                badPermissions.add( perm );
-                Log.i( tag, "permission check = " + perm + ", " + permitted);
+                badPermissions.add( permission );
+                Log.i( tag, String.format( "[%3d] permission check = %s, %s ", permissionCheckCount, permission, "" + permitted ) );
             }
         }
 

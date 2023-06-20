@@ -147,12 +147,15 @@ public class SplashActivity extends ComActivity  {
         if( permitted ) {
             StringList badPermissions = this.checkBadPermissions();
 
-            if( badPermissions.size() > 0 ) {
+            int maxPermissionCheckCount = 2*this.getAllPermissions().length ;
+            if( this.permissionCheckCount >= maxPermissionCheckCount ) {
+                Log.v( tag, "Permission check count is exceeded." );
+            } else if( this.permissionCheckCount < maxPermissionCheckCount && badPermissions.size() > 0 ) {
                 this.requestPermissions( badPermissions );
             } else {
                 this.moveToNextActivity( 2500 );
             }
-        } else if(! permitted ){
+        } else if( false && ! permitted ){
             String title = "권한 설정 실패" ;
             String message = "권할 설정을 다시 하여 주십시오.";
 
