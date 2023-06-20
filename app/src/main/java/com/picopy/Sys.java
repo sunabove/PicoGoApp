@@ -135,13 +135,13 @@ public class Sys implements  ComInterface {
 
     }
 
-    public String sendMessage(final String message) {
+    public synchronized String sendMessage(final String message) {
         boolean directReply = false;
 
         return this.sendMessage(message, directReply);
     }
 
-    public String sendMessage(final String message, final boolean directReply) {
+    public synchronized String sendMessage(final String message, final boolean directReply) {
         Log.v( tag, "sendCommand() message = " + message );
 
         String reply = "" ;

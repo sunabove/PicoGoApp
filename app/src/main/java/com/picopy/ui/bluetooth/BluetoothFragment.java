@@ -197,6 +197,10 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
     }
 
+    private boolean pairAlways() {
+        return true;
+    }
+
     @SuppressLint("MissingPermission")
     private void connectBluetoothImpl(BluetoothDevice device ) {
         String name = device.getName();
@@ -210,12 +214,11 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         boolean success = sys.connectBluetoothDevice(device);
 
         boolean isPaired = this.isBluetoothPaired(address);
+        boolean pairAlways = this.pairAlways() ;
 
-        Log.v(tag, "isPared = " + isPaired);
+        Log.v(tag, "isPared = " + isPaired + ", pairAlways = " + pairAlways );
 
-        boolean testParingAnyway = false ; // 테스트를 위해서 페어링을 무조건 함.
-
-        if (success && ( testParingAnyway || isPaired == false ) ) {
+        if (success && ( pairAlways || isPaired == false ) ) {
             String paringCode = this.sendSendMeParingCodeMessage();
 
             Log.v(tag, "pairing Code = " + paringCode);
@@ -247,6 +250,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         userInput.setText( "" );
         userInput.setTextColor( grey );
+        userInput.setHint( "####" );
 
         paringStatus.setText( "" );
         invalidParingCode.setVisibility( View.GONE );

@@ -19,6 +19,8 @@ public class TabActivity extends ComActivity {
 
     private ActivityTabBinding binding;
 
+    private int lastTabIndex = -1 ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,4 +58,11 @@ public class TabActivity extends ComActivity {
         sys.disconnectBluetoothDevice();
     }
 
+    public int getLastTabIndex() {
+        return lastTabIndex;
+    }
+
+    public void setLastTabIndex(int lastTabIndex) {
+        this.lastTabIndex = lastTabIndex;
+    }
 }
