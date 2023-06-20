@@ -370,11 +370,11 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             this.connectingStatus.setTextColor( greenDark );
             this.connectingStatus.setText( "블루투스 연결 성공");
 
-            this.connectingBluetoothNow = false ;
-
             if( hasParingTried ) {
                 // 페어링 완료 여부 설정
                 this.saveBluetoothPairedCodeProperty( address ) ;
+
+                this.sendParingCompletedMessage() ;
             }
 
             if( activity.paused ) {
@@ -389,15 +389,15 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 }, 1_000);
             }
         } else {
-            this.connectingBluetoothNow = false ;
-
-            this.connectingProgressBar.setVisibility(View.GONE );
+            this.connectingProgressBar.setVisibility( View.GONE );
             this.connectingProgressBar.setIndeterminate( false );
 
             this.connectingStatus.setTextColor( red );
 
             this.connectingStatus.setText( hasParingTried ? "블루투스 페어링 취소" : "블루투스 연결 실패");
         }
+
+        this.connectingBluetoothNow = false ;
 
         this.autoConnect.setEnabled( true );
     }

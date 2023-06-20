@@ -45,12 +45,7 @@ public class SplashActivity extends ComActivity  {
     protected void onStart() {
         super.onStart();
 
-        this.logoImage.clearAnimation();
 
-        if( null == ComActivity.activityBefore ) {
-            boolean aniRotation = true;
-            whenLogoImageClicked( logoImage, aniRotation, 2500 );
-        }
     }
 
     @Override
@@ -59,6 +54,13 @@ public class SplashActivity extends ComActivity  {
         Log.v( tag, "onResume");
 
         // Do nothing, please!
+
+        this.logoImage.clearAnimation();
+
+        if( null == ComActivity.activityBefore ) {
+            boolean aniRotation = true;
+            whenLogoImageClicked( logoImage, aniRotation, 2500 );
+        }
     }
 
     @Override

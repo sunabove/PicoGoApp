@@ -241,6 +241,12 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         return sendMessage( message );
     }
 
+    public String sendParingCompletedMessage( ) {
+        String message = "paring completed";
+
+        return sendMessage( message );
+    }
+
     public String sendMessage( String message ) {
         boolean directReply = false ;
 
