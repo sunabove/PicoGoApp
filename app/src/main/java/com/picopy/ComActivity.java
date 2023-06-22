@@ -98,14 +98,18 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     }
 
     public String [] getAllPermissions() {
+        // It turned out that since Android 11 ACCESS_BACKGROUND_LOCATION permission
+        // shouldn't be requested alongside with other permissions.
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return new String[]{
+                    android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+
                     android.Manifest.permission.BLUETOOTH,
                     android.Manifest.permission.BLUETOOTH_ADMIN,
 
                     android.Manifest.permission.ACCESS_FINE_LOCATION,
                     android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                    android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
 
                     android.Manifest.permission.BLUETOOTH_CONNECT,
                     android.Manifest.permission.BLUETOOTH_SCAN,
@@ -139,13 +143,6 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         }
 
         return badPermissions ;
-    }
-
-    public void requestPermissions(StringList badPermissions) {
-        Log.i( tag, "requestPermissions");
-
-        String reqPermissions [] = { badPermissions.get(0) };
-        ActivityCompat.requestPermissions( this, reqPermissions, 0 );
     }
 
     public void saveProperty( String key, String value ) {

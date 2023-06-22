@@ -86,7 +86,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="PicoRun v101"
+                            android:text="PicoRun v"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/versionCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="000"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
                     </LinearLayout>

@@ -11,4 +11,12 @@ public class StringList extends ArrayList<String> {
     public StringList(Collection<String> c) {
         super(c);
     }
+
+    public String [] toArray() { 
+        String [] strings = new String[ this.size() ];
+
+        super.toArray( strings );
+
+        return strings;
+    }
 }

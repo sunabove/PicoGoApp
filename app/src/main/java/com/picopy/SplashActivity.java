@@ -1,7 +1,9 @@
 package com.picopy;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,22 +15,39 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.*;
 
+import androidx.core.app.ActivityCompat;
+
 public class SplashActivity extends ComActivity  {
 
     private Button permissionButton;
     private ImageView logoImage;
     private TextView status;
+    private TextView versionCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        this.permissionButton = this.findViewById(R.id.permissionButton);
-        this.logoImage = this.findViewById(R.id.logoImage);
-        this.status = this.findViewById(R.id.commStatus);
+        this.permissionButton = this.findViewById(R.id.permissionButton) ;
+        this.logoImage = this.findViewById(R.id.logoImage) ;
+        this.status = this.findViewById(R.id.commStatus) ;
+        this.versionCode = this.findViewById(R.id.versionCode) ;
 
         this.setTitle( " ★ 안녕하세요? 반갑습니다. ★ ");
+
+        try {
+            Context context = this.getApplicationContext();
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            String versionName = pInfo.versionName;
+            int versionCode = pInfo.versionCode;
+
+            if( null != this.versionCode ) {
+                this.versionCode.setText( "" + versionCode );
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         this.logoImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,8 +63,6 @@ public class SplashActivity extends ComActivity  {
     @Override
     protected void onStart() {
         super.onStart();
-
-
     }
 
     @Override
@@ -57,7 +74,7 @@ public class SplashActivity extends ComActivity  {
 
         this.logoImage.clearAnimation();
 
-        if( null == ComActivity.activityBefore ) {
+        if( null == ComActivity.activityBefore && this.resumeCount <= 1) {
             boolean aniRotation = true;
             whenLogoImageClicked( logoImage, aniRotation, 2500 );
         }
@@ -129,6 +146,19 @@ public class SplashActivity extends ComActivity  {
 
     } // -- whenLogoImageClicked
 
+    public void requestPermissions(StringList badPermissions) {
+        Log.i( tag, "requestPermissions :");
+
+        String reqPermissions [] = badPermissions.toArray();
+
+        for( int i = 0 ; i < reqPermissions.length ; i ++ ) {
+            String permission = reqPermissions[ i ];
+            Log.v( tag, String.format( "[%2d] req permission = %s", i + 1, permission ) );
+        }
+
+        ActivityCompat.requestPermissions( this, reqPermissions, 0 );
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -144,18 +174,35 @@ public class SplashActivity extends ComActivity  {
             }
         }
 
-        if( permitted ) {
-            StringList badPermissions = this.checkBadPermissions();
+        final TextView status = this.status ;
 
-            int maxPermissionCheckCount = 2*this.getAllPermissions().length ;
-            if( this.permissionCheckCount >= maxPermissionCheckCount ) {
-                Log.v( tag, "Permission check count is exceeded." );
-            } else if( this.permissionCheckCount < maxPermissionCheckCount && badPermissions.size() > 0 ) {
-                this.requestPermissions( badPermissions );
-            } else {
-                this.moveToNextActivity( 2500 );
+        if( permitted ) {
+
+            String title = "권한 설정 성공" ;
+            String message = "권할 설정이 완료되었습니다.";
+
+            if( null != status ) {
+                status.setText(message);
             }
-        } else if( false && ! permitted ){
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle( title );
+            builder.setMessage( message );
+            builder.setPositiveButton(android.R.string.ok, null);
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    if( null != status ) {
+                        status.setText(message);
+                    }
+
+                    moveToNextActivity( 2500 );
+                }
+            });
+
+            builder.show();
+
+        } else if( ! permitted ){
             String title = "권한 설정 실패" ;
             String message = "권할 설정을 다시 하여 주십시오.";
 
