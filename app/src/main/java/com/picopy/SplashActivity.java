@@ -206,7 +206,7 @@ public class SplashActivity extends ComActivity  {
         builder.setCancelable( false ); // set modal dialog
 
         Button okButton = dialogView.findViewById(R.id.dialog_ok_btn) ;
-        Button cancelButton = dialogView.findViewById(R.id.dialog_ok_btn) ;
+        Button cancelButton = dialogView.findViewById(R.id.dialog_cancel_btn) ;
 
         AlertDialog dialog = builder.create();
 
