@@ -27,6 +27,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     protected int startCount;
     protected int resumeCount = 0 ;
     protected int permissionCheckCount = 0 ;
+    private String [] allPermissions ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,28 +102,33 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         // It turned out that since Android 11 ACCESS_BACKGROUND_LOCATION permission
         // shouldn't be requested alongside with other permissions.
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            return new String[]{
-                    android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+        if( null == this.allPermissions ) {
 
-                    android.Manifest.permission.BLUETOOTH,
-                    android.Manifest.permission.BLUETOOTH_ADMIN,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                this.allPermissions = new String[]{
+                        android.Manifest.permission.BLUETOOTH,
+                        android.Manifest.permission.BLUETOOTH_ADMIN,
 
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                        android.Manifest.permission.BLUETOOTH_CONNECT,
+                        android.Manifest.permission.BLUETOOTH_SCAN,
 
-                    android.Manifest.permission.BLUETOOTH_CONNECT,
-                    android.Manifest.permission.BLUETOOTH_SCAN,
-            };
-        } else {
-            return new String[]{
-                    android.Manifest.permission.BLUETOOTH,
-                    android.Manifest.permission.BLUETOOTH_ADMIN,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
 
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            };
+                        android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,  // should be located at last
+                };
+            } else {
+                this.allPermissions = new String[]{
+                        android.Manifest.permission.BLUETOOTH,
+                        android.Manifest.permission.BLUETOOTH_ADMIN,
+
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                };
+            }
         }
+
+        return this.allPermissions ;
     }
 
     public StringList checkBadPermissions() {

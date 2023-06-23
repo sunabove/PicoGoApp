@@ -53,7 +53,7 @@ public class SplashActivity extends ComActivity  {
             @Override
             public void onClick(View view) {
                 boolean aniRotation = false ;
-                whenLogoImageClicked(view, aniRotation, 500);
+                whenLogoImageClicked( aniRotation, 500);
             }
         });
 
@@ -76,7 +76,7 @@ public class SplashActivity extends ComActivity  {
 
         if( null == ComActivity.activityBefore && this.resumeCount <= 1) {
             boolean aniRotation = true;
-            whenLogoImageClicked( logoImage, aniRotation, 2500 );
+            whenLogoImageClicked( aniRotation, 2500 );
         }
     }
 
@@ -100,7 +100,7 @@ public class SplashActivity extends ComActivity  {
 
     private boolean logoImageClicked = false ;
 
-    public void whenLogoImageClicked(View view, boolean aniRotation, int delay) {
+    public void whenLogoImageClicked(boolean aniRotation, int delay) {
 
         if( this.logoImageClicked ) {
             return;
@@ -115,10 +115,11 @@ public class SplashActivity extends ComActivity  {
             StringList badPermissions = this.checkBadPermissions();
 
             if (badPermissions.size() > 0) {
-                permissionButton.setText("권한 설정 중 ... ");
+                permissionButton.setText("권한 설정 중");
                 permissionButton.setEnabled(false);
 
-                this.requestPermissions(badPermissions);
+                int index = 0 ;
+                this.requestPermissions( index );
             } else {
                 permissionButton.setText("권한 설정 완료");
                 permissionButton.setEnabled(true);
@@ -146,17 +147,30 @@ public class SplashActivity extends ComActivity  {
 
     } // -- whenLogoImageClicked
 
-    public void requestPermissions(StringList badPermissions) {
+    public void requestPermissions(int index) {
         Log.i( tag, "requestPermissions :");
 
-        String reqPermissions [] = badPermissions.toArray();
+        String allPermissions [] = this.getAllPermissions();
 
-        for( int i = 0 ; i < reqPermissions.length ; i ++ ) {
-            String permission = reqPermissions[ i ];
-            Log.v( tag, String.format( "[%2d] req permission = %s", i + 1, permission ) );
+        for( int i = index ; i < allPermissions.length ; i ++ ) {
+            final String permission = allPermissions[ i ];
+            final boolean permitted = ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
+
+            Log.v( tag, String.format( "[%2d] req permission = %s, permitted = %s", i + 1, permission, "" + permitted ) );
+
+            if( ! permitted ) {
+                final int requestCode = i;
+
+                Log.v( tag, String.format( "[%2d] requesting a permission = %s, requestCode = %d", i + 1, permission, requestCode ) ) ;
+
+                ActivityCompat.requestPermissions( this, new String[] { permission }, requestCode );
+
+                i = allPermissions.length ;
+
+                break ;
+            }
         }
 
-        ActivityCompat.requestPermissions( this, reqPermissions, 0 );
     }
 
     @Override
@@ -165,6 +179,7 @@ public class SplashActivity extends ComActivity  {
 
         boolean permitted = true;
         boolean showDialog = false;
+        final TextView status = this.status ;
 
         for( int i = 0; i < grantResults.length ; i ++ ) {
             if( grantResults[i] != PackageManager.PERMISSION_GRANTED ) {
@@ -174,9 +189,14 @@ public class SplashActivity extends ComActivity  {
             }
         }
 
-        final TextView status = this.status ;
+        StringList badPermission = this.checkBadPermissions() ;
 
-        if( permitted ) {
+        if( permitted && badPermission.size() > 0 && requestCode < this.getAllPermissions().length -1 ) {
+            // when not all permissions are granted
+            int index = requestCode + 1 ;
+            this.requestPermissions( index );
+        } else if( permitted && badPermission.size() < 1 ) {
+            // when all permissions are granted.
 
             String title = "권한 설정 성공" ;
             String message = "권할 설정이 완료되었습니다.";
@@ -196,13 +216,16 @@ public class SplashActivity extends ComActivity  {
                         status.setText(message);
                     }
 
-                    moveToNextActivity( 2500 );
+                    boolean aniRotation = false ;
+                    whenLogoImageClicked( aniRotation, 1000 );
                 }
             });
 
             builder.show();
 
-        } else if( ! permitted ){
+        } else if( ! permitted ) {
+            // when a permission is not permitted
+
             String title = "권한 설정 실패" ;
             String message = "권할 설정을 다시 하여 주십시오.";
 
