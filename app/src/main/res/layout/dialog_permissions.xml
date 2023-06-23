@@ -65,14 +65,14 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="20dp"
+                        android:layout_width="10dp"
                         android:layout_height="match_parent" />
 
                     <ImageView
                         android:id="@+id/message_dialog_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/messge_dialog_64" />
+                        app:srcCompat="@drawable/permission_list_icon_64" />
 
                     <TextView
                         android:layout_width="20dp"
@@ -84,7 +84,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:text="메시지를 입력하세요."
+                        android:text="아래의 권한들의 사용을 허락합니다."
                         android:textColor="@color/greenLight"
                         android:textSize="28sp"
                         android:textStyle="bold"></TextView>
@@ -99,13 +99,115 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/background_circle_green_dark"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/greenLight"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/bluetooth_succ_64" />
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent" />
+
+                    <CheckedTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" 블루투스 장치들의  검색 / 접속 / 관리 "
+                        android:textColor="@color/greenLight"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:textColor="@color/greenLight"
+                        android:background="@drawable/background_circle_green_dark"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:text="2" />
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/location_info_64" />
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent" />
+
+                    <CheckedTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text=" 위치 정보 사용 "
+                        android:textColor="@color/greenLight"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="10dp">
 
                 <Button
-                    android:id="@+id/permission_dialog_ok"
+                    android:id="@+id/dialog_ok_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 확인 "
@@ -117,7 +219,7 @@
                     android:layout_height="match_parent" />
 
                 <Button
-                    android:id="@+id/permission_dialog_cancel"
+                    android:id="@+id/dialog_cancel_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha="0.6"

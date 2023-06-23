@@ -261,9 +261,9 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         builder.setCancelable( false ); // set modal dialog
 
         ImageView image = dialogView.findViewById(R.id.message_dialog_image ) ;
-        TextView titleTextView = dialogView.findViewById(R.id.message_dialog_title);
-        TextView messageTextView = dialogView.findViewById(R.id.message_dialog_message);
-        Button okButton = dialogView.findViewById(R.id.message_dialog_ok);
+        TextView titleTextView = dialogView.findViewById(R.id.message_dialog_title) ;
+        TextView messageTextView = dialogView.findViewById(R.id.message_dialog_message) ;
+        Button okButton = dialogView.findViewById(R.id.dialog_ok_btn) ;
 
         titleTextView.setText( title );
         messageTextView.setText( message );
@@ -273,11 +273,11 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         okButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
+
                 if( null != runnable ) {
                     runnable.run();
                 }
-
-                dialog.dismiss();
             }
         });
 

@@ -105,7 +105,7 @@
                 android:padding="10dp">
 
                 <Button
-                    android:id="@+id/message_dialog_ok"
+                    android:id="@+id/dialog_ok_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 확인 "

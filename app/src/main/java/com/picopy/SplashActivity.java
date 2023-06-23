@@ -1,6 +1,5 @@
 package com.picopy;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
@@ -15,6 +14,7 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.*;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
 public class SplashActivity extends ComActivity  {
@@ -145,11 +145,27 @@ public class SplashActivity extends ComActivity  {
         } finally {
             this.logoImageClicked = false;
         }
-
     } // -- whenLogoImageClicked
 
     public void requestPermissions(int index) {
-        Log.i( tag, "requestPermissions :");
+        Log.v( tag, "requestPermissions() index = " + index );
+
+        if( index < 1 ) {
+            Runnable okRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    requestPermissionsImpl( index ) ;
+                }
+            };
+
+            this.showPermissionRequestDialog( okRunnable );
+        } else {
+            requestPermissionsImpl( index ) ;
+        }
+    } // requestPermissions
+
+    public void requestPermissionsImpl(int index) {
+        Log.v( tag, "requestPermissionsImpl() index = " + index );
 
         String allPermissions [] = this.getAllPermissions();
 
@@ -171,8 +187,41 @@ public class SplashActivity extends ComActivity  {
                 break ;
             }
         }
+    } // requestPermissionsImpl
 
-    }
+    public void showPermissionRequestDialog( Runnable okRunnable ) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( this );
+
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
+
+        builder.setView( dialogView );
+        builder.setCancelable( false ); // set modal dialog
+
+        Button okButton = dialogView.findViewById(R.id.dialog_ok_btn) ;
+        Button cancelButton = dialogView.findViewById(R.id.dialog_ok_btn) ;
+
+        AlertDialog dialog = builder.create();
+
+        okButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+                if( null != okRunnable ) {
+                    okRunnable.run();
+                }
+            }
+        });
+
+        cancelButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    } // showPermissionRequestDialog
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
