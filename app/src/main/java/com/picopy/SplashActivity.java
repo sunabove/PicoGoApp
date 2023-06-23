@@ -72,10 +72,12 @@ public class SplashActivity extends ComActivity  {
 
         this.logoImage.clearAnimation();
 
-        if( true || null == ComActivity.activityBefore ) {
+        if( null == ComActivity.activityBefore ) {
             boolean aniRotation = true;
             whenLogoImageClicked( aniRotation, 2000 );
         }
+
+        ComActivity.activityBefore = this ;
     }
 
     @Override
@@ -218,7 +220,7 @@ public class SplashActivity extends ComActivity  {
             // when a permission is not permitted
 
             String title = "권한 설정 실패" ;
-            String message = "권한 설정을 다시 하여 주십시오.";
+            String message = "앱을 재설치후에 재설정 하세요.";
 
             status.setText( message );
 
