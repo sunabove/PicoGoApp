@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -115,7 +119,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
                         android.Manifest.permission.ACCESS_FINE_LOCATION,
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
 
-                        android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,  // should be located at last
+                       // android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,  // removed. should be located at last
                 };
             } else {
                 this.allPermissions = new String[]{
@@ -229,6 +233,42 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         logoImage.setMaxHeight( h );
 
         Log.v( tag, "sw = " + sw + ", sh = " + sh + ", h = " + h );
+    }
+
+    public void showMessageDialog( String title, String message ) {
+        Runnable runnable = null ;
+        this.showMessageDialog( title, message, runnable );
+    }
+    public void showMessageDialog( String title, String message, Runnable runnable ) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_message, null);
+
+        builder.setView( dialogView );
+        builder.setCancelable( false ); // set modal dialog
+
+        ImageView image = dialogView.findViewById(R.id.message_dialog_image ) ;
+        TextView titleTextView = dialogView.findViewById(R.id.message_dialog_title);
+        TextView messageTextView = dialogView.findViewById(R.id.message_dialog_message);
+        Button okButton = dialogView.findViewById(R.id.message_dialog_ok);
+
+        titleTextView.setText( title );
+        messageTextView.setText( message );
+
+        AlertDialog dialog = builder.create();
+
+        okButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if( null != runnable ) {
+                    runnable.run();
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
 }

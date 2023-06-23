@@ -235,9 +235,9 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     private void showParingWindow( final String pairingCode, String address ) {
         Context context = this.getContext();
 
-        View dialogView = LayoutInflater.from( context ).inflate(R.layout.dialog_bluetooth_pairing_code, null);
-
         AlertDialog.Builder builder = new AlertDialog.Builder( context );
+
+        View dialogView = LayoutInflater.from( context ).inflate(R.layout.dialog_bluetooth_pairing_code, null);
 
         builder.setView( dialogView );
 
@@ -357,7 +357,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         dialog.show();
 
-    }
+    } // showParingWindow
 
     private void connectBluetoothImplAfterParing( boolean success, String address, boolean hasParingTried ) {
 

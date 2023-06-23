@@ -68,15 +68,13 @@ public class SplashActivity extends ComActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.v( tag, "onResume");
-
-        // Do nothing, please!
+        Log.v( tag, "onResume() " + this.getClass().getSimpleName() );
 
         this.logoImage.clearAnimation();
 
-        if( null == ComActivity.activityBefore && this.resumeCount <= 1) {
+        if( true || null == ComActivity.activityBefore ) {
             boolean aniRotation = true;
-            whenLogoImageClicked( aniRotation, 2500 );
+            whenLogoImageClicked( aniRotation, 2000 );
         }
     }
 
@@ -101,6 +99,7 @@ public class SplashActivity extends ComActivity  {
     private boolean logoImageClicked = false ;
 
     public void whenLogoImageClicked(boolean aniRotation, int delay) {
+        Log.v( tag, "whenLogoImageClicked()" ) ;
 
         if( this.logoImageClicked ) {
             return;
@@ -199,50 +198,33 @@ public class SplashActivity extends ComActivity  {
             // when all permissions are granted.
 
             String title = "권한 설정 성공" ;
-            String message = "권할 설정이 완료되었습니다.";
+            String message = "권한 설정이 완료되었습니다.";
 
             if( null != status ) {
                 status.setText(message);
             }
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle( title );
-            builder.setMessage( message );
-            builder.setPositiveButton(android.R.string.ok, null);
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            Runnable runnable = new Runnable() {
                 @Override
-                public void onDismiss(DialogInterface dialog) {
-                    if( null != status ) {
-                        status.setText(message);
-                    }
-
+                public void run() {
                     boolean aniRotation = false ;
                     whenLogoImageClicked( aniRotation, 1000 );
                 }
-            });
+            } ;
 
-            builder.show();
+            this.showMessageDialog( title, message, runnable );
 
         } else if( ! permitted ) {
             // when a permission is not permitted
 
             String title = "권한 설정 실패" ;
-            String message = "권할 설정을 다시 하여 주십시오.";
+            String message = "권한 설정을 다시 하여 주십시오.";
 
             status.setText( message );
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle( title );
-            builder.setMessage( message );
-            builder.setPositiveButton(android.R.string.ok, null);
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    status.setText( message );
-                }
-            });
+            Runnable runnable = null ;
 
-            builder.show();
+            this.showMessageDialog( title, message, runnable );
         }
     }
 
