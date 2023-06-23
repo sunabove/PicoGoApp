@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PicoRun</string>
+    <string name="title_activity_drive">수동조작 액티비티</string>
+    <string name="next">다음</string>
+    <string name="previous">이전</string>
+    <string name="title_activity_tab">탭 액티비티</string>
+    <string name="title_home">홈</string>
+    <string name="title_dashboard">대시보드</string>
+    <string name="title_notifications">알림</string>
+</resources>
