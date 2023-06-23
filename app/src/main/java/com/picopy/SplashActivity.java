@@ -158,7 +158,15 @@ public class SplashActivity extends ComActivity  {
                 }
             };
 
-            this.showPermissionRequestDialog( okRunnable );
+            Runnable cancelRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    boolean isCanceled = true ;
+                    whenPermissionIsNotPermitted( isCanceled );
+                }
+            };
+
+            this.showPermissionRequestDialog( okRunnable, cancelRunnable );
         } else {
             requestPermissionsImpl( index ) ;
         }
@@ -189,7 +197,7 @@ public class SplashActivity extends ComActivity  {
         }
     } // requestPermissionsImpl
 
-    public void showPermissionRequestDialog( Runnable okRunnable ) {
+    public void showPermissionRequestDialog( Runnable okRunnable, Runnable cancelRunnable ) {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( this );
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_permissions, null);
@@ -217,6 +225,10 @@ public class SplashActivity extends ComActivity  {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+
+                if( null != cancelRunnable ) {
+                    cancelRunnable.run();
+                }
             }
         });
 
@@ -245,8 +257,7 @@ public class SplashActivity extends ComActivity  {
             // when not all permissions are granted
             int index = requestCode + 1 ;
             this.requestPermissions( index );
-        } else if( permitted && badPermission.size() < 1 ) {
-            // when all permissions are granted.
+        } else if( permitted && badPermission.size() < 1 ) { // when all permissions are granted.
 
             String title = "권한 설정 성공" ;
             String message = "권한 설정이 완료되었습니다.";
@@ -265,18 +276,23 @@ public class SplashActivity extends ComActivity  {
 
             this.showMessageDialog( title, message, runnable );
 
-        } else if( ! permitted ) {
-            // when a permission is not permitted
-
-            String title = "권한 설정 실패" ;
-            String message = "앱을 재설치후에 재설정 하세요.";
-
-            status.setText( message );
-
-            Runnable runnable = null ;
-
-            this.showMessageDialog( title, message, runnable );
+        } else if( ! permitted ) { // when a permission is not permitted
+            boolean isCanceled = false ;
+            this.whenPermissionIsNotPermitted( isCanceled );
         }
+    }
+
+    private void whenPermissionIsNotPermitted( boolean isCanceled ) {
+        String title = isCanceled ? "권한 설정 취소" : "권한 설정 실패" ;
+        String message = "앱을 재설치후에 재설정 하세요.";
+
+        final TextView status = this.status ;
+
+        if( null != status ) {
+            status.setText(message);
+        }
+
+        this.showMessageDialog( title, message );
     }
 
     private void moveToNextActivity( int delayMillis ) {
