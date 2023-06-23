@@ -1,5 +1,6 @@
 package com.picopy;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -340,6 +341,18 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
     public String getProperty( String key, String def ) {
         return this.activity.getProperty( key, def );
+    }
+
+    public Context getContext() {
+        Context context = null;
+
+        try {
+            context = super.getContext() ;
+        } catch ( Exception e ) {
+            Log.d( tag, "Cannot get context." ) ;
+        }
+
+        return context ;
     }
 
 }

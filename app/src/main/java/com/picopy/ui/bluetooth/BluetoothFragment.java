@@ -233,11 +233,21 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     }
 
     private void showParingWindow( final String pairingCode, String address ) {
-        Context context = this.getContext();
+        TabActivity activity = this.activity;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder( context );
+        if( this.paused ) {
+            Log.d( tag, "activity is paused. skipped showParingWindow()" ) ;
 
-        View dialogView = LayoutInflater.from( context ).inflate(R.layout.dialog_bluetooth_pairing_code, null);
+            return ;
+        } else if( activity == null ) {
+            Log.d( tag, "activity is null. skipped showParingWindow()" ) ;
+
+            return ;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder( activity );
+
+        View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_bluetooth_pairing_code, null);
 
         builder.setView( dialogView );
 

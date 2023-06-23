@@ -235,12 +235,25 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         Log.v( tag, "sw = " + sw + ", sh = " + sh + ", h = " + h );
     }
 
+    public Context getContext() {
+        Context context = null;
+
+        try {
+            context = this.getApplicationContext() ;
+        } catch ( Exception e ) {
+            Log.d( tag, "Cannot get context." ) ;
+        }
+
+        return context ;
+    }
+
     public void showMessageDialog( String title, String message ) {
         Runnable runnable = null ;
         this.showMessageDialog( title, message, runnable );
     }
+
     public void showMessageDialog( String title, String message, Runnable runnable ) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder( this );
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_message, null);
 
