@@ -74,7 +74,7 @@ public class SplashActivity extends ComActivity  {
 
         if( null == ComActivity.activityBefore ) {
             boolean aniRotation = true;
-            whenLogoImageClicked( aniRotation, 2000 );
+            whenLogoImageClicked( aniRotation, 600 );
         }
 
         ComActivity.activityBefore = this ;
@@ -284,7 +284,7 @@ public class SplashActivity extends ComActivity  {
 
     private void whenPermissionIsNotPermitted( boolean isCanceled ) {
         String title = isCanceled ? "권한 설정 취소" : "권한 설정 실패" ;
-        String message = "앱을 재설치후에 재설정 하세요.";
+        String message = isCanceled ? "앱을 다시 실행하여 권한을 허용하여주세요." : "앱을 다시 설치하여 권한을 재설정하세요.";
 
         final TextView status = this.status ;
 

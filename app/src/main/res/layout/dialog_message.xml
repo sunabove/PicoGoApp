@@ -41,7 +41,7 @@
                         android:gravity="center"
                         android:lineSpacingExtra="5sp"
                         android:text="제목을 입력하세요."
-                        android:textColor="@color/black"
+                        android:textColor="@color/orangeDark"
                         android:textSize="24sp" />
                 </LinearLayout>
 
@@ -81,13 +81,14 @@
                     <TextView
                         android:id="@+id/message_dialog_message"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:lineSpacingExtra="10dp"
                         android:layout_weight="1"
-                        android:text="메시지를 입력하세요."
+                        android:text="메시지를 입력하세요.\n메시지를 입력하세요."
                         android:textColor="@color/greenLight"
                         android:textSize="28sp"
-                        android:textStyle="bold"></TextView>
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -107,8 +108,8 @@
                 <Button
                     android:id="@+id/dialog_ok_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" 확인 "
+                    android:layout_height="60dp"
+                    android:text=" 확  인 "
                     android:textSize="22sp"
                     android:textStyle="bold" />
 

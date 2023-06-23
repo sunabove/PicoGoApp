@@ -37,12 +37,11 @@
                         android:id="@+id/message_dialog_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center"
-                        android:lineSpacingExtra="5sp"
-                        android:text="권한 승인"
-                        android:textColor="@color/black"
-                        android:textSize="24sp" />
+                        android:text=" 권 한   승 인 "
+                        android:textColor="@color/orangeDark"
+                        android:textStyle="bold"
+                        android:textSize="26sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -70,7 +69,7 @@
 
                     <ImageView
                         android:id="@+id/message_dialog_image"
-                        android:layout_width="wrap_content"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/permission_list_icon_64" />
 
@@ -113,13 +112,13 @@
                         android:layout_height="match_parent" />
 
                     <TextView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
                         android:background="@drawable/background_circle_green_dark"
                         android:gravity="center"
                         android:text="1"
                         android:textColor="@color/greenLight"
-                        android:textSize="26sp"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -127,7 +126,7 @@
                         android:layout_height="match_parent" />
 
                     <ImageView
-                        android:layout_width="50dp"
+                        android:layout_width="46dp"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/bluetooth_succ_64" />
 
@@ -140,7 +139,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text=" 블루투스 장치들의  검색 / 접속 / 관리 "
+                        android:text=" 블루투스 검색/접속/관리의 권한 "
                         android:textColor="@color/greenLight"
                         android:textSize="28sp"
                         android:textStyle="bold" />
@@ -158,12 +157,12 @@
                         android:layout_height="match_parent" />
 
                     <TextView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
                         android:gravity="center"
                         android:textColor="@color/greenLight"
                         android:background="@drawable/background_circle_green_dark"
-                        android:textSize="26sp"
+                        android:textSize="24sp"
                         android:textStyle="bold"
                         android:text="2" />
 
@@ -185,7 +184,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:text=" 위치 정보 사용 "
+                        android:text=" 위치 정보 사용의 권한 "
                         android:textColor="@color/greenLight"
                         android:textSize="28sp"
                         android:textStyle="bold" />
@@ -209,8 +208,8 @@
                 <Button
                     android:id="@+id/dialog_ok_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" 확인 "
+                    android:layout_height="60dp"
+                    android:text=" 허  락 "
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
@@ -221,10 +220,10 @@
                 <Button
                     android:id="@+id/dialog_cancel_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:alpha="0.6"
-                    android:text=" 취소 "
-                    android:textSize="20sp"
+                    android:text=" 취  소 "
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
 
