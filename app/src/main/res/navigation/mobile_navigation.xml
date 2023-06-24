@@ -27,5 +27,5 @@
         android:id="@+id/navigation_line_follow"
         android:name="com.picopy.ui.lineFollow.LineFollowFragment"
         android:label="차선 추적"
-        tools:layout="@layout/fragment_line_follow" />
+        tools:layout="@layout/fragment_lane_follow" />
 </navigation>

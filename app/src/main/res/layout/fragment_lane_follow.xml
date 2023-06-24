@@ -170,8 +170,7 @@ tools:context=".ui.lineFollow.LineFollowFragment">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:text="   " />
+                    android:layout_height="20dp" />
 
             </LinearLayout>
 
