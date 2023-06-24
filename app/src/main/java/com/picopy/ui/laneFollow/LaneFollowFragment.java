@@ -1,4 +1,4 @@
-package com.picopy.ui.lineFollow;
+package com.picopy.ui.laneFollow;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -9,22 +9,19 @@ import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.picopy.ComFragment;
-import com.picopy.R;
 import com.picopy.databinding.FragmentLaneFollowBinding;
-import com.picopy.databinding.FragmentManualDriveBinding;
 
-public class LineFollowFragment extends ComFragment {
+public class LaneFollowFragment extends ComFragment {
 
     private FragmentLaneFollowBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LineFollowViewModel lineFollowViewModel = new ViewModelProvider(this).get(LineFollowViewModel.class);
+        LaneFollowViewModel laneFollowViewModel = new ViewModelProvider(this).get(LaneFollowViewModel.class);
 
         binding = FragmentLaneFollowBinding.inflate(inflater, container, false);
-        View root = binding.getRoot(); 
+        View root = binding.getRoot();
 
         return root;
     }
