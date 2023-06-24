@@ -35,13 +35,14 @@
                     android:layout_height="match_parent"
                     android:minWidth="20dp" />
 
-                <Button
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:enabled="false"
                     android:gravity="center"
-                    android:text="블루투스 연결"
+                    android:text="  블루투스 연결  "
                     android:textColor="@color/black"
+                    android:background="@drawable/textview_round_corner"
+                    android:textStyle="bold"
                     android:textSize="24sp" />
 
                 <TextView

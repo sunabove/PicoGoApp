@@ -31,16 +31,15 @@ tools:context=".ui.laneFollow.LaneFollowFragment">
             android:layout_width="20dp"
             android:layout_height="match_parent" />
 
-        <Button
+        <TextView
             android:layout_width="170dp"
             android:layout_height="match_parent"
-            android:clickable="false"
-            android:enabled="false"
             android:gravity="center"
-            android:text="차선 추적"
+            android:text="차 선  추 적"
+            android:textStyle="bold"
             android:textColor="@color/black"
-            android:background="@drawable/round_corner"
-            android:textSize="24dp" />
+            android:background="@drawable/textview_round_corner"
+            android:textSize="26dp" />
 
         <TextView
             android:layout_width="20dp"

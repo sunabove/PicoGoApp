@@ -31,16 +31,15 @@
                 android:layout_width="20dp"
                 android:layout_height="match_parent" />
 
-            <Button
+            <TextView
                 android:layout_width="170dp"
                 android:layout_height="match_parent"
-                android:clickable="false"
-                android:enabled="false"
                 android:gravity="center"
+                android:textStyle="bold"
                 android:text="장애물 회피"
                 android:textColor="@color/black"
-                android:background="@drawable/round_corner"
-                android:textSize="24dp" />
+                android:background="@drawable/textview_round_corner"
+                android:textSize="26dp" />
 
             <TextView
                 android:layout_width="20dp"
