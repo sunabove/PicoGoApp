@@ -44,7 +44,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     private ListView bluetoothListView ;
     private BlueDeviceListAdapter blueDeviceListAdapter ;
 
-    private Button blueScanButton ;
+    private ToggleButton blueScanButton ;
     private CheckBox autoConnect ;
     private CheckBox scanPicoOnlyCheckBox ;
 
