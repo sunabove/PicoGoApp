@@ -37,7 +37,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="70dp"
                     android:gravity="center"
                     android:text="  블루투스 연결  "
                     android:textColor="@color/black"
@@ -66,11 +66,11 @@
                 <ToggleButton
                     android:id="@+id/blueScanButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
                     android:text="검색"
-                    android:textOff=" 검 색  중 지 "
-                    android:textOn =" 검 색  시 작 "
+                    android:textOn =" 검 색  중 지 "
+                    android:textOff =" 검 색  시 작 "
                     android:textStyle="bold"
                     android:textSize="24sp" />
 
@@ -84,8 +84,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:checked="true"
-                    android:text=" 자동 연결"
-                    android:textSize="22sp" />
+                    android:textStyle="bold"
+                    android:text=" 자동 연결 "
+                    android:textSize="24sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -97,8 +98,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:checked="true"
-                    android:text=" Pico 장치만 검색"
-                    android:textSize="22sp" />
+                    android:text=" Pico 장치만 검색 "
+                    android:textStyle="bold"
+                    android:textSize="24sp" />
 
             </LinearLayout>
 

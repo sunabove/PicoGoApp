@@ -73,14 +73,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         this.blueScanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                blueScanButton.setEnabled(false);
-
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        scanBlueDevices();
-                    }
-                }, 500);
+                scanBlueDevices();
             }
         });
 
@@ -446,12 +439,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.blueDeviceListAdapter.addDevice(null);
         this.blueDeviceListAdapter.notifyDataSetChanged();
 
-        this.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                scanBlueDevicesImpl();
-            }
-        }, 1_000 );
+        scanBlueDevicesImpl();
 
     }
 
@@ -542,6 +530,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 btAdapter.startDiscovery();
             }
         }
+
+        this.blueScanButton.setEnabled( true );
     }
 
     public void addBlueDevice(BluetoothDevice device ) {
