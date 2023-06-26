@@ -96,7 +96,7 @@
                     android:minWidth="20dp" />
 
                 <CheckBox
-                    android:id="@+id/autoConnect"
+                    android:id="@+id/autoConnectCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:checked="true"

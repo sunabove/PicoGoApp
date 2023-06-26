@@ -27,7 +27,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.picopy.BlueDeviceListAdapter;
 import com.picopy.BluetoothInterface;
-import com.picopy.ComActivity;
 import com.picopy.ComFragment;
 import com.picopy.R;
 import com.picopy.TabActivity;
@@ -45,7 +44,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     private BlueDeviceListAdapter blueDeviceListAdapter ;
 
     private ToggleButton blueScanButton ;
-    private CheckBox autoConnect ;
+    private CheckBox autoConnectCheckBox ;
     private CheckBox scanPicoOnlyCheckBox ;
 
     private ProgressBar connectingProgressBar ;
@@ -64,7 +63,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.bluetoothListView = binding.bluetoothListView;
         this.blueScanButton = binding.blueScanButton;
         this.scanPicoOnlyCheckBox = binding.scanPicoOnlyCheckBox;
-        this.autoConnect = binding.autoConnect;
+        this.autoConnectCheckBox = binding.autoConnectCheckBox;
 
         this.connectingProgressBar = binding.connectingProgressBar;
         this.connectingStatus = binding.connectingStatus;
@@ -73,7 +72,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         this.blueScanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                scanBlueDevices();
+                whenBlueScanButtonClicked();
             }
         });
 
@@ -88,7 +87,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             }
         });
 
-        this.autoConnect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        this.autoConnectCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 whenAutoConnectChecked( compoundButton, checked );
@@ -129,6 +128,17 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         binding = null;
     }
 
+    private void whenBlueScanButtonClicked() {
+        ToggleButton blueScanButton = this.blueScanButton ;
+        Log.d( tag, "whenBlueScanButtonClicked() : toggleButton checked = " + blueScanButton.isChecked() ) ;
+
+        if( blueScanButton.isChecked() ) {
+            this.scanBlueDevices();
+        } else {
+            this.whenBluetoothScanningFinished();
+        }
+    }
+
     private void whenAutoConnectChecked( CompoundButton compoundButton, boolean checked ) {
         String addressLast = this.getProperty( BLUETOOTH_ADDRESS_KEY );
 
@@ -139,6 +149,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
             for( int i = 0 ; i < blueDeviceListAdapter.getCount() ; i ++ ) {
                 device = blueDeviceListAdapter.getItem( i );
+
                 if( device != null && device.getAddress().equals( addressLast ) ) {
                     if( connectingBluetoothNow ) {
                         Log.v( tag, "connectingBluetoothNow is true." );
@@ -202,7 +213,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         Log.v(tag, msg);
 
-        this.autoConnect.setEnabled(false);
+        this.autoConnectCheckBox.setEnabled(false);
 
         boolean success = sys.connectBluetoothDevice(device);
 
@@ -402,11 +413,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         this.connectingBluetoothNow = false ;
 
-        this.autoConnect.setEnabled( true );
-    }
-
-    public ComActivity getComActivity() {
-        return (ComActivity) super.getActivity();
+        this.autoConnectCheckBox.setEnabled( true );
     }
 
     public boolean isScanning() {
@@ -417,14 +424,12 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         return ! this.scanPicoOnlyCheckBox.isChecked();
     }
 
-    public Application getApplication() {
-        return this.getActivity().getApplication();
-    }
-
     public void scanBlueDevices() {
-        Log.v( tag, "scanBleDevices");
+        Log.v( tag, "scanBleDevices()" );
 
-        this.blueScanButton.setEnabled(false);
+        this.blueScanButton.setEnabled( false );
+        this.blueScanButton.setChecked( true );
+
         this.bluetoothProgressBar.setVisibility(View.VISIBLE);
 
         this.connectingProgressBar.setIndeterminate( false );
@@ -440,7 +445,6 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.blueDeviceListAdapter.notifyDataSetChanged();
 
         scanBlueDevicesImpl();
-
     }
 
     private BroadcastReceiver receiver = null;
@@ -463,7 +467,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         if (action.equals(BluetoothDevice.ACTION_FOUND)) {
             BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             addBlueDevice(device);
-        } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetoothNow) {
+        } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetoothNow ) {
             scanningBluetoothNow = false;
         }
 
@@ -475,6 +479,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     @SuppressLint("MissingPermission")
     public void whenBluetoothScanningFinished() {
         Log.d( tag, "whenBluetoothScanningFinished()" );
+
         TabActivity activity = this.activity;
 
         if( null == activity ) {
@@ -502,7 +507,9 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         blueDeviceListAdapter.notifyDataSetChanged();
 
         blueScanButton.setEnabled( true );
-        this.scanPicoOnlyCheckBox.setEnabled(true);
+        blueScanButton.setChecked( false );
+
+        scanPicoOnlyCheckBox.setEnabled(true);
 
         bluetoothProgressBar.setVisibility(View.GONE);
     }
@@ -546,7 +553,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 this.blueDeviceListAdapter.notifyDataSetChanged();
                 Log.v( tag, msg);
 
-                if( this.autoConnect.isChecked() && address.equals( this.getBluetoothAddressLastConnected()) ) {
+                if( this.autoConnectCheckBox.isChecked() && address.equals( this.getBluetoothAddressLastConnected()) ) {
 
                     if( connectingBluetoothNow ) {
                         Log.v( tag, "connectingBluetoothNow is true." );
