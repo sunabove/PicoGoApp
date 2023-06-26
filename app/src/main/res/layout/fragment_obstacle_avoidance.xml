@@ -35,7 +35,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/obstacle_avoidance_64" />
 
                 <TextView
@@ -47,9 +47,13 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:text="장애물 회피"
+                    android:text="장 애 물  회 피"
                     android:textColor="@color/black"
                     android:textSize="26dp" />
+
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
