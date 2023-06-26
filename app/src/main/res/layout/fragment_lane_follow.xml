@@ -22,27 +22,39 @@ tools:context=".ui.laneFollow.LaneFollowFragment">
         android:gravity="center"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/lane_follow_64" />
-
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:layout_width="170dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:text="차 선  추 적"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:background="@drawable/textview_round_corner"
-            android:textSize="26dp" />
+            android:background="@drawable/textview_round_corner" >
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:src="@drawable/lane_follow_64" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="170dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="차 선  추 적"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="26dp" />
+
+        </LinearLayout>
 
         <TextView
-            android:layout_width="20dp"
+            android:layout_width="10dp"
             android:layout_height="match_parent" />
 
         <ImageView
