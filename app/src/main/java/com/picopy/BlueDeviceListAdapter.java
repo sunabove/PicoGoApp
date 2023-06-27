@@ -14,6 +14,8 @@ public class BlueDeviceListAdapter extends BaseAdapter implements ComInterface {
 
     private BluetoothInterface bluetoothInterface  ;
     private ComActivity activity ;
+    
+    private boolean isInterrupted = true ;
 
     public BlueDeviceListAdapter(BluetoothInterface bluetoothInterface) {
         this.bluetoothInterface = bluetoothInterface;
@@ -67,6 +69,14 @@ public class BlueDeviceListAdapter extends BaseAdapter implements ComInterface {
         return this.devices.get(i);
     }
 
+    public boolean isInterrupted() {
+        return isInterrupted;
+    }
+
+    public void setInterrupted(boolean interrupted) {
+        isInterrupted = interrupted;
+    }
+
     public static class ViewHolder {
         TextView rowNumber;
         TextView deviceName;
@@ -112,7 +122,7 @@ public class BlueDeviceListAdapter extends BaseAdapter implements ComInterface {
                 name = "장치 검색 중";
                 address = String.format( " (%d 개)", this.devices.size() -1 );
             } else {
-                name = "장치 검색 완료";
+                name = this.isInterrupted ? "장치 검색 중지" : "장치 검색 완료" ;
                 address = String.format( " (%d 개)", this.devices.size() -1 );
             }
 

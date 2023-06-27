@@ -68,7 +68,7 @@
                     android:minWidth="10dp" />
 
                 <ProgressBar
-                    android:id="@+id/bluetoothProgressBar"
+                    android:id="@+id/bluetoothScanProgressBar"
                     style="?android:attr/progressBarStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
