@@ -117,7 +117,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         boolean isInterrupted = true ;
 
-        this.finishBluetoothScanning( isInterrupted );
+        this.stopBluetoothScanning( isInterrupted );
     }
 
     @Override
@@ -137,7 +137,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             this.scanBluetoothDevices();
         } else {
             boolean isInterrupted = true ;
-            this.finishBluetoothScanning( isInterrupted );
+            this.stopBluetoothScanning( isInterrupted );
         }
     }
 
@@ -177,6 +177,10 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         } else if( this.connectingBluetoothNow ) {
             Log.v( tag, "connectingBluetoothNow is true." ) ;
         } if( null != device && ! this.connectingBluetoothNow ) {
+            boolean isInterrupted = true ;
+
+            this.stopBluetoothScanning( isInterrupted );
+
             this.connectBluetooth( device );
         }
 
@@ -471,7 +475,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         if (action.equals(BluetoothDevice.ACTION_FOUND)) {
             BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-            addBlueDevice(device);
+
+            this.addBluetoothDevice(device);
         } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetoothNow ) {
             scanningBluetoothNow = false;
 
@@ -481,13 +486,13 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         }
 
         if ( scanningBluetoothNow == false ) {
-            finishBluetoothScanning( isInterrupted );
+            stopBluetoothScanning( isInterrupted );
         }
     }
 
     @SuppressLint("MissingPermission")
-    public void finishBluetoothScanning( boolean isInterrupted ) {
-        Log.d( tag, "finishBluetoothScanning()" );
+    public void stopBluetoothScanning(boolean isInterrupted ) {
+        Log.d( tag, "stopBluetoothScanning()" );
 
         this.scanningBluetoothNow = false ;
 
@@ -552,7 +557,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.bluetoothScanButton.setEnabled( true );
     }
 
-    public void addBlueDevice(BluetoothDevice device ) {
+    public void addBluetoothDevice(BluetoothDevice device ) {
         boolean scanAll = this.isScanAll();
 
         @SuppressLint("MissingPermission") String name = device.getName();
@@ -560,17 +565,26 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         if( null != name ) {
             if( scanAll || name.toUpperCase().endsWith( "SPP" ) ) {
                 String msg = "BLE Device Name : " + name + " address : " + address + " appended";
-                this.blueDeviceListAdapter.addDevice(device);
-                this.blueDeviceListAdapter.notifyDataSetChanged();
+
                 Log.v( tag, msg);
 
                 if( this.autoConnectCheckBox.isChecked() && address.equals( this.getBluetoothAddressLastConnected()) ) {
+                    int index = 1;
+                    this.blueDeviceListAdapter.addDevice( device, index );
+                    this.blueDeviceListAdapter.notifyDataSetChanged();
 
                     if( connectingBluetoothNow ) {
                         Log.v( tag, "connectingBluetoothNow is true." );
                     } else if( ! connectingBluetoothNow ) {
+                        boolean isInterrupted = true;
+
+                        this.stopBluetoothScanning( isInterrupted);
+
                         this.connectBluetooth(device);
                     }
+                } else {
+                    this.blueDeviceListAdapter.addDevice(device);
+                    this.blueDeviceListAdapter.notifyDataSetChanged();
                 }
             } else {
                 String msg = "BLE Device Name : " + name + " address : " + address + " not appended";

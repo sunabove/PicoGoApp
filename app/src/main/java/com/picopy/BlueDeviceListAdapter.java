@@ -30,6 +30,11 @@ public class BlueDeviceListAdapter extends BaseAdapter implements ComInterface {
     }
 
     public void addDevice(BluetoothDevice device) {
+        int index = -1 ;
+        this.addDevice( device, index );
+    }
+
+    public void addDevice(BluetoothDevice device, int index) {
         boolean test = false  ;
 
         if( test ) {
@@ -40,9 +45,13 @@ public class BlueDeviceListAdapter extends BaseAdapter implements ComInterface {
         }
 
         if( null == device ) {
-            this.devices.add( device );
+            this.devices.add( 0, device );
         } else if ( ! this.devices.contains(device) ) {
-            this.devices.add(device);
+            if( index < 0 ) {
+                this.devices.add( device );
+            } else {
+                this.devices.add( index, device );
+            }
         }
 
         if( test ) {
