@@ -107,7 +107,7 @@ tools:context=".ui.laneFollow.LaneFollowFragment">
             android:gravity="center_vertical"
             android:text="Status"
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
     </LinearLayout>

@@ -1,5 +1,6 @@
 package com.picopy.ui.bluetooth;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -9,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,6 +24,7 @@ import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.picopy.BlueDeviceListAdapter;
@@ -31,27 +34,27 @@ import com.picopy.R;
 import com.picopy.TabActivity;
 import com.picopy.databinding.FragmentBluetoothBinding;
 
-public class BluetoothFragment extends ComFragment implements BluetoothInterface  {
+public class BluetoothFragment extends ComFragment implements BluetoothInterface {
 
-    private FragmentBluetoothBinding binding ;
+    private FragmentBluetoothBinding binding;
 
-    protected boolean scanningBluetoothNow = false ;
-    private boolean connectingBluetoothNow = false ;
+    protected boolean scanningBluetoothNow = false;
+    private boolean connectingBluetoothNow = false;
 
     private ProgressBar bluetoothScanProgressBar;
-    private ListView bluetoothListView ;
-    private BlueDeviceListAdapter blueDeviceListAdapter ;
+    private ListView bluetoothListView;
+    private BlueDeviceListAdapter blueDeviceListAdapter;
 
     private ToggleButton bluetoothScanButton;
-    private CheckBox autoConnectCheckBox ;
-    private CheckBox scanPicoOnlyCheckBox ;
+    private CheckBox autoConnectCheckBox;
+    private CheckBox scanPicoOnlyCheckBox;
 
-    private ProgressBar connectingProgressBar ;
-    private EditText connectingStatus ;
+    private ProgressBar connectingProgressBar;
+    private EditText connectingStatus;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.v( tag, "onCreateView()");
+        Log.v(tag, "onCreateView()");
 
         BluetoothViewModel bluetoothViewModel = new ViewModelProvider(this).get(BluetoothViewModel.class);
 
@@ -67,7 +70,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.connectingProgressBar = binding.connectingProgressBar;
         this.connectingStatus = binding.connectingStatus;
 
-        this.connectingStatus.setText( "" );
+        this.connectingStatus.setText("");
 
         this.bluetoothScanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -82,14 +85,14 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.bluetoothListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                whenBluetoothListViewItemClick(adapterView,view, i, l);
+                whenBluetoothListViewItemClick(adapterView, view, i, l);
             }
         });
 
         this.autoConnectCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                whenAutoConnectChecked( compoundButton, checked );
+                whenAutoConnectChecked(compoundButton, checked);
             }
         });
 
@@ -102,60 +105,60 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     public void onStart() {
         super.onStart();
 
-        this.sendBuzzerMessage( false );
+        this.sendBuzzerMessage(false);
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        Log.v( tag, "onPause()");
+        Log.v(tag, "onPause()");
 
         this.scanningBluetoothNow = false;
 
-        this.connectingStatus.setText( "" );
+        this.connectingStatus.setText("");
 
-        boolean isInterrupted = true ;
+        boolean isInterrupted = true;
 
-        this.stopBluetoothScanning( isInterrupted );
+        this.stopBluetoothScanning(isInterrupted);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        Log.v( tag, "onDestroyView()");
+        Log.v(tag, "onDestroyView()");
 
         binding = null;
     }
 
     private void whenBluetoothScanButtonClicked() {
         ToggleButton blueScanButton = this.bluetoothScanButton;
-        Log.d( tag, "whenBluetoothScanButtonClicked() : toggleButton checked = " + blueScanButton.isChecked() ) ;
+        Log.d(tag, "whenBluetoothScanButtonClicked() : toggleButton checked = " + blueScanButton.isChecked());
 
-        if( blueScanButton.isChecked() ) {
+        if (blueScanButton.isChecked()) {
             this.scanBluetoothDevices();
         } else {
-            boolean isInterrupted = true ;
-            this.stopBluetoothScanning( isInterrupted );
+            boolean isInterrupted = true;
+            this.stopBluetoothScanning(isInterrupted);
         }
     }
 
-    private void whenAutoConnectChecked( CompoundButton compoundButton, boolean checked ) {
-        String addressLast = this.getProperty( BLUETOOTH_ADDRESS_KEY );
+    private void whenAutoConnectChecked(CompoundButton compoundButton, boolean checked) {
+        String addressLast = this.getProperty(BLUETOOTH_ADDRESS_KEY);
 
-        if( checked && addressLast.length() > 0 ) {
+        if (checked && addressLast.length() > 0) {
             BlueDeviceListAdapter blueDeviceListAdapter = this.blueDeviceListAdapter;
 
-            BluetoothDevice device ;
+            BluetoothDevice device;
 
-            for( int i = 0 ; i < blueDeviceListAdapter.getCount() ; i ++ ) {
-                device = blueDeviceListAdapter.getItem( i );
+            for (int i = 0; i < blueDeviceListAdapter.getCount(); i++) {
+                device = blueDeviceListAdapter.getItem(i);
 
-                if( device != null && device.getAddress().equals( addressLast ) ) {
-                    if( connectingBluetoothNow ) {
-                        Log.v( tag, "connectingBluetoothNow is true." );
-                    } else if( ! connectingBluetoothNow ) {
+                if (device != null && device.getAddress().equals(addressLast)) {
+                    if (connectingBluetoothNow) {
+                        Log.v(tag, "connectingBluetoothNow is true.");
+                    } else if (!connectingBluetoothNow) {
                         this.connectBluetooth(device);
                     }
 
@@ -166,36 +169,37 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     }
 
     private void whenBluetoothListViewItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        String msg = "whenBluetoothListViewItemClick() i = " + i + ", l = " + l ;
+        String msg = "whenBluetoothListViewItemClick() i = " + i + ", l = " + l;
 
-        Log.v( tag, msg );
+        Log.v(tag, msg);
 
-        BluetoothDevice device = this.blueDeviceListAdapter.getItem( i );
+        BluetoothDevice device = this.blueDeviceListAdapter.getItem(i);
 
-        if( null == device ) {
+        if (null == device) {
             Log.v(tag, "Bluetooth device is null.");
-        } else if( this.connectingBluetoothNow ) {
-            Log.v( tag, "connectingBluetoothNow is true." ) ;
-        } if( null != device && ! this.connectingBluetoothNow ) {
-            boolean isInterrupted = true ;
+        } else if (this.connectingBluetoothNow) {
+            Log.v(tag, "connectingBluetoothNow is true.");
+        }
+        if (null != device && !this.connectingBluetoothNow) {
+            boolean isInterrupted = true;
 
-            this.stopBluetoothScanning( isInterrupted );
+            this.stopBluetoothScanning(isInterrupted);
 
-            this.connectBluetooth( device );
+            this.connectBluetooth(device);
         }
 
     } // -- whenBluetoothListViewItemClick
 
-    private void connectBluetooth(BluetoothDevice device ) {
+    private void connectBluetooth(BluetoothDevice device) {
 
-        if( ! this.connectingBluetoothNow) {
+        if (!this.connectingBluetoothNow) {
             this.connectingBluetoothNow = true;
 
-            this.connectingProgressBar.setVisibility( View.VISIBLE );
-            this.connectingProgressBar.setIndeterminate( true );
+            this.connectingProgressBar.setVisibility(View.VISIBLE);
+            this.connectingProgressBar.setIndeterminate(true);
 
-            this.connectingStatus.setTextColor( greenDark );
-            this.connectingStatus.setText( "블루투스를 연결중입니다.");
+            this.connectingStatus.setTextColor(greenDark);
+            this.connectingStatus.setText("블루투스를 연결중입니다.");
 
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
@@ -211,9 +215,13 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         return true;
     }
 
-    @SuppressLint("MissingPermission")
-    private void connectBluetoothImpl(BluetoothDevice device ) {
-        String name = device.getName();
+    private void connectBluetoothImpl(BluetoothDevice device) {
+        String name = "";
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+            name = device.getName();
+        }
+
         String address = device.getAddress();
         String msg = " BLE Device Name : " + name + " address : " + address;
 
@@ -224,62 +232,62 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         boolean success = sys.connectBluetoothDevice(device);
 
         boolean isPaired = this.isBluetoothPaired(address);
-        boolean pairAlways = this.pairAlways() ;
+        boolean pairAlways = this.pairAlways();
 
-        Log.v(tag, "isPared = " + isPaired + ", pairAlways = " + pairAlways );
+        Log.v(tag, "isPared = " + isPaired + ", pairAlways = " + pairAlways);
 
-        if (success && ( pairAlways || isPaired == false ) ) {
+        if (success && (pairAlways || isPaired == false)) {
             String paringCode = this.sendSendMeParingCodeMessage();
 
             Log.v(tag, "pairing Code = " + paringCode);
 
-            this.showParingWindow( paringCode, address );
-        } else if (success && isPaired == true ) {
+            this.showParingWindow(paringCode, address);
+        } else if (success && isPaired == true) {
             Log.v(tag, "Sipped pairing. pairing has been done.");
 
-            boolean hasParingTried = false ;
-            this.connectBluetoothImplAfterParing( success, address, hasParingTried );
+            boolean hasParingTried = false;
+            this.connectBluetoothImplAfterParing(success, address, hasParingTried);
         }
     }
 
-    private void showParingWindow( final String pairingCode, String address ) {
+    private void showParingWindow(final String pairingCode, String address) {
         TabActivity activity = this.activity;
 
-        if( this.paused ) {
-            Log.d( tag, "activity is paused. skipped showParingWindow()" ) ;
+        if (this.paused) {
+            Log.d(tag, "activity is paused. skipped showParingWindow()");
 
-            return ;
-        } else if( activity == null ) {
-            Log.d( tag, "activity is null. skipped showParingWindow()" ) ;
+            return;
+        } else if (activity == null) {
+            Log.d(tag, "activity is null. skipped showParingWindow()");
 
-            return ;
+            return;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder( activity );
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         View dialogView = this.getLayoutInflater().inflate(R.layout.dialog_bluetooth_pairing_code, null);
 
-        builder.setView( dialogView );
+        builder.setView(dialogView);
 
-        final TextView blueToothAddressOfParingCode = dialogView.findViewById( R.id.blueToothAddressOfParingCode ) ;
-        final TextView userInput = dialogView.findViewById( R.id.paringCodeUserInput ) ;
-        final ImageView invalidParingCode = dialogView.findViewById( R.id.invalidParingCode ) ;
-        final TextView paringStatus = dialogView.findViewById( R.id.paringStatus ) ;
-        final Button okBtn = dialogView.findViewById( R.id.okBtn ) ;
-        final Button cancelBtn = dialogView.findViewById( R.id.cancelBtn ) ;
+        final TextView blueToothAddressOfParingCode = dialogView.findViewById(R.id.blueToothAddressOfParingCode);
+        final TextView userInput = dialogView.findViewById(R.id.paringCodeUserInput);
+        final ImageView invalidParingCode = dialogView.findViewById(R.id.invalidParingCode);
+        final TextView paringStatus = dialogView.findViewById(R.id.paringStatus);
+        final Button okBtn = dialogView.findViewById(R.id.okBtn);
+        final Button cancelBtn = dialogView.findViewById(R.id.cancelBtn);
 
-        userInput.setText( "" );
-        userInput.setTextColor( grey );
-        userInput.setHint( "####" );
+        userInput.setText("");
+        userInput.setTextColor(grey);
+        userInput.setHint("####");
 
-        paringStatus.setText( "" );
-        invalidParingCode.setVisibility( View.GONE );
-        blueToothAddressOfParingCode.setText( address );
-        okBtn.setEnabled( false );
-        cancelBtn.setEnabled( true );
+        paringStatus.setText("");
+        invalidParingCode.setVisibility(View.GONE);
+        blueToothAddressOfParingCode.setText(address);
+        okBtn.setEnabled(false);
+        cancelBtn.setEnabled(true);
 
         // set modal dialog
-        builder.setCancelable( false );
+        builder.setCancelable(false);
 
         AlertDialog dialog = builder.create();
 
@@ -289,27 +297,27 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                invalidParingCode.setVisibility( View.GONE );
-                paringStatus.setText( "" );
-                cancelBtn.setEnabled( true );
+                invalidParingCode.setVisibility(View.GONE);
+                paringStatus.setText("");
+                cancelBtn.setEnabled(true);
 
-                String userInputText = userInput.getText().toString().trim() ;
+                String userInputText = userInput.getText().toString().trim();
 
-                if( pairingCode.equalsIgnoreCase( userInputText ) ) {
-                    userInput.setTextColor( greenLight );
-                } else if( pairingCode.startsWith( userInputText ) ) {
-                    userInput.setTextColor( orangeLight );
+                if (pairingCode.equalsIgnoreCase(userInputText)) {
+                    userInput.setTextColor(greenLight);
+                } else if (pairingCode.startsWith(userInputText)) {
+                    userInput.setTextColor(orangeLight);
                 } else {
-                    userInput.setTextColor( grey );
+                    userInput.setTextColor(grey);
                 }
 
-                if( userInputText.length() < 4 ) {
-                    okBtn.setEnabled( false );
+                if (userInputText.length() < 4) {
+                    okBtn.setEnabled(false);
                 } else {
-                    okBtn.setEnabled( true );
+                    okBtn.setEnabled(true);
                 }
 
-                if( preTextLen == 3 && userInputText.length() == 4 ) {
+                if (preTextLen == 3 && userInputText.length() == 4) {
                     // hide key board
                     InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
@@ -325,32 +333,32 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cancelBtn.setEnabled( false );
+                cancelBtn.setEnabled(false);
 
                 String userInputParingCode = userInput.getText().toString().trim();
 
-                boolean success = userInputParingCode.equalsIgnoreCase( pairingCode );
+                boolean success = userInputParingCode.equalsIgnoreCase(pairingCode);
 
-                if( ! success ) {
-                    userInput.setTextColor( redDark );
-                    invalidParingCode.setVisibility( View.VISIBLE );
+                if (!success) {
+                    userInput.setTextColor(redDark);
+                    invalidParingCode.setVisibility(View.VISIBLE);
 
-                    paringStatus.setText( "페어링 코드가 일치하지 않습니다." );
-                } else if( success ) {
-                    userInput.setTextColor( greenLight );
+                    paringStatus.setText("페어링 코드가 일치하지 않습니다.");
+                } else if (success) {
+                    userInput.setTextColor(greenLight);
                     dialog.dismiss();
 
                     postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            boolean paringSuccess = true ;
-                            boolean hasParingTried = true ;
-                            connectBluetoothImplAfterParing( paringSuccess, address, hasParingTried ) ;
+                            boolean paringSuccess = true;
+                            boolean hasParingTried = true;
+                            connectBluetoothImplAfterParing(paringSuccess, address, hasParingTried);
                         }
-                    }, 500 );
+                    }, 500);
                 }
 
-                cancelBtn.setEnabled( true );
+                cancelBtn.setEnabled(true);
             }
         });
 
@@ -358,18 +366,18 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userInput.setText( "" );
+                userInput.setText("");
 
-                sys.disconnectBluetoothDevice() ;
+                sys.disconnectBluetoothDevice();
 
                 postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        boolean paringSuccess = false ;
-                        boolean hasParingTriedhasParingTried = true ;
-                        connectBluetoothImplAfterParing( paringSuccess, address, true ) ;
+                        boolean paringSuccess = false;
+                        boolean hasParingTriedhasParingTried = true;
+                        connectBluetoothImplAfterParing(paringSuccess, address, true);
                     }
-                }, 500 );
+                }, 500);
 
                 dialog.dismiss();
             }
@@ -379,27 +387,27 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
     } // showParingWindow
 
-    private void connectBluetoothImplAfterParing( boolean success, String address, boolean hasParingTried ) {
+    private void connectBluetoothImplAfterParing(boolean success, String address, boolean hasParingTried) {
 
-        if( success ) {
-            this.saveProperty(BLUETOOTH_ADDRESS_KEY, address );
+        if (success) {
+            this.saveProperty(BLUETOOTH_ADDRESS_KEY, address);
 
-            this.connectingProgressBar.setVisibility( View.VISIBLE) ;
-            this.connectingProgressBar.setIndeterminate( true );
+            this.connectingProgressBar.setVisibility(View.VISIBLE);
+            this.connectingProgressBar.setIndeterminate(true);
 
-            this.connectingStatus.setTextColor( greenDark );
-            this.connectingStatus.setText( "블루투스 연결 성공");
+            this.connectingStatus.setTextColor(greenDark);
+            this.connectingStatus.setText("블루투스 연결 성공");
 
-            if( hasParingTried ) {
+            if (hasParingTried) {
                 // 페어링 완료 여부 설정
-                this.saveBluetoothPairedCodeProperty( address ) ;
+                this.saveBluetoothPairedCodeProperty(address);
 
-                this.sendParingCompletedMessage() ;
+                this.sendParingCompletedMessage();
             }
 
-            if( activity.paused ) {
-                Log.v( tag, "activity is paused. cannot move to fragment" );
-            } else if( ! activity.paused ) {
+            if (activity.paused) {
+                Log.v(tag, "activity is paused. cannot move to fragment");
+            } else if (!activity.paused) {
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -409,17 +417,17 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 }, 1_000);
             }
         } else {
-            this.connectingProgressBar.setVisibility( View.GONE );
-            this.connectingProgressBar.setIndeterminate( false );
+            this.connectingProgressBar.setVisibility(View.GONE);
+            this.connectingProgressBar.setIndeterminate(false);
 
-            this.connectingStatus.setTextColor( red );
+            this.connectingStatus.setTextColor(red);
 
-            this.connectingStatus.setText( hasParingTried ? "블루투스 페어링 취소" : "블루투스 연결 실패");
+            this.connectingStatus.setText(hasParingTried ? "블루투스 페어링 취소" : "블루투스 연결 실패");
         }
 
-        this.connectingBluetoothNow = false ;
+        this.connectingBluetoothNow = false;
 
-        this.autoConnectCheckBox.setEnabled( true );
+        this.autoConnectCheckBox.setEnabled(true);
     }
 
     public boolean isScanning() {
@@ -427,20 +435,20 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     }
 
     public boolean isScanAll() {
-        return ! this.scanPicoOnlyCheckBox.isChecked();
+        return !this.scanPicoOnlyCheckBox.isChecked();
     }
 
     public void scanBluetoothDevices() {
-        Log.v( tag, "scanBluetoothDevices()" );
+        Log.v(tag, "scanBluetoothDevices()");
 
-        this.bluetoothScanButton.setEnabled( false );
-        this.bluetoothScanButton.setChecked( true );
+        this.bluetoothScanButton.setEnabled(false);
+        this.bluetoothScanButton.setChecked(true);
 
         this.bluetoothScanProgressBar.setVisibility(View.VISIBLE);
 
-        this.connectingProgressBar.setIndeterminate( false );
-        this.connectingProgressBar.setVisibility(View.GONE );
-        this.connectingStatus.setText( "" );
+        this.connectingProgressBar.setIndeterminate(false);
+        this.connectingProgressBar.setVisibility(View.GONE);
+        this.connectingStatus.setText("");
 
         this.blueDeviceListAdapter.clear();
         this.blueDeviceListAdapter.notifyDataSetChanged();
@@ -448,7 +456,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.scanningBluetoothNow = true;
 
         this.blueDeviceListAdapter.addDevice(null);
-        this.blueDeviceListAdapter.setInterrupted( true );
+        this.blueDeviceListAdapter.setInterrupted(true);
         this.blueDeviceListAdapter.notifyDataSetChanged();
 
         scanBlueDevicesImpl();
@@ -456,19 +464,18 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
     private BroadcastReceiver receiver = null;
 
-    private  BroadcastReceiver getReceiver () {
+    private BroadcastReceiver getReceiver() {
         BroadcastReceiver receiver = new BroadcastReceiver() {
 
-            @SuppressLint("MissingPermission")
             public void onReceive(Context context, Intent intent) {
-                whenBluetoothDeviceScannedByIntent( context, intent );
+                whenBluetoothDeviceScannedByIntent(context, intent);
             }
         };
 
-        return receiver ;
+        return receiver;
     }
 
-    private void whenBluetoothDeviceScannedByIntent( Context context, Intent intent ) {
+    private void whenBluetoothDeviceScannedByIntent(Context context, Intent intent) {
         String action = intent.getAction();
 
         boolean isInterrupted = true;
@@ -477,33 +484,32 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
             this.addBluetoothDevice(device);
-        } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetoothNow ) {
+        } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetoothNow) {
             scanningBluetoothNow = false;
 
-            isInterrupted = false ;
+            isInterrupted = false;
 
-            this.blueDeviceListAdapter.setInterrupted( false );
+            this.blueDeviceListAdapter.setInterrupted(false);
         }
 
-        if ( scanningBluetoothNow == false ) {
-            stopBluetoothScanning( isInterrupted );
+        if (scanningBluetoothNow == false) {
+            stopBluetoothScanning(isInterrupted);
         }
     }
 
-    @SuppressLint("MissingPermission")
-    public void stopBluetoothScanning(boolean isInterrupted ) {
-        Log.d( tag, "stopBluetoothScanning()" );
+    public void stopBluetoothScanning(boolean isInterrupted) {
+        Log.d(tag, "stopBluetoothScanning()");
 
-        this.scanningBluetoothNow = false ;
+        this.scanningBluetoothNow = false;
 
         TabActivity activity = this.activity;
 
-        if( null == activity ) {
-            Log.v( tag, "current activity is null." );
-        } else if ( null != activity && activity.checkBadPermissions().getSize() < 1 ) {
+        if (null == activity) {
+            Log.v(tag, "current activity is null.");
+        } else if (null != activity && activity.checkBadPermissions().getSize() < 1) {
             BluetoothManager btManager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
 
-            if( null != btManager ) {
+            if (null != btManager) {
                 BluetoothAdapter btAdapter = btManager.getAdapter();
 
                 BroadcastReceiver receiver = this.receiver;
@@ -515,53 +521,64 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 }
 
                 if (null != btAdapter) {
-                    btAdapter.cancelDiscovery();
+                    if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
+                        btAdapter.cancelDiscovery();
+                    }
+
                 }
             }
         }
 
         blueDeviceListAdapter.notifyDataSetChanged();
 
-        bluetoothScanButton.setEnabled( true );
-        bluetoothScanButton.setChecked( false );
+        bluetoothScanButton.setEnabled(true);
+        bluetoothScanButton.setChecked(false);
 
         scanPicoOnlyCheckBox.setEnabled(true);
 
         bluetoothScanProgressBar.setVisibility(View.GONE);
     }
 
-    @SuppressLint("MissingPermission")
     public void scanBlueDevicesImpl() {
-        Log.v( tag, "scanBlueDevicesImpl()");
+        Log.v(tag, "scanBlueDevicesImpl()");
 
         Activity activity = this.getActivity();
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction( BluetoothDevice.ACTION_FOUND );
-        intentFilter.addAction( BluetoothAdapter.ACTION_DISCOVERY_FINISHED );
+        intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
+        intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
-        this.receiver = this.getReceiver() ;
-        if( null != activity ) {
+        this.receiver = this.getReceiver();
+        if (null != activity) {
             activity.registerReceiver(receiver, intentFilter);
         }
 
         BluetoothManager btManager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
-        if( null != btManager ) {
+        if (null != btManager) {
             BluetoothAdapter btAdapter = btManager.getAdapter();
 
             if (null != btAdapter) {
-                btAdapter.startDiscovery();
+                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
+                    btAdapter.startDiscovery();
+                }
             }
         }
 
-        this.bluetoothScanButton.setEnabled( true );
+        this.bluetoothScanButton.setEnabled(true);
     }
 
-    public void addBluetoothDevice(BluetoothDevice device ) {
+    public void addBluetoothDevice(BluetoothDevice device) {
         boolean scanAll = this.isScanAll();
 
-        @SuppressLint("MissingPermission") String name = device.getName();
-        String address = device.getAddress();
+        String name = "";
+        String address = "";
+
+        if (ActivityCompat.checkSelfPermission( activity, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+            name = device.getName();
+        }
+
+        address = device.getAddress();
+
         if( null != name ) {
             if( scanAll || name.toUpperCase().endsWith( "SPP" ) ) {
                 String msg = "BLE Device Name : " + name + " address : " + address + " appended";
