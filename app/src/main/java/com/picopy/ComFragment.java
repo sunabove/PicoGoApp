@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
@@ -25,7 +26,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     private ImageView commStatusImage;
     private ProgressBar reconnectProgressBar ;
     private Button reconnectButton;
-    private EditText commStatus;
+    private TextView commStatus;
 
     protected boolean paused = false ;
     protected int startCount = 0 ;
