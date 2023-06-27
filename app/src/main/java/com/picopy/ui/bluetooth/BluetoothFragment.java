@@ -2,7 +2,6 @@ package com.picopy.ui.bluetooth;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -43,7 +42,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     private ListView bluetoothListView ;
     private BlueDeviceListAdapter blueDeviceListAdapter ;
 
-    private ToggleButton blueScanButton ;
+    private ToggleButton bluetoothScanButton;
     private CheckBox autoConnectCheckBox ;
     private CheckBox scanPicoOnlyCheckBox ;
 
@@ -61,7 +60,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         this.bluetoothProgressBar = binding.bluetoothProgressBar;
         this.bluetoothListView = binding.bluetoothListView;
-        this.blueScanButton = binding.blueScanButton;
+        this.bluetoothScanButton = binding.bluetoothScanButton;
         this.scanPicoOnlyCheckBox = binding.scanPicoOnlyCheckBox;
         this.autoConnectCheckBox = binding.autoConnectCheckBox;
 
@@ -70,7 +69,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         this.connectingStatus.setText( "" );
 
-        this.blueScanButton.setOnClickListener(new View.OnClickListener() {
+        this.bluetoothScanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 whenBlueScanButtonClicked();
             }
@@ -94,7 +93,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             }
         });
 
-        this.scanBlueDevices();
+        this.scanBluetoothDevices();
 
         return root;
     }
@@ -116,7 +115,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         this.connectingStatus.setText( "" );
 
-        this.whenBluetoothScanningFinished();
+        this.finishBluetoothScanning();
     }
 
     @Override
@@ -129,13 +128,13 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     }
 
     private void whenBlueScanButtonClicked() {
-        ToggleButton blueScanButton = this.blueScanButton ;
+        ToggleButton blueScanButton = this.bluetoothScanButton;
         Log.d( tag, "whenBlueScanButtonClicked() : toggleButton checked = " + blueScanButton.isChecked() ) ;
 
         if( blueScanButton.isChecked() ) {
-            this.scanBlueDevices();
+            this.scanBluetoothDevices();
         } else {
-            this.whenBluetoothScanningFinished();
+            this.finishBluetoothScanning();
         }
     }
 
@@ -424,11 +423,11 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         return ! this.scanPicoOnlyCheckBox.isChecked();
     }
 
-    public void scanBlueDevices() {
-        Log.v( tag, "scanBleDevices()" );
+    public void scanBluetoothDevices() {
+        Log.v( tag, "scanBluetoothDevices()" );
 
-        this.blueScanButton.setEnabled( false );
-        this.blueScanButton.setChecked( true );
+        this.bluetoothScanButton.setEnabled( false );
+        this.bluetoothScanButton.setChecked( true );
 
         this.bluetoothProgressBar.setVisibility(View.VISIBLE);
 
@@ -472,13 +471,15 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         }
 
         if ( scanningBluetoothNow == false ) {
-            whenBluetoothScanningFinished();
+            finishBluetoothScanning();
         }
     }
 
     @SuppressLint("MissingPermission")
-    public void whenBluetoothScanningFinished() {
-        Log.d( tag, "whenBluetoothScanningFinished()" );
+    public void finishBluetoothScanning() {
+        Log.d( tag, "finishBluetoothScanning()" );
+
+        this.scanningBluetoothNow = false ;
 
         TabActivity activity = this.activity;
 
@@ -506,8 +507,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         blueDeviceListAdapter.notifyDataSetChanged();
 
-        blueScanButton.setEnabled( true );
-        blueScanButton.setChecked( false );
+        bluetoothScanButton.setEnabled( true );
+        bluetoothScanButton.setChecked( false );
 
         scanPicoOnlyCheckBox.setEnabled(true);
 
@@ -538,7 +539,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             }
         }
 
-        this.blueScanButton.setEnabled( true );
+        this.bluetoothScanButton.setEnabled( true );
     }
 
     public void addBlueDevice(BluetoothDevice device ) {
