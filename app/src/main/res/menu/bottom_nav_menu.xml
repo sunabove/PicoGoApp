@@ -22,4 +22,9 @@
         android:icon="@drawable/line_follow_24"
         android:title="차선 추적" />
 
+    <item
+        android:id="@+id/navigation_block_coding"
+        android:icon="@drawable/block_coding_24"
+        android:title="블록 코딩" />
+
 </menu>

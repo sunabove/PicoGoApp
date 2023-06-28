@@ -124,6 +124,17 @@
                         android:textColor="@color/greenDark"
                         android:textSize="22sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text=" - 이 앱은 앱이 종료되었거나 사용 중이 아닐 때도 위치 데이터를 수집하여 블루투스 데이터 통신 기능을 지원합니다."
+                        android:textColor="@color/greenDark"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+
                 </LinearLayout>
 
             </LinearLayout>

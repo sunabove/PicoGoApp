@@ -11,7 +11,7 @@ android {
         minSdk 24
         // minSdk 31
         targetSdk 33
-        versionCode 103  // 구글 플레이 콘솔의 버전은 versionCode를 수정하여야 함
+        versionCode 104  // 구글 플레이 콘솔의 버전은 versionCode를 수정하여야 함
         versionName "101"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -41,6 +41,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.6.0'
     implementation 'androidx.navigation:navigation-ui:2.6.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
 
     //implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     //implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'

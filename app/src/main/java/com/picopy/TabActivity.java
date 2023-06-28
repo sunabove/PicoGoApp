@@ -15,7 +15,7 @@ import com.picopy.databinding.ActivityTabBinding;
 
 public class TabActivity extends ComActivity {
 
-    public static final int [] navigationIds = { R.id.navigation_bluetooth, R.id.navigation_manual_drive, R.id.navigation_obstacle_avoidance, R.id.navigation_line_follow };
+    public static final int [] navigationIds = { R.id.navigation_bluetooth, R.id.navigation_manual_drive, R.id.navigation_obstacle_avoidance, R.id.navigation_line_follow, R.id.navigation_block_coding };
 
     private ActivityTabBinding binding;
 
