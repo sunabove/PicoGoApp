@@ -96,7 +96,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 whenAutoConnectChecked(compoundButton, checked);
             }
         });
-        
+
         this.scanBluetoothDevices();
 
         return root;
