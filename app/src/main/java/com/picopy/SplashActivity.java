@@ -126,12 +126,14 @@ public class SplashActivity extends ComActivity  {
 
                 ImageView logoImage = this.logoImage;
                 int dir = 1 ; int count = 0 ;
+
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
                         moveToNextActivity( delay );
                     }
                 } ;
+
                 if( aniRotation ) {
                     this.animateRotation(logoImage, dir, count, runnable);
                 } else {
@@ -161,8 +163,9 @@ public class SplashActivity extends ComActivity  {
             public void run() {
                 if( paused ) {
                     Log.v( tag, "moveToNextActivity current activity is paused." );
-                } else if ( ! paused ) {
-                    //Class klass = ControlActivity.class;
+                } else {
+                    Log.v( tag, "moveToNextActivity next activity" );
+
                     Class klass = TabActivity.class;
 
                     startActivity(new android.content.Intent(SplashActivity.this, klass ));
