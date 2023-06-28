@@ -513,7 +513,11 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 if (null != this.receiver) {
                     this.receiver = null;
 
-                    activity.unregisterReceiver(receiver);
+                    try {
+                        activity.unregisterReceiver(receiver);
+                    } catch ( Exception e ) {
+                        // do nothing
+                    }
                 }
 
                 if (null != btAdapter) {
