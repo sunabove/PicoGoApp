@@ -146,11 +146,12 @@ public class SplashActivity extends ComActivity  {
             this.logoImageClicked = false;
         }
     } // -- whenLogoImageClicked
-    
+
     @Override
     public void whenAllPermissionsGranted() {
         super.whenAllPermissionsGranted();
-        Log.d( tag, "whenAllPermissionsGranted()" ) ;
+
+        Log.d( tag, "whenAllPermissionsGranted() " + this.getClass().getSimpleName() ) ;
 
         boolean aniRotation = false ;
         whenLogoImageClicked( aniRotation, 1000 );

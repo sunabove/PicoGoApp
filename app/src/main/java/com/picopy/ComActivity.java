@@ -14,10 +14,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import java.util.Map;
 
 public abstract class ComActivity extends AppCompatActivity implements ComInterface {
 
@@ -155,7 +160,56 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         return badPermissions ;
     }
 
+    private ActivityResultLauncher<String[]> permissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestMultiplePermissions(),
+            new ActivityResultCallback<Map<String, Boolean>>() {
+                @Override
+                public void onActivityResult(Map<String, Boolean> result) {
+
+                    boolean isAllGranted = true;
+
+                    for (Boolean isGranted : result.values()) {
+                        Log.d( tag, "onActivityResult: isGranted: " + isGranted);
+                        isAllGranted = isAllGranted && isGranted;
+                    }
+
+                    if (isAllGranted) {
+                        Log.d(tag, "onActivityResult: All permissions granted.");
+
+                        whenAllPermissionsGranted();
+                    } else {
+                        //All or some Permissions were denied so can't do the task that requires that permission
+                        Log.d(tag, "onActivityResult: All or some permissions denied.");
+
+                        boolean isCanceled = false ;
+                        whenPermissionIsNotPermitted( isCanceled );
+                    }
+                }
+            }
+    );
+
     public void requestPermissions(int index) {
+        Log.v( tag, "requestPermissions() index = " + index );
+
+        Runnable okRunnable = new Runnable() {
+            @Override
+            public void run() {
+                permissionLauncher.launch( checkBadPermissions().toArray() );
+            }
+        };
+
+        Runnable cancelRunnable = new Runnable() {
+            @Override
+            public void run() {
+                boolean isCanceled = true ;
+                whenPermissionIsNotPermitted( isCanceled );
+            }
+        };
+
+        this.showPermissionRequestDialog( okRunnable, cancelRunnable );
+    }
+
+    public void requestPermissionsOld(int index) {
         Log.v( tag, "requestPermissions() index = " + index );
 
         if( index < 1 ) {
@@ -194,7 +248,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     }
 
     public void whenAllPermissionsGranted() {
-        Log.d( tag, "whenAllPermissionsGranted()" ) ;
+        Log.d( tag, "whenAllPermissionsGranted() " + this.getClass().getSimpleName() ) ;
     }
 
     public void requestPermissionsImpl(int index) {
