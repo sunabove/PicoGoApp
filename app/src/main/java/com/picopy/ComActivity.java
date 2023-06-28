@@ -188,8 +188,8 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
             }
     );
 
-    public void requestPermissions(int index) {
-        Log.v( tag, "requestPermissions() index = " + index );
+    public void requestPermissions( ) {
+        Log.v( tag, "requestPermissions()" );
 
         Runnable okRunnable = new Runnable() {
             @Override
@@ -207,31 +207,6 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         };
 
         this.showPermissionRequestDialog( okRunnable, cancelRunnable );
-    }
-
-    public void requestPermissionsOld(int index) {
-        Log.v( tag, "requestPermissions() index = " + index );
-
-        if( index < 1 ) {
-            Runnable okRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    requestPermissionsImpl( index ) ;
-                }
-            };
-
-            Runnable cancelRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    boolean isCanceled = true ;
-                    whenPermissionIsNotPermitted( isCanceled );
-                }
-            };
-
-            this.showPermissionRequestDialog( okRunnable, cancelRunnable );
-        } else {
-            requestPermissionsImpl( index ) ;
-        }
     } // requestPermissions
 
     public void whenPermissionIsNotPermitted( boolean isCanceled ) {
@@ -250,31 +225,6 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     public void whenAllPermissionsGranted() {
         Log.d( tag, "whenAllPermissionsGranted() " + this.getClass().getSimpleName() ) ;
     }
-
-    public void requestPermissionsImpl(int index) {
-        Log.v( tag, "requestPermissionsImpl() index = " + index );
-
-        String allPermissions [] = this.getAllPermissions();
-
-        for( int i = index ; i < allPermissions.length ; i ++ ) {
-            final String permission = allPermissions[ i ];
-            final boolean permitted = ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
-
-            Log.v( tag, String.format( "[%2d] req permission = %s, permitted = %s", i + 1, permission, "" + permitted ) );
-
-            if( ! permitted ) {
-                final int requestCode = i;
-
-                Log.v( tag, String.format( "[%2d] requesting a permission = %s, requestCode = %d", i + 1, permission, requestCode ) ) ;
-
-                ActivityCompat.requestPermissions( this, new String[] { permission }, requestCode );
-
-                i = allPermissions.length ;
-
-                break ;
-            }
-        }
-    } // requestPermissionsImpl
 
     public void showPermissionRequestDialog( Runnable okRunnable, Runnable cancelRunnable ) {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( this );
@@ -313,52 +263,6 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
         dialog.show();
     } // showPermissionRequestDialog
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        boolean permitted = true;
-        boolean showDialog = false;
-        final TextView status = this.findViewById(R.id.status) ;
-
-        for( int i = 0; i < grantResults.length ; i ++ ) {
-            if( grantResults[i] != PackageManager.PERMISSION_GRANTED ) {
-                permitted = false;
-
-                Log.v( tag, "OnRequestPermissionResult " + permissions[i] + " grantResult : " + grantResults[i] );
-            }
-        }
-
-        StringList badPermission = this.checkBadPermissions() ;
-
-        if( permitted && badPermission.size() > 0 && requestCode < this.getAllPermissions().length -1 ) {
-            // when not all permissions are granted
-            int index = requestCode + 1 ;
-            this.requestPermissions( index );
-        } else if( permitted && badPermission.size() < 1 ) { // when all permissions are granted.
-
-            String title = "권한 설정 성공" ;
-            String message = "권한 설정이 완료되었습니다.";
-
-            if( null != status ) {
-                status.setText(message);
-            }
-
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    whenAllPermissionsGranted( );
-                }
-            } ;
-
-            this.showMessageDialog( title, message, runnable );
-
-        } else if( ! permitted ) { // when a permission is not permitted
-            boolean isCanceled = false ;
-            this.whenPermissionIsNotPermitted( isCanceled );
-        }
-    }
 
     public void saveProperty( String key, String value ) {
         SharedPreferences sharedPref = this.activity.getPreferences(Context.MODE_PRIVATE);

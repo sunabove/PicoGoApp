@@ -119,8 +119,7 @@ public class SplashActivity extends ComActivity  {
                 permissionButton.setText("권한 설정 중");
                 permissionButton.setEnabled(false);
 
-                int index = 0 ;
-                this.requestPermissions( index );
+                this.requestPermissions();
             } else {
                 permissionButton.setText("권한 설정 완료");
                 permissionButton.setEnabled(true);
@@ -149,8 +148,6 @@ public class SplashActivity extends ComActivity  {
 
     @Override
     public void whenAllPermissionsGranted() {
-        super.whenAllPermissionsGranted();
-
         Log.d( tag, "whenAllPermissionsGranted() " + this.getClass().getSimpleName() ) ;
 
         boolean aniRotation = false ;
