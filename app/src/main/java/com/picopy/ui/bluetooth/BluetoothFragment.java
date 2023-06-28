@@ -216,13 +216,9 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     }
 
     private void connectBluetoothImpl(BluetoothDevice device) {
-        String name = "";
-
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-            name = device.getName();
-        }
-
+        String name = this.getBluetoothName( device );
         String address = device.getAddress();
+
         String msg = " BLE Device Name : " + name + " address : " + address;
 
         Log.v(tag, msg);
@@ -480,11 +476,11 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         boolean isInterrupted = true;
 
-        if (action.equals(BluetoothDevice.ACTION_FOUND)) {
+        if( action.equals(BluetoothDevice.ACTION_FOUND) ) {
             BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
             this.addBluetoothDevice(device);
-        } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetoothNow) {
+        } else if( action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED) && scanningBluetoothNow ) {
             scanningBluetoothNow = false;
 
             isInterrupted = false;
@@ -492,21 +488,21 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
             this.blueDeviceListAdapter.setInterrupted(false);
         }
 
-        if (scanningBluetoothNow == false) {
+        if( scanningBluetoothNow == false ) {
             stopBluetoothScanning(isInterrupted);
         }
     }
 
-    public void stopBluetoothScanning(boolean isInterrupted) {
+    public synchronized void stopBluetoothScanning(boolean isInterrupted) {
         Log.d(tag, "stopBluetoothScanning()");
 
         this.scanningBluetoothNow = false;
 
-        TabActivity activity = this.activity;
+        final TabActivity activity = this.activity;
 
-        if (null == activity) {
+        if( null == activity ) {
             Log.v(tag, "current activity is null.");
-        } else if (null != activity && activity.checkBadPermissions().getSize() < 1) {
+        } else if ( null != activity && activity.checkBadPermissions().getSize() < 1 ) {
             BluetoothManager btManager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
 
             if (null != btManager) {
@@ -521,8 +517,17 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 }
 
                 if (null != btAdapter) {
-                    if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
+                    String permission = Manifest.permission.BLUETOOTH_SCAN ;
+
+                    if ( ActivityCompat.checkSelfPermission(activity, permission ) == PackageManager.PERMISSION_GRANTED ) {
                         btAdapter.cancelDiscovery();
+                    } else if( this.shouldShowRequestPermissionRationale( permission ) ) {
+                        String title = "블루투스 접근 권한 필요" ;
+                        String text = "블루투스를 검색 및 연결을 위한 권한 승인이 필요합니다." ;
+
+                        activity.showMessageDialog( title, text );
+                    } else {
+                        activity.requestPermissions( permission );
                     }
 
                 }
@@ -542,24 +547,35 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     public void scanBlueDevicesImpl() {
         Log.v(tag, "scanBlueDevicesImpl()");
 
-        Activity activity = this.getActivity();
+        final TabActivity activity = this.activity ;
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
         this.receiver = this.getReceiver();
-        if (null != activity) {
+
+        if ( null != activity ) {
             activity.registerReceiver(receiver, intentFilter);
-        }
 
-        BluetoothManager btManager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
-        if (null != btManager) {
-            BluetoothAdapter btAdapter = btManager.getAdapter();
+            BluetoothManager btManager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
 
-            if (null != btAdapter) {
-                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
-                    btAdapter.startDiscovery();
+            if (null != btManager) {
+                BluetoothAdapter btAdapter = btManager.getAdapter();
+
+                if (null != btAdapter) {
+                    String permission = Manifest.permission.BLUETOOTH_SCAN;
+
+                    if ( ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED ) {
+                        btAdapter.startDiscovery();
+                    } else if (this.shouldShowRequestPermissionRationale(permission)) {
+                        String title = "블루투스 접근 권한 필요";
+                        String text = "블루투스를 검색 및 연결을 위한 권한 승인이 필요합니다.";
+
+                        activity.showMessageDialog(title, text);
+                    } else {
+                        activity.requestPermissions(permission);
+                    }
                 }
             }
         }
@@ -570,14 +586,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     public void addBluetoothDevice(BluetoothDevice device) {
         boolean scanAll = this.isScanAll();
 
-        String name = "";
-        String address = "";
-
-        if (ActivityCompat.checkSelfPermission( activity, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-            name = device.getName();
-        }
-
-        address = device.getAddress();
+        String name = this.getBluetoothName( device ) ;
+        String address = device.getAddress();
 
         if( null != name ) {
             if( scanAll || name.toUpperCase().endsWith( "SPP" ) ) {

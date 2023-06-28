@@ -1,5 +1,7 @@
 package com.picopy;
 
+import android.Manifest;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -188,13 +190,25 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
             }
     );
 
-    public void requestPermissions( ) {
+    public void requestPermissions( String permission ) {
+        String [] permissions = { permission } ;
+
+        this.requestPermissions( permissions );
+    }
+
+    public void requestPermissions() {
+        String [] permissions = checkBadPermissions().toArray() ;
+
+        this.requestPermissions( permissions );
+    }
+
+    public void requestPermissions( String [] permissions ) {
         Log.v( tag, "requestPermissions()" );
 
         Runnable okRunnable = new Runnable() {
             @Override
             public void run() {
-                permissionLauncher.launch( checkBadPermissions().toArray() );
+                permissionLauncher.launch( permissions );
             }
         };
 
@@ -308,6 +322,24 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         }
 
         return false;
+    }
+
+    public String getBluetoothName( BluetoothDevice device ) {
+        String name = "" ;
+
+        String permission = Manifest.permission.BLUETOOTH_CONNECT ;
+        if (ActivityCompat.checkSelfPermission( activity, permission ) == PackageManager.PERMISSION_GRANTED) {
+            name = device.getName();
+        } else if( shouldShowRequestPermissionRationale( permission ) ) {
+            String title = "블루투스 접근 권한 필요" ;
+            String text = "블루투스를 검색 및 연결을 위한 권한 승인이 필요합니다." ;
+
+            this.showMessageDialog( title, text );
+        } else {
+            this.requestPermissions( permission );
+        }
+
+        return name;
     }
 
     public String getProperty( String key ) {

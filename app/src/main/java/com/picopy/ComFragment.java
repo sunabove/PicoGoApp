@@ -1,6 +1,7 @@
 package com.picopy;
 
 import android.app.Application;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
@@ -365,4 +366,15 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         return context ;
     }
 
+    public String getBluetoothName( BluetoothDevice device ) {
+        String name = "";
+
+        ComActivity activity = this.getComActivity() ;
+
+        if( null != activity ) {
+            name = activity.getBluetoothName( device );
+        }
+
+        return name ;
+    }
 }
