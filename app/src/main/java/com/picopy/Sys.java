@@ -96,7 +96,26 @@ public class Sys implements  ComInterface {
 
     }
 
+    public boolean isBluetoothConnected() {
+        boolean connected = false ;
+
+        BluetoothDevice bluetoothDevice = this.bluetoothDevice ;
+        BluetoothSocket bluetoothSocket = this.bluetoothSocket ;
+
+        if( bluetoothSocket != null ) {
+            connected = true;
+        } else if( bluetoothDevice != null ) {
+            connected = true;
+        }
+
+        Log.d( tag, "isBluetoothConnected() = " + connected );
+
+        return connected ;
+    }
+
     public void disconnectBluetoothDevice() {
+        Log.d( tag, "disconnectBluetoothDevice()" );
+
         BluetoothSocket bluetoothSocket = this.bluetoothSocket;
         OutputStream out = this.out;
         InputStream in = this.in;

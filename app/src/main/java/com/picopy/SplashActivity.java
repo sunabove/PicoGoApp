@@ -72,12 +72,18 @@ public class SplashActivity extends ComActivity  {
 
         this.logoImage.clearAnimation();
 
+        Sys sys = this.sys;
+
+        if( sys.isBluetoothConnected() ) {
+            sys.disconnectBluetoothDevice();
+        }
+
         if( null == ComActivity.activityBefore ) {
             boolean aniRotation = true;
             whenLogoImageClicked( aniRotation, 600 );
         }
 
-        ComActivity.activityBefore = this ;
+        // ComActivity.activityBefore = this ;
     }
 
     @Override

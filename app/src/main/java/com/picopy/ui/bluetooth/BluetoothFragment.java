@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.picopy.BlueDeviceListAdapter;
 import com.picopy.BluetoothInterface;
+import com.picopy.ComActivity;
 import com.picopy.ComFragment;
 import com.picopy.R;
 import com.picopy.TabActivity;
@@ -95,7 +96,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                 whenAutoConnectChecked(compoundButton, checked);
             }
         });
-
+        
         this.scanBluetoothDevices();
 
         return root;
@@ -551,7 +552,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     public void scanBlueDevicesImpl() {
         Log.v(tag, "scanBlueDevicesImpl()");
 
-        final TabActivity activity = this.activity ;
+        final ComActivity activity = this.getComActivity();
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
@@ -559,8 +560,10 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
         this.receiver = this.getReceiver();
 
-        if ( null != activity ) {
-            activity.registerReceiver(receiver, intentFilter);
+        if( null == activity ) {
+            Log.d( tag, "activity is null." );
+        } else if ( null != activity ) {
+            activity.registerReceiver( receiver, intentFilter);
 
             BluetoothManager btManager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
 
@@ -571,6 +574,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
                     String permission = Manifest.permission.BLUETOOTH_SCAN;
 
                     if ( ActivityCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED ) {
+                        Log.d( tag, "btAdapter.startDiscovery()" ) ;
+
                         btAdapter.startDiscovery();
                     } else if (this.shouldShowRequestPermissionRationale(permission)) {
                         String title = "블루투스 접근 권한 필요";
