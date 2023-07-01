@@ -124,28 +124,25 @@ public class SplashActivity extends ComActivity  {
             if (badPermissions.size() > 0) {
                 permissionButton.setText("권한 설정 중");
                 permissionButton.setEnabled(false);
-
-                this.requestPermissions();
             } else {
                 permissionButton.setText("권한 설정 완료");
                 permissionButton.setEnabled(true);
+            }
 
-                ImageView logoImage = this.logoImage;
-                int dir = 1 ; int count = 0 ;
+            ImageView logoImage = this.logoImage;
+            int dir = 1 ; int count = 0 ;
 
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        moveToNextActivity( delay );
-                    }
-                } ;
-
-                if( aniRotation ) {
-                    this.animateRotation(logoImage, dir, count, runnable);
-                } else {
-                    this.animateTranslation(logoImage, -dir, runnable );
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    moveToNextActivity( delay );
                 }
+            } ;
 
+            if( aniRotation ) {
+                this.animateRotation(logoImage, dir, count, runnable);
+            } else {
+                this.animateTranslation(logoImage, -dir, runnable );
             }
         } catch ( Exception e ) {
             e.printStackTrace();

@@ -1,7 +1,6 @@
 package com.picopy.ui.bluetooth;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -438,7 +437,6 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
     public void scanBluetoothDevices() {
         Log.v(tag, "scanBluetoothDevices()");
 
-        this.bluetoothScanButton.setEnabled(false);
         this.bluetoothScanButton.setChecked(true);
 
         this.bluetoothScanProgressBar.setVisibility(View.VISIBLE);
@@ -456,7 +454,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         this.blueDeviceListAdapter.setInterrupted(true);
         this.blueDeviceListAdapter.notifyDataSetChanged();
 
-        scanBlueDevicesImpl();
+        scanBluetoothDevicesImpl(); 
     }
 
     private BroadcastReceiver receiver = null;
@@ -490,7 +488,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         }
 
         if( scanningBluetoothNow == false ) {
-            stopBluetoothScanning(isInterrupted);
+            stopBluetoothScanning( isInterrupted );
         }
     }
 
@@ -532,7 +530,7 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
                         activity.showMessageDialog( title, text );
                     } else {
-                        activity.requestPermissions( permission );
+                        activity.requestPermissions( );
                     }
 
                 }
@@ -549,8 +547,8 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
         bluetoothScanProgressBar.setVisibility(View.GONE);
     }
 
-    public void scanBlueDevicesImpl() {
-        Log.v(tag, "scanBlueDevicesImpl()");
+    public void scanBluetoothDevicesImpl() {
+        Log.v(tag, "scanBluetoothDevicesImpl()");
 
         final ComActivity activity = this.getComActivity();
 
@@ -583,14 +581,12 @@ public class BluetoothFragment extends ComFragment implements BluetoothInterface
 
                         activity.showMessageDialog(title, text);
                     } else {
-                        activity.requestPermissions(permission);
+                        activity.requestPermissions( );
                     }
                 }
             }
         }
-
-        this.bluetoothScanButton.setEnabled(true);
-    }
+    } // -- scanBluetoothDevicesImpl
 
     public void addBluetoothDevice(BluetoothDevice device) {
         boolean scanAll = this.isScanAll();

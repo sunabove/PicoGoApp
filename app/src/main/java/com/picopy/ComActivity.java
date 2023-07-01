@@ -190,20 +190,10 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
             }
     );
 
-    public void requestPermissions( String permission ) {
-        String [] permissions = { permission } ;
-
-        this.requestPermissions( permissions );
-    }
-
     public void requestPermissions() {
-        String [] permissions = checkBadPermissions().toArray() ;
-
-        this.requestPermissions( permissions );
-    }
-
-    public void requestPermissions( String [] permissions ) {
         Log.v( tag, "requestPermissions()" );
+
+        String [] permissions = checkBadPermissions().toArray() ;
 
         Runnable okRunnable = new Runnable() {
             @Override
@@ -336,7 +326,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
             this.showMessageDialog( title, text );
         } else {
-            this.requestPermissions( permission );
+            this.requestPermissions();
         }
 
         return name;
