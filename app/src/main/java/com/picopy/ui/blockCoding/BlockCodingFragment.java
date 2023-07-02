@@ -74,7 +74,7 @@ public class BlockCodingFragment extends ComFragment {
     }
 
     public void whenScratchStartBtnClicked() {
-        this.status.setText( "스크래치를 실행합니다." );
+        this.status.setText( "스크래치 앱을 실행합니다." );
 
         this.postDelayed(new Runnable() {
             @Override
@@ -98,17 +98,20 @@ public class BlockCodingFragment extends ComFragment {
         Context context = this.getContext() ;
         if (isAppInstalled(context, packageName)) {
             if (isAppEnabled(context, packageName)) {
-                this.status.setText( appName + "을 실행합니다."  );
+                this.status.setText( appName + "앱을 실행합니다."  );
+
                 context.startActivity(context.getPackageManager().getLaunchIntentForPackage(packageName));
+
+                this.status.setText( appName + "앱을 실행되었습니다."  );
             } else {
                 Log.v( tag, appName + " app is not enabled." ) ;
 
-                this.status.setText( appName + " app is not enabled."  );
+                this.status.setText( appName + " 앱이 비활성화되어 있습니다."  );
             }
         } else {
             Log.v( tag, appName + " app is not installed." ) ;
 
-            this.status.setText( appName + " app is not installed."  );
+            this.status.setText( appName + " 앱이 설치되어 있지 않습니다."  );
         }
     }
 
