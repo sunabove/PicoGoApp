@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.picopy.databinding.FragmentObstacleAvoidanceBinding;
 public class BlockCodingFragment extends ComFragment {
 
     private ImageButton scratchStartBtn ;
+    private EditText status;
 
     private FragmentBlockCodingBinding binding;
 
@@ -51,6 +53,10 @@ public class BlockCodingFragment extends ComFragment {
             }
         });
 
+        this.status = binding.status ;
+
+        this.status.setText( "" );
+
         View root = binding.getRoot();
 
         return root;
@@ -68,25 +74,41 @@ public class BlockCodingFragment extends ComFragment {
     }
 
     public void whenScratchStartBtnClicked() {
+        this.status.setText( "스크래치를 실행합니다." );
 
+        this.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                whenScratchStartBtnClickedImpl();
+            }
+        }, 1000 );
+    }
+
+    public void whenScratchStartBtnClickedImpl() {
         FragmentActivity activity = this.getActivity() ;
 
         String appName = "Scratch";
         String packageName = "org.scratch" ;
 
         this.openApp( appName, packageName );
+
     }
 
     public void openApp(String appName, String packageName) {
         Context context = this.getContext() ;
         if (isAppInstalled(context, packageName)) {
             if (isAppEnabled(context, packageName)) {
+                this.status.setText( appName + "을 실행합니다."  );
                 context.startActivity(context.getPackageManager().getLaunchIntentForPackage(packageName));
             } else {
                 Log.v( tag, appName + " app is not enabled." ) ;
+
+                this.status.setText( appName + " app is not enabled."  );
             }
         } else {
             Log.v( tag, appName + " app is not installed." ) ;
+
+            this.status.setText( appName + " app is not installed."  );
         }
     }
 
@@ -94,6 +116,7 @@ public class BlockCodingFragment extends ComFragment {
         PackageManager pm = context.getPackageManager();
         try {
             pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+
             return true;
         } catch (PackageManager.NameNotFoundException ignored) {
             ignored.printStackTrace();

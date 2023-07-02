@@ -31,6 +31,25 @@
                 android:tooltipText="StartScratch" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <EditText
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:enabled="false"
+            android:inputType="none"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="스크래치 실행"
+            android:textColor="@color/greenDark"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
 </LinearLayout>
