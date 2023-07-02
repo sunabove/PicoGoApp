@@ -19,4 +19,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+    <string name="permission_request_detail">
+        Notifications
+    </string>
+
 </resources>

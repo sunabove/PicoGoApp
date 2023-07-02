@@ -82,7 +82,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="  아래의 위치 정보 및 블루투스 권한들의 사용을 허락합니다."
+                        android:text="  위치 정보와 블루투스 권한들의 사용을 허락합니다."
                         android:textColor="@color/greenLight"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -102,7 +102,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text=" - 앱이 항상 사용중일 때 위치 정보를 사용합니다."
+                        android:text=" - 이 앱은 앱이 종료되었거나 사용 중이 아닐 때도 위치 데이터를 수집하여 블루투스 장치 검색 기능 및 블루투스 접속 기능을 지원합니다."
                         android:textColor="@color/greenDark"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -111,7 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text=" - 백 그라운드에서는 위치 정보를 사용하지 않습니다."
+                        android:text=" - 이 앱은 백그라운드에서는 위치정보를 수집하지 않습니다."
                         android:textColor="@color/greenDark"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -120,7 +120,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text=" - 광고를 제공하거나 표시하지 않습니다."
+                        android:text=" - 이 앱은 백그라운드에서는 위치정보를 수집하는 방법과 이유는 없습니다."
                         android:textColor="@color/greenDark"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -129,7 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text=" - 이 앱은 앱이 종료되었거나 사용 중이 아닐 때도 위치 데이터를 수집하여 블루투스 데이터 통신 기능을 지원합니다."
+                        android:text=" - 이 앱은 광고를 제공하거나 표시하지 않습니다."
                         android:textColor="@color/greenDark"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -142,108 +142,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="10dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent" />
-
-                    <TextView
-                        android:layout_width="46dp"
-                        android:layout_height="46dp"
-                        android:background="@drawable/background_circle_green_dark"
-                        android:gravity="center"
-                        android:text="1"
-                        android:textColor="@color/greenLight"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent" />
-
-                    <ImageView
-                        android:layout_width="46dp"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/bluetooth_succ_64" />
-
-                    <TextView
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent" />
-
-                    <CheckedTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text=" 블루투스 검색/접속/관리 권한 "
-                        android:textColor="@color/greenLight"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent" />
-
-                    <TextView
-                        android:layout_width="46dp"
-                        android:layout_height="46dp"
-                        android:gravity="center"
-                        android:textColor="@color/greenLight"
-                        android:background="@drawable/background_circle_green_dark"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:text="2" />
-
-                    <TextView
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent" />
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/location_info_64" />
-
-                    <TextView
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent" />
-
-                    <CheckedTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text=" 위치 정보 사용의 권한 "
-                        android:textColor="@color/greenLight"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

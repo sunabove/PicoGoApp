@@ -163,31 +163,31 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     }
 
     private ActivityResultLauncher<String[]> permissionLauncher = registerForActivityResult(
-            new ActivityResultContracts.RequestMultiplePermissions(),
-            new ActivityResultCallback<Map<String, Boolean>>() {
-                @Override
-                public void onActivityResult(Map<String, Boolean> result) {
+        new ActivityResultContracts.RequestMultiplePermissions(),
+        new ActivityResultCallback<Map<String, Boolean>>() {
+            @Override
+            public void onActivityResult(Map<String, Boolean> result) {
 
-                    boolean isAllGranted = true;
+                boolean isAllGranted = true;
 
-                    for (Boolean isGranted : result.values()) {
-                        Log.d( tag, "onActivityResult: isGranted: " + isGranted);
-                        isAllGranted = isAllGranted && isGranted;
-                    }
+                for (Boolean isGranted : result.values()) {
+                    Log.d( tag, "onActivityResult: isGranted: " + isGranted);
+                    isAllGranted = isAllGranted && isGranted;
+                }
 
-                    if (isAllGranted) {
-                        Log.d(tag, "onActivityResult: All permissions granted.");
+                if (isAllGranted) {
+                    Log.d(tag, "onActivityResult: All permissions granted.");
 
-                        whenAllPermissionsGranted();
-                    } else {
-                        //All or some Permissions were denied so can't do the task that requires that permission
-                        Log.d(tag, "onActivityResult: All or some permissions denied.");
+                    whenAllPermissionsGranted();
+                } else {
+                    //All or some Permissions were denied so can't do the task that requires that permission
+                    Log.d(tag, "onActivityResult: All or some permissions denied.");
 
-                        boolean isCanceled = false ;
-                        whenPermissionIsNotPermitted( isCanceled );
-                    }
+                    boolean isCanceled = false ;
+                    whenPermissionIsNotPermitted( isCanceled );
                 }
             }
+        }
     );
 
     public void requestPermissions() {
