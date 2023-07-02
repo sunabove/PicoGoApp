@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.picopy.ComFragment;
@@ -25,6 +27,8 @@ import com.picopy.databinding.FragmentBlockCodingBinding;
 import com.picopy.databinding.FragmentObstacleAvoidanceBinding;
 
 public class BlockCodingFragment extends ComFragment {
+
+    private ImageButton scratchStartBtn ;
 
     private FragmentBlockCodingBinding binding;
 
@@ -38,6 +42,15 @@ public class BlockCodingFragment extends ComFragment {
 
         binding = FragmentBlockCodingBinding.inflate(inflater, container, false);
 
+        this.scratchStartBtn = binding.scratchStartBtn ;
+
+        this.scratchStartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whenScratchStartBtnClicked();
+            }
+        });
+
         View root = binding.getRoot();
 
         return root;
@@ -47,26 +60,25 @@ public class BlockCodingFragment extends ComFragment {
     public void onStart() {
         super.onStart();
 
-        Log.v( tag, "onStart() " + this.getClass().getSimpleName() ) ;
+        Log.v(tag, "onStart() " + this.getClass().getSimpleName());
+
+        if( this.startCount <= 1 ) {
+            this.whenScratchStartBtnClicked();
+        }
+    }
+
+    public void whenScratchStartBtnClicked() {
 
         FragmentActivity activity = this.getActivity() ;
 
         String appName = "Scratch";
         String packageName = "org.scratch" ;
 
-        Intent launchIntent = activity.getPackageManager().getLaunchIntentForPackage( packageName );
-        //Intent launchIntent = new Intent( "Scratch App" );
-
-        if (launchIntent == null) {
-            Log.v( tag, "Cannot find launchIntent for " + packageName ) ;
-        } else {
-            Log.v( tag, "Launching intent for " + packageName ) ;
-
-            startActivity(launchIntent);//null pointer check in case package name was not found
-        }
+        this.openApp( appName, packageName );
     }
 
-    public void openApp(Context context, String appName, String packageName) {
+    public void openApp(String appName, String packageName) {
+        Context context = this.getContext() ;
         if (isAppInstalled(context, packageName)) {
             if (isAppEnabled(context, packageName)) {
                 context.startActivity(context.getPackageManager().getLaunchIntentForPackage(packageName));

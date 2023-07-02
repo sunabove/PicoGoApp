@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:background="@drawable/textview_round_corner" >
+                android:background="@drawable/round_corner_textview" >
 
                 <TextView
                     android:layout_width="10dp"
@@ -144,7 +144,7 @@
                     android:layout_height="60dp"
                     android:orientation="horizontal"
                     android:gravity="center"
-                    android:background="@drawable/textview_round_corner" >
+                    android:background="@drawable/round_corner_textview" >
 
                     <TextView
                         android:layout_width="10dp"
@@ -207,7 +207,7 @@
                             android:layout_height="60dp"
                             android:orientation="horizontal"
                             android:gravity="center"
-                            android:background="@drawable/textview_round_corner" >
+                            android:background="@drawable/round_corner_textview" >
 
                             <TextView
                                 android:layout_width="10dp"
@@ -273,7 +273,7 @@
                             android:layout_height="60dp"
                             android:orientation="horizontal"
                             android:gravity="center"
-                            android:background="@drawable/textview_round_corner" >
+                            android:background="@drawable/round_corner_textview" >
 
                             <TextView
                                 android:layout_width="10dp"
@@ -338,7 +338,7 @@
                         android:layout_height="60dp"
                         android:orientation="horizontal"
                         android:gravity="center"
-                        android:background="@drawable/textview_round_corner" >
+                        android:background="@drawable/round_corner_textview" >
 
                         <TextView
                             android:layout_width="10dp"
@@ -441,7 +441,7 @@
                         android:layout_height="60dp"
                         android:orientation="horizontal"
                         android:gravity="center"
-                        android:background="@drawable/textview_round_corner" >
+                        android:background="@drawable/round_corner_textview" >
 
                         <TextView
                             android:layout_width="10dp"

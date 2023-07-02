@@ -43,4 +43,8 @@
 
     </application>
 
+    <queries>
+        <package android:name="org.scratch" />
+    </queries>
+
 </manifest>
