@@ -102,7 +102,7 @@ public class BlockCodingFragment extends ComFragment {
 
                 context.startActivity(context.getPackageManager().getLaunchIntentForPackage(packageName));
 
-                this.status.setText( appName + "앱을 실행되었습니다."  );
+                this.status.setText( appName + "앱이 실행되었습니다."  );
             } else {
                 Log.v( tag, appName + " app is not enabled." ) ;
 
