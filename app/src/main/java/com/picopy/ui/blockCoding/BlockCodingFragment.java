@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.picopy.ComActivity;
 import com.picopy.ComFragment;
 import com.picopy.R;
 import com.picopy.databinding.FragmentBlockCodingBinding;
@@ -74,7 +76,13 @@ public class BlockCodingFragment extends ComFragment {
     }
 
     public void whenScratchStartBtnClicked(int delayMilis) {
-        this.status.setText( "스크래치 앱을 실행합니다." );
+        String packageName = "org.scratch" ;
+        
+        if( ! isAppInstalled( packageName ) ) {
+            this.status.setText("스크래치 앱을 설치합니다.");
+        } else {
+            this.status.setText("스크래치 앱을 실행합니다.");
+        }
 
         this.postDelayed(new Runnable() {
             @Override
@@ -85,19 +93,43 @@ public class BlockCodingFragment extends ComFragment {
     }
 
     public void whenScratchStartBtnClickedImpl() {
-        FragmentActivity activity = this.getActivity() ;
+        ComActivity activity = this.getComActivity() ;
 
         String appName = "Scratch";
         String packageName = "org.scratch" ;
 
-        this.openApp( appName, packageName );
+        if( ! isAppInstalled( packageName ) ) {
 
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    installApp( appName, packageName );
+                }
+            };
+
+            String title = "스크래치 앱 설치" ;
+            String message = "스크래치 앱을 설치합니다." ;
+
+            this.status.setText( message );
+
+            activity.showMessageDialog( title, message, runnable );
+        } else {
+            this.openApp(appName, packageName);
+        }
+
+    }
+
+    public void installApp( String appName, String packageName ) {
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW);
+        goToMarket.setData(Uri.parse("market://details?id=" + packageName ));
+
+        startActivity(goToMarket);
     }
 
     public void openApp(String appName, String packageName) {
         Context context = this.getContext() ;
-        if (isAppInstalled(context, packageName)) {
-            if (isAppEnabled(context, packageName)) {
+        if ( isAppInstalled( packageName) ) {
+            if (isAppEnabled( packageName)) {
                 this.status.setText( appName + "앱을 실행합니다."  );
 
                 context.startActivity(context.getPackageManager().getLaunchIntentForPackage(packageName));
@@ -115,8 +147,11 @@ public class BlockCodingFragment extends ComFragment {
         }
     }
 
-    private boolean isAppInstalled(Context context, String packageName) {
+    private boolean isAppInstalled( String packageName) {
+        Context context = this.getContext();
+
         PackageManager pm = context.getPackageManager();
+
         try {
             pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
 
@@ -128,10 +163,12 @@ public class BlockCodingFragment extends ComFragment {
         return false;
     }
 
-    private boolean isAppEnabled(Context context, String packageName) {
+    private boolean isAppEnabled( String packageName) {
         boolean appStatus = false;
         try {
+            Context context = this.getContext();
             ApplicationInfo ai = context.getPackageManager().getApplicationInfo(packageName, 0);
+
             if (ai != null) {
                 appStatus = ai.enabled;
             }
