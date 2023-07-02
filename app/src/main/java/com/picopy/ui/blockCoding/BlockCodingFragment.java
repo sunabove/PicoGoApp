@@ -49,7 +49,7 @@ public class BlockCodingFragment extends ComFragment {
         this.scratchStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                whenScratchStartBtnClicked();
+                whenScratchStartBtnClicked( 1000 );
             }
         });
 
@@ -69,11 +69,11 @@ public class BlockCodingFragment extends ComFragment {
         Log.v(tag, "onStart() " + this.getClass().getSimpleName());
 
         if( this.startCount <= 1 ) {
-            this.whenScratchStartBtnClicked();
+            this.whenScratchStartBtnClicked( 2000 );
         }
     }
 
-    public void whenScratchStartBtnClicked() {
+    public void whenScratchStartBtnClicked(int delayMilis) {
         this.status.setText( "스크래치 앱을 실행합니다." );
 
         this.postDelayed(new Runnable() {
@@ -81,7 +81,7 @@ public class BlockCodingFragment extends ComFragment {
             public void run() {
                 whenScratchStartBtnClickedImpl();
             }
-        }, 1000 );
+        }, delayMilis );
     }
 
     public void whenScratchStartBtnClickedImpl() {
