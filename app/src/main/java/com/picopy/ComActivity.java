@@ -79,7 +79,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     }
 
     public boolean isFullScreenMode() {
-        return true;
+        return false ;
     }
 
     @Override
