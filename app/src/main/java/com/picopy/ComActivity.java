@@ -78,6 +78,10 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         Log.i( tag, "onPause()");
     }
 
+    public boolean isFullScreenMode() {
+        return true;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -85,6 +89,10 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         this.paused = false;
         this.resumeCount += 1 ;
         this.permissionCheckCount = 0 ;
+
+        if( this.startCount <= 1 && this.isFullScreenMode() ) {
+            this.setFullScreen();
+        }
 
         Log.v( tag, "onResume() resumeCount = " + this.resumeCount );
     }
@@ -413,6 +421,20 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         });
 
         dialog.show();
+    } // -- showMessageDialog
+
+    public void setFullScreen() {
+        Log.d( tag, "setFullScreen()" );
+
+        if(Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if(Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
 }

@@ -116,6 +116,10 @@ public class Sys implements  ComInterface {
     public void disconnectBluetoothDevice() {
         Log.d( tag, "disconnectBluetoothDevice()" );
 
+        if( this.isBluetoothConnected() ) {
+            this.sendDisconnectMessage();
+        }
+
         BluetoothSocket bluetoothSocket = this.bluetoothSocket;
         OutputStream out = this.out;
         InputStream in = this.in;
@@ -152,6 +156,14 @@ public class Sys implements  ComInterface {
             }
         }
 
+    }
+
+    public String sendDisconnectMessage() {
+        Log.d( tag, "sendDisconnectMessage()" );
+
+        String message = "disconnect";
+
+        return this.sendMessage( message );
     }
 
     public synchronized String sendMessage(final String message) {
