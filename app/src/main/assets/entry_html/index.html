@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+        />
+        <title>Entry Example</title>
+        
+        <link href="./dist/entry.css" rel="stylesheet" />
+        
+        <link href="./dist/entry-tool.css" rel="stylesheet" />
+        <link href="./dist/assets_app.css" rel="stylesheet" />
+    </head>
+
+    <body>
+        <section>
+            <input type="file" id="litemodule" />
+            <input type="text" id="litemodulename" />
+            <button style="border: 1px solid black" onclick="handleUpdate()">
+                apply
+            </button>
+            <button style="border: 1px solid black" onclick="changeWorkspaceMode('block')">
+                Block Mode
+            </button>
+            <button style="border: 1px solid black" onclick="changeWorkspaceMode('python')">
+                Python Mode
+            </button>
+        </section>
+        <div id="workspace"></div>
+
+        <!--language-->
+        <script src="./extern/lang/ko.js"></script>
+
+        <script type="text/javascript" src="./js/preloadjs-0.6.0.min.js" ></script>
+        <script type="text/javascript" src="./js/easeljs-0.8.0.min.js" ></script>
+        <script type="text/javascript" src="./js/soundjs-0.6.0.min.js" ></script>
+        <script type="text/javascript" src="./js/flashaudioplugin-0.6.0.min.js" ></script>
+        <script type="text/javascript" src="./js/lodash.min.js" ></script>
+        <script type="text/javascript" src="./js/jquery.min.js" ></script>
+        <script type="text/javascript" src="./js/jquery-ui.min.js" ></script>
+        <script type="text/javascript" src="./js/velocity.min.js" ></script>
+        <script type="text/javascript" src="./js/codemirror.js" ></script>
+        <script type="text/javascript" src="./js/show-hint.js" ></script>
+        <script type="text/javascript" src="./js/lint.js" ></script>
+        <script type="text/javascript" src="./js/active-line.js" ></script>
+        <script type="text/javascript" src="./js/codemirror_javascript.js" ></script>
+        <script type="text/javascript" src="./js/javascript-hint.js" ></script>
+        <script type="text/javascript" src="https://entry-cdn.pstatic.net/js/jshint.js"></script>
+        <script type="text/javascript" src="./js/fuzzy.js"></script>
+        <script type="text/javascript" src="./js/python.js" ></script>
+
+        <script type="text/javascript" src="./extern/util/filbert.js" ></script>
+        <script type="text/javascript" src="./extern/util/CanvasInput.js" ></script>
+        <script type="text/javascript" src="./extern/util/ndgmr.Collision.js" ></script>
+        <script type="text/javascript" src="./extern/util/handle.js" ></script>
+        <script type="text/javascript" src="./extern/util/bignumber.min.js" ></script>
+
+        <script type="text/javascript" src="./js/socket.io.js" ></script>
+        <script type="text/javascript" src="./js/react.js"></script>
+        <script type="text/javascript" src="./js/react-dom.js"></script>
+        <script type="text/javascript" src="./js/app.js" ></script>
+
+        <script type="text/javascript" src="https://entry-cdn.pstatic.net/lib/literallycanvas-mobile/lib/js/literallycanvas.js"
+        ></script>
+
+        <script type="text/javascript" src="./js/entry-tool.js" ></script> 
+        <script src="./extern/util/static.js"></script> 
+        <script src="./dist/entry.js?fc016daf79f584340211"></script>
+        
+
+        <script>
+            function handleUpdate() {
+                const file = document.getElementById('litemodule').files[0];
+                const name = document.getElementById('litemodulename').value;
+                Entry.loadLiteTestModule(file, name);
+            }
+
+            function changeWorkspaceMode(mode) {
+                const option = {};
+
+                if (mode === 'block') {
+                    option.boardType = Entry.Workspace.MODE_BOARD;
+                    option.textType = -1;
+                } else {
+                    option.boardType = Entry.Workspace.MODE_VIMBOARD;
+                    option.textType = Entry.Vim.TEXT_TYPE_PY;
+                    option.runType = Entry.Vim.WORKSPACE_MODE;
+                }
+
+                const workspace = Entry.getMainWS();
+
+                if (workspace) {
+                    workspace.setMode(option);
+                } else {
+                    console.error('entry workspace not found!');
+                }
+            }
+        </script>
+        <!--main script-->
+        <script>
+            window.PUBLIC_PATH_FOR_ENTRYJS = 'lib/entry-js/dist/';
+            
+            $(document).ready(function() {
+                var initOption = {
+                    type: 'workspace',
+                    textCodingEnable: true,
+                };
+                Entry.init(document.getElementById('workspace'), initOption);
+                Entry.loadProject();
+            });
+        </script>
+    </body>
+</html>
