@@ -134,6 +134,8 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
                         android.Manifest.permission.ACCESS_FINE_LOCATION,
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
 
+                        android.Manifest.permission.INTERNET,
+
                        // android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,  // removed. should be located at last
                 };
             } else {
@@ -143,6 +145,8 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
                         android.Manifest.permission.ACCESS_FINE_LOCATION,
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
+
+                        android.Manifest.permission.INTERNET,
                 };
             }
         }

@@ -31,8 +31,16 @@
 
     <fragment
         android:id="@+id/navigation_block_coding"
+        android:name="com.picopy.ui.blockCodingEntry.BlockCodingEntryFragment"
+        android:label="블록 코딩"
+        tools:layout="@layout/fragment_block_coding_entry" />
+
+    <!--
+    <fragment
+        android:id="@+id/navigation_block_coding"
         android:name="com.picopy.ui.blockCodingScratch.BlockCodingScratchFragment"
         android:label="블록 코딩"
         tools:layout="@layout/fragment_block_coding_scratch" />
+    -->
 
 </navigation>
