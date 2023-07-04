@@ -93,6 +93,9 @@ public class ObstacleAvoidanceFragment extends ComFragment {
     public void onStart() {
         super.onStart();
 
+        this.speedSeekBar.setProgress( 30 );
+        this.obstacleDistanceSeekBar.setProgress( 15 );
+
         this.speedTv.setText( "" + this.speedSeekBar.getProgress() );
         this.obstacleDistanceTv.setText( "" + this.obstacleDistanceSeekBar.getProgress() );
 

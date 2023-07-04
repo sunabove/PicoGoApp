@@ -74,6 +74,7 @@ public class LaneFollowFragment extends ComFragment {
     public void onStart() {
         super.onStart();
 
+        this.speedSeekBar.setProgress( 30 );
         this.speedTv.setText( "" + this.speedSeekBar.getProgress() );
 
         this.sendSpeedMessage( this.speedSeekBar.getProgress() );
