@@ -70,36 +70,44 @@ public class BlockCodingEntryFragment extends ComFragment {
         settings.setDomStorageEnabled(true);
         settings.setBuiltInZoomControls(true);
 
-        class MyWebClient extends WebViewClient {
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-
-                loadingStatus.setText( "엔트리를 로딩중입니다." );
-                loadingPanel.setVisibility( View.VISIBLE );
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url ) {
-                super.onPageFinished(view, url );
-
-                loadingStatus.setText( "엔트리 로딩이 완료되었습니다." );
-                loadingPanel.setVisibility( View.GONE );
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-
-                return true;
-            }
-        }
-
         webView.setWebViewClient( new MyWebClient() );
 
         String url = "file:///android_asset/entry_html/index.html" ;
 
         this.webView.loadUrl( url );
     }
+
+    class MyWebClient extends WebViewClient {
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+
+            loadingStatus.setText( "엔트리를 로딩중입니다." );
+            progressBar.setVisibility(View.VISIBLE);
+            loadingPanel.setVisibility( View.VISIBLE );
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url ) {
+            super.onPageFinished(view, url );
+
+            loadingStatus.setText( "엔트리 로딩이 완료되었습니다." );
+            progressBar.setVisibility(View.GONE);
+
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    loadingPanel.setVisibility( View.GONE );
+                }
+            }, 1000 );
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+
+            return true;
+        }
+    } // MyWebClient classs
 
 }

@@ -14,10 +14,20 @@
         
         <link href="./dist/entry-tool.css" rel="stylesheet" />
         <link href="./dist/assets_app.css" rel="stylesheet" />
+
+        <style>
+            body {
+              background-image: url("./images/entry_loading.png");
+              background-repeat: no-repeat;
+              background-attachment: fixed;
+              background-position: center;
+            }
+        </style>
     </head>
 
-    <body>
-        <section>
+    <body >
+
+        <section id="mySection" style="visibility: hidden;" >
             <input type="file" id="litemodule" />
             <input type="text" id="litemodulename" />
             <button style="border: 1px solid black" onclick="handleUpdate()">
@@ -30,6 +40,7 @@
                 Python Mode
             </button>
         </section>
+
         <div id="workspace"></div>
 
         <!--language-->
@@ -109,8 +120,15 @@
                     type: 'workspace',
                     textCodingEnable: true,
                 };
+                
                 Entry.init(document.getElementById('workspace'), initOption);
                 Entry.loadProject();
+
+                if( window.navigator.userAgent.indexOf("Windows") > -1 ) { 
+                    $( "#mySection" ).css( "visibility", "visible" ) ; 
+                } else {
+                    $( "#mySection" ).remove() ; 
+                }
             });
         </script>
     </body>
