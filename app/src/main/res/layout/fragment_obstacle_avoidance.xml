@@ -197,7 +197,22 @@
                             android:background="@drawable/speed_level"
                             android:max="80"
                             android:min="10"
-                            android:progress="10" />
+                            android:progress="30"
+                            android:stepSize="5" />
+
+                        <TextView
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:id="@+id/speedTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="30"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:textSize="30sp" />
 
                         <TextView
                             android:layout_width="20dp"
