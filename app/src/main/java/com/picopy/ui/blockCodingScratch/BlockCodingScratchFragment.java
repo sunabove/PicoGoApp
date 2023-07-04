@@ -1,9 +1,5 @@
-package com.picopy.ui.blockCoding;
+package com.picopy.ui.blockCodingScratch;
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -13,39 +9,34 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.picopy.ComActivity;
 import com.picopy.ComFragment;
-import com.picopy.R;
-import com.picopy.databinding.FragmentBlockCodingBinding;
-import com.picopy.databinding.FragmentObstacleAvoidanceBinding;
+import com.picopy.databinding.FragmentBlockCodingScratchBinding;
 
-public class BlockCodingFragment extends ComFragment {
+public class BlockCodingScratchFragment extends ComFragment {
 
     private ImageButton scratchStartBtn ;
     private EditText status;
 
-    private FragmentBlockCodingBinding binding;
+    private FragmentBlockCodingScratchBinding binding;
 
-    public static BlockCodingFragment newInstance() {
-        return new BlockCodingFragment();
+    public static BlockCodingScratchFragment newInstance() {
+        return new BlockCodingScratchFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        binding = FragmentBlockCodingBinding.inflate(inflater, container, false);
+        binding = FragmentBlockCodingScratchBinding.inflate(inflater, container, false);
 
         this.scratchStartBtn = binding.scratchStartBtn ;
 
