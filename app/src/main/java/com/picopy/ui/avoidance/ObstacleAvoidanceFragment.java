@@ -21,8 +21,12 @@ public class ObstacleAvoidanceFragment extends ComFragment {
     private FragmentObstacleAvoidanceBinding binding;
 
     private Switch startStopBtn ;
+
     private SeekBar speedSeekBar ;
     private TextView speedTv ;
+
+    private SeekBar obstacleDistanceSeekBar ;
+    private TextView obstacleDistanceTv ;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ObstacleAvoidanceViewModel obstacleAvoidanceViewModel = new ViewModelProvider(this).get(ObstacleAvoidanceViewModel.class);
@@ -30,8 +34,12 @@ public class ObstacleAvoidanceFragment extends ComFragment {
         binding = FragmentObstacleAvoidanceBinding.inflate(inflater, container, false);
 
         this.startStopBtn = binding.startStopBtn ;
+
         this.speedSeekBar = binding.speedSeekBar ;
         this.speedTv = binding.speedTv ;
+
+        this.obstacleDistanceSeekBar = binding.obstacleDistanceSeekBar ;
+        this.obstacleDistanceTv = binding.obstacleDistanceTv ;
 
         this.startStopBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -48,12 +56,25 @@ public class ObstacleAvoidanceFragment extends ComFragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
 
+        this.obstacleDistanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                whenObstacleDistanceSeekBarChanged( seekBar, i );
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
 
@@ -73,6 +94,10 @@ public class ObstacleAvoidanceFragment extends ComFragment {
         super.onStart();
 
         this.speedTv.setText( "" + this.speedSeekBar.getProgress() );
+        this.obstacleDistanceTv.setText( "" + this.obstacleDistanceSeekBar.getProgress() );
+
+        this.sendSpeedMessage( this.speedSeekBar.getProgress() );
+        this.sendObtacleDistanceMessage( this.obstacleDistanceSeekBar.getProgress() );
     }
 
     @Override
@@ -90,6 +115,16 @@ public class ObstacleAvoidanceFragment extends ComFragment {
         this.speedTv.setText( "" + speed );
 
         this.sendSpeedMessage( speed );
+    }
+
+    public void whenObstacleDistanceSeekBarChanged(SeekBar seekBar, int i) {
+        Log.d( tag, "whenObstacleDistanceSeekBarChanged() i = " + i );
+
+        int maxDist = i ;
+
+        this.obstacleDistanceTv.setText( "" + maxDist );
+
+        this.sendObtacleDistanceMessage( maxDist );
     }
 
     public void whenStartStopBtnClicked( boolean checked) {

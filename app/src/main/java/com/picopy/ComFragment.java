@@ -166,6 +166,10 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         this.sendMessage( "start obstacle avoidance" );
     }
 
+    public void sendObtacleDistanceMessage( int maxDist ) {
+        this.sendMessage( "ostacle distance = " + maxDist );
+    }
+
     public void sendStartLaneFollowingMessage() {
         this.sendMessage( "start lane following" );
     }

@@ -133,9 +133,95 @@ tools:context=".ui.laneFollow.LaneFollowFragment">
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <TableRow android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/round_corner_textview" >
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent" />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:src="@drawable/speedometer_64" />
+
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:layout_width="140dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="속         도"
+                        android:textColor="@color/black"
+                        android:textSize="26dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent" />
+
+                    <SeekBar
+                        android:id="@+id/speedSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/speed_level"
+                        android:max="60"
+                        android:min="10"
+                        android:progress="30"
+                        android:stepSize="5" />
+
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/speedTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="30"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
@@ -152,11 +238,11 @@ tools:context=".ui.laneFollow.LaneFollowFragment">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="20dp" />
+                    android:layout_height="10dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="420dp"
+                    android:layout_height="300dp"
                     android:background="@drawable/picogo_front_690_350"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -165,7 +251,7 @@ tools:context=".ui.laneFollow.LaneFollowFragment">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="20dp" />
+                    android:layout_height="10dp" />
 
             </LinearLayout>
 
