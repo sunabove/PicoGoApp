@@ -17,6 +17,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class BlockCodingEntryFragment extends ComFragment {
     private ProgressBar progressBar ;
     private LinearLayout loadingPanel ;
     private TextView loadingStatus ;
+    private Button reloadBtn ;
 
     public static BlockCodingEntryFragment newInstance() {
         return new BlockCodingEntryFragment();
@@ -48,8 +50,18 @@ public class BlockCodingEntryFragment extends ComFragment {
         this.progressBar = binding.progressBar ;
         this.loadingPanel = binding.loadingPanel ;
         this.loadingStatus = binding.loadingStatus ;
+        this.reloadBtn = binding.reloadBtn ;
 
         this.loadingPanel.setVisibility(View.GONE );
+
+        this.reloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadEntry();
+            }
+        });
+
+        this.loadEntry();
 
         View root = binding.getRoot();
 
@@ -61,6 +73,10 @@ public class BlockCodingEntryFragment extends ComFragment {
         super.onStart();
 
         Log.v(tag, "onStart() " + this.getClass().getSimpleName());
+
+    }
+
+    public void loadEntry() {
 
         WebView webView = this.webView ;
 

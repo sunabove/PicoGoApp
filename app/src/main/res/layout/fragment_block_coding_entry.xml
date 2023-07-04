@@ -107,6 +107,16 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
+            <Button
+                android:id="@+id/reloadBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/round_corner"
+                android:gravity="center"
+                android:text="재 로 딩"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
     </LinearLayout>
