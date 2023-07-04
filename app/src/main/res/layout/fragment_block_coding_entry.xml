@@ -34,8 +34,8 @@
                     android:layout_height="match_parent" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_width="30dp"
+                    android:layout_height="26dp"
                     android:src="@drawable/block_coding_64" />
 
                 <TextView
@@ -43,7 +43,7 @@
                     android:layout_height="match_parent" />
 
                 <TextView
-                    android:layout_width="170dp"
+                    android:layout_width="140dp"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="블 록 코 딩"
