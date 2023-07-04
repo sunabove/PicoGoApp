@@ -105,4 +105,13 @@ public class LaneFollowFragment extends ComFragment {
         }
     }
 
+    @Override
+    public void whenSysFailed() {
+        Log.v(tag, "whenSysFailed() " + this.getClass().getSimpleName() );
+
+        super.whenSysFailed();
+
+        this.startStopBtn.setChecked( false );
+    }
+
 }
