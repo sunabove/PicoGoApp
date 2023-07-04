@@ -50,11 +50,15 @@ public class BlockCodingEntryFragment extends ComFragment {
 
         WebView webView = this.webView ;
 
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setBuiltInZoomControls(true);
-        webSettings.setPluginState(WebSettings.PluginState.ON);
+        WebSettings settings = webView.getSettings();
+
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        //settings.setUseWideViewPort(true);
+        //settings.setBuiltInZoomControls(true);
+        //settings.setPluginState(WebSettings.PluginState.ON);
+        //settings.setLoadWithOverviewMode(true);
+        //webView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 
         String url = "" ;
         url = "https://playentry.org/ws/new" ;
