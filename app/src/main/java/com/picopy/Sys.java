@@ -173,7 +173,8 @@ public class Sys implements  ComInterface {
     }
 
     public synchronized String sendMessage(final String message, final boolean directReply) {
-        Log.v( tag, "sendCommand() message = " + message );
+        short requestNoCurr = this.requestNo ;
+        this.requestNo += 1 ;
 
         String reply = "" ;
 
@@ -185,7 +186,7 @@ public class Sys implements  ComInterface {
             try {
                 byte startOfHeading = 1;
                 byte endOfTransmission = 4 ;
-                short requestNo = this.requestNo;
+                short requestNo = requestNoCurr ;
                 byte [] data = message.getBytes() ;
                 short dataLen = (short) ( data.length );
                 byte dataType = 's' ;
@@ -199,7 +200,10 @@ public class Sys implements  ComInterface {
 
                 out.flush();
 
-                Log.v( tag, "Success: sendCommand() message = " + message );
+                String tagMsg = "Send: [%05d] sendCommand() message = %s" ;
+                tagMsg = String.format( tagMsg, requestNoCurr, message );
+
+                Log.v( tag, tagMsg );
 
                 if( directReply ) {
                     int replyReadCnt = REPLY_READ_CNT ++ ;
@@ -207,7 +211,7 @@ public class Sys implements  ComInterface {
                     final DataInputStream in = this.in;
                     reply = in.readLine();
 
-                    Log.v( tag, String.format( "Success: [%5d] reply direct = %s", replyReadCnt, reply ) );
+                    Log.v( tag, String.format( "Success: [%05d] reply direct = %s", replyReadCnt, reply ) );
                 } else {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
@@ -221,7 +225,6 @@ public class Sys implements  ComInterface {
 
                 e.printStackTrace();
             } finally {
-                this.requestNo += 1 ;
             }
         }
 
