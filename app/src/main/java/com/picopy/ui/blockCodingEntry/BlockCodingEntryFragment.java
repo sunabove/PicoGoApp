@@ -103,6 +103,34 @@ public class BlockCodingEntryFragment extends ComFragment {
     }
 
     @JavascriptInterface
+    public void whenStartEntry() {
+        String msg = "whenStartEntry" ;
+
+        this.sendMessage( msg ) ;
+
+        Log.v( tag, msg ) ;
+    }
+
+    @JavascriptInterface
+    public void toggleStop() {
+        String msg = "toggleStop" ;
+
+        this.sendMessage( msg ) ;
+
+        Log.v( tag, msg ) ;
+    }
+
+    @JavascriptInterface
+    public void togglePause(float b) {
+        String msg = "togglePause( b = %f )" ;
+        msg = String.format( msg, b );
+
+        this.sendMessage( msg ) ;
+
+        Log.v( tag, msg ) ;
+    }
+
+    @JavascriptInterface
     public void moveToDirection( float fx, float fy, float tx, float ty, float ang_deg ) {
         String msg = "moveToDirection( fx = %f, fy = %f, tx = %f, ty = %f, ang_deg = %f )" ;
         msg = String.format( msg, fx, fy, tx, ty, ang_deg );
