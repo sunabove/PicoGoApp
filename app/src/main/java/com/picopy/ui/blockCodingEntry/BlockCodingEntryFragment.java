@@ -131,6 +131,16 @@ public class BlockCodingEntryFragment extends ComFragment {
     }
 
     @JavascriptInterface
+    public void addRotation(float ang_deg) {
+        String msg = "addRotation( ang_deg = %f )" ;
+        msg = String.format( msg, ang_deg );
+
+        this.sendMessage( msg ) ;
+
+        Log.v( tag, msg ) ;
+    }
+
+    @JavascriptInterface
     public void moveToDirection( float fx, float fy, float tx, float ty, float ang_deg ) {
         String msg = "moveToDirection( fx = %f, fy = %f, tx = %f, ty = %f, ang_deg = %f )" ;
         msg = String.format( msg, fx, fy, tx, ty, ang_deg );
