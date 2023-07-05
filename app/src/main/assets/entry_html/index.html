@@ -16,7 +16,7 @@
         <link href="./dist/assets_app.css" rel="stylesheet" />
 
         <style>
-            body {
+            .bodyClass {
               background-image: url("./images/entry_loading.png");
               background-repeat: no-repeat;
               background-attachment: fixed;
@@ -25,7 +25,7 @@
         </style>
     </head>
 
-    <body >
+    <body class="bodyClass" >
 
         <section id="mySection" style="visibility: hidden;" >
             <input type="file" id="litemodule" />
@@ -132,6 +132,8 @@
                 }
 
                 $( ".blockCountView" ).css( "visibility", "hidden" ) ;
+
+                $( "body" ).toggleClass( "bodyClass" );
             });
         </script>
     </body>

@@ -2,6 +2,7 @@ package com.picopy.ui.blockCodingEntry;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -21,6 +23,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.picopy.ComFragment;
 import com.picopy.R;
@@ -61,6 +64,8 @@ public class BlockCodingEntryFragment extends ComFragment {
             }
         });
 
+        this.initWebView();
+
         this.loadEntry();
 
         View root = binding.getRoot();
@@ -76,8 +81,8 @@ public class BlockCodingEntryFragment extends ComFragment {
 
     }
 
-    public void loadEntry() {
-
+    @SuppressLint({ "SetJavaScriptEnabled" })
+    private void initWebView() {
         WebView webView = this.webView ;
 
         WebSettings settings = webView.getSettings();
@@ -87,11 +92,33 @@ public class BlockCodingEntryFragment extends ComFragment {
         settings.setBuiltInZoomControls(true);
 
         webView.setWebViewClient( new MyWebClient() );
+        webView.setWebChromeClient(new WebChromeClient());
+
+        webView.addJavascriptInterface( this, "Android");
+    } // -- initWebView
+
+    @JavascriptInterface
+    public void javaMehod(String val) {
+        Log.v( tag, "javaMehod() " + val);
+    }
+
+    @JavascriptInterface
+    public void moveToDirection( float fx, float fy, float tx, float ty, float ang_deg ) {
+        String msg = "moveToDirection( fx = %f, fy = %f, tx = %f, ty = %f, ang_deg = %f )" ;
+        msg = String.format( msg, fx, fy, tx, ty, ang_deg );
+
+        this.sendMessage( msg );
+
+        Log.v( tag, msg );
+    }
+
+    public void loadEntry() {
+        WebView webView = this.webView ;
 
         String url = "file:///android_asset/entry_html/index.html" ;
 
         this.webView.loadUrl( url );
-    }
+    } // -- loadEntry
 
     class MyWebClient extends WebViewClient {
         @Override
