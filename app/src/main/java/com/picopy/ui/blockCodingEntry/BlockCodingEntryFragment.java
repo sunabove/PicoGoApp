@@ -42,13 +42,8 @@ public class BlockCodingEntryFragment extends ComFragment {
 
     private final boolean readDirectly = false;
 
-    public static BlockCodingEntryFragment newInstance() {
-        return new BlockCodingEntryFragment();
-    }
-
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentBlockCodingEntryBinding.inflate(inflater, container, false);
 
         this.webView = binding.webView ;
@@ -233,6 +228,7 @@ public class BlockCodingEntryFragment extends ComFragment {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
 
+            loadingStatus.setTextColor( greenLight );
             loadingStatus.setText( "엔트리를 로딩중입니다." );
             progressBar.setVisibility(View.VISIBLE);
             loadingPanel.setVisibility( View.VISIBLE );
@@ -242,6 +238,7 @@ public class BlockCodingEntryFragment extends ComFragment {
         public void onPageFinished(WebView view, String url ) {
             super.onPageFinished(view, url );
 
+            loadingStatus.setTextColor( orangeLight );
             loadingStatus.setText( "엔트리 로딩이 완료되었습니다." );
             progressBar.setVisibility(View.GONE);
 

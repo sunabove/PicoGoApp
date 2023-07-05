@@ -302,7 +302,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         }
 
         if (this.reconnectButton != null) {
-            // this.reconnectButton.setVisibility(View.GONE);
+            this.reconnectButton.setEnabled( false );
         }
 
         if (this.commStatusImage != null) {
@@ -323,9 +323,14 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
             this.commStatus.setText( message );
             this.commStatus.setTextColor( red );
+        }
 
-            this.reconnectButton.setVisibility(View.VISIBLE);
-            this.commStatusImage.setImageResource( R.drawable.bluetooth_fail_64);
+        if( null != this.reconnectButton ) {
+            this.reconnectButton.setEnabled( true );
+        }
+
+        if( null != this.commStatusImage ) {
+            this.commStatusImage.setImageResource(R.drawable.bluetooth_fail_64);
         }
     }
 
