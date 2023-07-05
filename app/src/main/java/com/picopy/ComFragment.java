@@ -45,7 +45,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
         Log.v( tag, "onStart() startCount = " + this.startCount );
 
-        if( this.startCount < 1 ) {
+        if( this.startCount <= 1 ) {
             this.initFragment();
         }
 
@@ -298,16 +298,22 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
         if( this.commStatus != null ) {
             this.commStatus.setText("블루투스 통신 성공");
-            this.commStatus.setTextColor( greenLight );
+            this.commStatus.setTextColor(greenLight);
+        }
 
-            this.reconnectButton.setVisibility(View.GONE);
-            this.commStatusImage.setImageResource( R.drawable.bluetooth_succ_64);
+        if (this.reconnectButton != null) {
+            // this.reconnectButton.setVisibility(View.GONE);
+        }
+
+        if (this.commStatusImage != null) {
+            // this.reconnectButton.setVisibility(View.GONE);
+            this.commStatusImage.setImageResource(R.drawable.bluetooth_succ_64);
         }
     }
 
     @Override
     public void whenSysFailed() {
-        Log.v( tag, "whenSysFailed()" );
+        Log.v(tag, "whenSysFailed() " + this.getClass().getSimpleName() );
 
         if( null != this.commStatus) {
             String message = "블루투스 통신 실패 : 재접속하여 주세요.";

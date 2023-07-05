@@ -80,7 +80,6 @@ public class BlockCodingEntryFragment extends ComFragment {
         super.onStart();
 
         Log.v(tag, "onStart() " + this.getClass().getSimpleName());
-
     }
 
     @SuppressLint({ "SetJavaScriptEnabled" })
@@ -108,7 +107,7 @@ public class BlockCodingEntryFragment extends ComFragment {
     public void whenStartEntry() {
         String msg = "whenStartEntry" ;
 
-        boolean readDirectly = false ;
+        boolean readDirectly = false                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;
 
         this.sendMessage( msg, readDirectly ) ;
 
@@ -163,9 +162,9 @@ public class BlockCodingEntryFragment extends ComFragment {
     }
 
     @JavascriptInterface
-    public void moveToDirection( float fx, float fy, float tx, float ty, float ang_deg ) {
-        String msg = "moveToDirection( fx = %f, fy = %f, tx = %f, ty = %f, ang_deg = %f )" ;
-        msg = String.format( msg, fx, fy, tx, ty, ang_deg );
+    public void moveToDirection( float dist ) {
+        String msg = "moveToDirection( dist = %f )" ;
+        msg = String.format( msg, dist );
 
         boolean readDirectly = false ;
 

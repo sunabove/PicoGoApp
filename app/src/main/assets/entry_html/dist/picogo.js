@@ -5,11 +5,11 @@
 function is_android() {
   return typeof Android !== "undefined" && Android !== null ; 
 }
-function picogo_move_to_direction( fx, fy, tx, ty, ang_deg ) {
+function picogo_move_to_direction( dist ) {
   console.log( "**** sunabove ", "picogo_move_to_direction" ) ; 
 
   if( is_android() ) {
-       Android.moveToDirection( fx, fy, tx, ty, ang_deg ) ;
+       Android.moveToDirection( dist ) ;
   }  
 }
 
