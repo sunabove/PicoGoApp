@@ -26,11 +26,7 @@ public class BlockCodingScratchFragment extends ComFragment {
     private ImageButton scratchStartBtn ;
     private EditText status;
 
-    private FragmentBlockCodingScratchBinding binding;
-
-    public static BlockCodingScratchFragment newInstance() {
-        return new BlockCodingScratchFragment();
-    }
+    private FragmentBlockCodingScratchBinding binding; 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

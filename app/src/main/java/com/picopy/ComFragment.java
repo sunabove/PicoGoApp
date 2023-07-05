@@ -151,11 +151,13 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         if( null != commStatusImage ) {
             commStatusImage.setVisibility( View.VISIBLE );
         }
-        if( reconnectProgressBar != null ) {
+
+        if( null != reconnectProgressBar ) {
             reconnectProgressBar.setVisibility( View.GONE );
         }
 
         if( ! success && ! paused ) {
+            // 블루투스 연결 탭으로 이동함
             this.moveToFragment(0);
         } else {
             this.sendHelloMessage();
@@ -280,6 +282,15 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         return this.sendMessage( message, directReply );
     }
 
+    public void sendMessageUsingHandler( String message, boolean  directReply ) {
+        this.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sendMessage( message, directReply );
+            }
+        });
+    }
+
     public String sendMessage( String message, boolean  directReply ) {
         String reply = sys.sendMessage(message, directReply );
 
@@ -302,7 +313,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         }
 
         if (this.reconnectButton != null) {
-            // this.reconnectButton.setEnabled( false );
+            this.reconnectButton.setEnabled( false );
         }
 
         if (this.commStatusImage != null) {

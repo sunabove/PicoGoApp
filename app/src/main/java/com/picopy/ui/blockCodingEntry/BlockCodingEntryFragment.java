@@ -74,41 +74,7 @@ public class BlockCodingEntryFragment extends ComFragment {
     public void onStart() {
         super.onStart();
 
-        Log.v(tag, "onStart() " + this.getClass().getSimpleName());
-
-        if( null == this.reconnectButton ) {
-            this.reconnectButton = this.binding.reconnectButton ;
-
-            if( null != this.reconnectButton ) {
-                this.reconnectButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        whenReconnectButtonClicked(view);
-                    }
-                });
-            }
-        }
-    }
-
-    @SuppressLint({ "SetJavaScriptEnabled" })
-    private void initWebView() {
-        WebView webView = this.webView ;
-
-        WebSettings settings = webView.getSettings();
-
-        settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(true);
-        settings.setBuiltInZoomControls(true);
-
-        webView.setWebViewClient( new MyWebClient() );
-        webView.setWebChromeClient(new WebChromeClient());
-
-        webView.addJavascriptInterface( this, "Android");
-    } // -- initWebView
-
-    @JavascriptInterface
-    public void javaMehod(String val) {
-        Log.v( tag, "javaMehod() " + val);
+        Log.v(tag, "onStart() " + this.getClass().getSimpleName()); 
     }
 
     @JavascriptInterface
@@ -117,7 +83,7 @@ public class BlockCodingEntryFragment extends ComFragment {
 
         boolean readDirectly = false                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;
 
-        this.sendMessage( msg, readDirectly ) ;
+        this.sendMessageUsingHandler( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -128,7 +94,7 @@ public class BlockCodingEntryFragment extends ComFragment {
 
         boolean readDirectly = false ;
 
-        this.sendMessage( msg, readDirectly ) ;
+        this.sendMessageUsingHandler( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -140,7 +106,7 @@ public class BlockCodingEntryFragment extends ComFragment {
 
         boolean readDirectly = false ;
 
-        this.sendMessage( msg, readDirectly ) ;
+        this.sendMessageUsingHandler( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -152,7 +118,7 @@ public class BlockCodingEntryFragment extends ComFragment {
 
         boolean readDirectly = false ;
 
-        this.sendMessage( msg, readDirectly ) ;
+        this.sendMessageUsingHandler( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -164,7 +130,7 @@ public class BlockCodingEntryFragment extends ComFragment {
 
         boolean readDirectly = false ;
 
-        this.sendMessage( msg , readDirectly ) ;
+        this.sendMessageUsingHandler( msg , readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -176,7 +142,7 @@ public class BlockCodingEntryFragment extends ComFragment {
 
         boolean readDirectly = false ;
 
-        this.sendMessage( msg, readDirectly );
+        this.sendMessageUsingHandler( msg, readDirectly );
 
         Log.v( tag, msg );
     }
@@ -197,7 +163,7 @@ public class BlockCodingEntryFragment extends ComFragment {
 
         boolean readDirectly = false ;
 
-        this.sendMessage( msg, readDirectly ) ;
+        this.sendMessageUsingHandler( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -223,10 +189,26 @@ public class BlockCodingEntryFragment extends ComFragment {
 
         boolean readDirectly = false ;
 
-        this.sendMessage( msg, readDirectly ) ;
+        this.sendMessageUsingHandler( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
+
+    @SuppressLint({ "SetJavaScriptEnabled" })
+    private void initWebView() {
+        WebView webView = this.webView ;
+
+        WebSettings settings = webView.getSettings();
+
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setBuiltInZoomControls(true);
+
+        webView.setWebViewClient( new MyWebClient() );
+        webView.setWebChromeClient(new WebChromeClient());
+
+        webView.addJavascriptInterface( this, "Android");
+    } // -- initWebView
 
     public void loadEntry() {
         WebView webView = this.webView ;

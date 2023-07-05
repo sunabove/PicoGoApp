@@ -250,7 +250,7 @@ public class Sys implements  ComInterface {
             } catch (IOException e) {
                 reply = null ;
 
-                Log.v( tag, String.format( "Fail: [%5d] read reply of reqeust(%d) undirect = %s. cannot read reply", replyReadCnt, requestNo, reply ) );
+                Log.v( tag, String.format( "Fail: [%5d] read reply of reqeust(%d) undirect = %s. cannot read reply.", replyReadCnt, requestNo, reply ) );
             }
         }
 
