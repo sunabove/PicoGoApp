@@ -40,6 +40,8 @@ public class BlockCodingEntryFragment extends ComFragment {
     private TextView loadingStatus ;
     private Button reloadBtn ;
 
+    private final boolean readDirectly = false;
+
     public static BlockCodingEntryFragment newInstance() {
         return new BlockCodingEntryFragment();
     }
@@ -106,7 +108,9 @@ public class BlockCodingEntryFragment extends ComFragment {
     public void whenStartEntry() {
         String msg = "whenStartEntry" ;
 
-        this.sendMessage( msg, true ) ;
+        boolean readDirectly = false ;
+
+        this.sendMessage( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -115,7 +119,9 @@ public class BlockCodingEntryFragment extends ComFragment {
     public void toggleStop() {
         String msg = "toggleStop" ;
 
-        this.sendMessage( msg, true ) ;
+        boolean readDirectly = false ;
+
+        this.sendMessage( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -125,7 +131,9 @@ public class BlockCodingEntryFragment extends ComFragment {
         String msg = "togglePause( b = %f )" ;
         msg = String.format( msg, b );
 
-        this.sendMessage( msg, true ) ;
+        boolean readDirectly = false ;
+
+        this.sendMessage( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -135,7 +143,9 @@ public class BlockCodingEntryFragment extends ComFragment {
         String msg = "addRotation( ang_deg = %f )" ;
         msg = String.format( msg, ang_deg );
 
-        this.sendMessage( msg, true ) ;
+        boolean readDirectly = false ;
+
+        this.sendMessage( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -145,7 +155,9 @@ public class BlockCodingEntryFragment extends ComFragment {
         String msg = "addDirection( ang_deg = %f )" ;
         msg = String.format( msg, ang_deg );
 
-        this.sendMessage( msg , true ) ;
+        boolean readDirectly = false ;
+
+        this.sendMessage( msg , readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -155,7 +167,9 @@ public class BlockCodingEntryFragment extends ComFragment {
         String msg = "moveToDirection( fx = %f, fy = %f, tx = %f, ty = %f, ang_deg = %f )" ;
         msg = String.format( msg, fx, fy, tx, ty, ang_deg );
 
-        this.sendMessage( msg, true );
+        boolean readDirectly = false ;
+
+        this.sendMessage( msg, readDirectly );
 
         Log.v( tag, msg );
     }
@@ -174,7 +188,9 @@ public class BlockCodingEntryFragment extends ComFragment {
         String msg = "moveXY( x = %s , y = %s )" ;
         msg = String.format( msg, "" + x,  "" + y );
 
-        this.sendMessage( msg, true ) ;
+        boolean readDirectly = false ;
+
+        this.sendMessage( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
@@ -198,7 +214,9 @@ public class BlockCodingEntryFragment extends ComFragment {
         String msg = "locateXY( x = %s , y = %s )" ;
         msg = String.format( msg, "" + x,  "" + y );
 
-        this.sendMessage( msg, true ) ;
+        boolean readDirectly = false ;
+
+        this.sendMessage( msg, readDirectly ) ;
 
         Log.v( tag, msg ) ;
     }
