@@ -44,3 +44,11 @@ function picogo_add_rotation( ang_deg ) {
       Android.addRotation( ang_deg ) ;
   }
 }
+
+function picogo_add_direction( ang_deg ) {
+  console.log( "**** sunabove ", "picogo_add_direction ang_deg = " + ang_deg ) ; 
+
+  if( is_android() ) {
+      Android.addDirection( ang_deg ) ;
+  }
+} 
