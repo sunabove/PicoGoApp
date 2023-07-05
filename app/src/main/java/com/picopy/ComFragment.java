@@ -75,6 +75,13 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        Log.v(tag, "onDetach() " + this.getClass().getSimpleName());
+    }
+
     public void initFragment() {
 
         if( null == this.activity ) {
@@ -161,6 +168,30 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
             this.moveToFragment(0);
         } else {
             this.sendHelloMessage();
+        }
+    }
+
+    public void showMessageDialog( String title, String message ) {
+        TabActivity activity = this.activity ;
+
+        if( null != activity ) {
+            activity.showMessageDialog( title, message );
+        }
+    }
+
+    public void showMessageDialog( String title, String message, Runnable oKRunnable ) {
+        TabActivity activity = this.activity ;
+
+        if( null != activity ) {
+            activity.showMessageDialog( title, message, oKRunnable );
+        }
+    }
+
+    public void showMessageDialog( String title, String message, Runnable oKRunnable, Runnable cancelRunnable ) {
+        TabActivity activity = this.activity ;
+
+        if( null != activity ) {
+            activity.showMessageDialog( title, message, oKRunnable, cancelRunnable );
         }
     }
 

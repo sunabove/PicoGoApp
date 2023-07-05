@@ -1,5 +1,6 @@
 package com.picopy.ui.blockCodingEntry;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -61,6 +62,13 @@ public class BlockCodingEntryFragment extends ComFragment {
             }
         });
 
+        this.getActivity().getOnBackPressedDispatcher().addCallback( new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                whenBackPressed() ;;;;;
+            }
+        });
+
         this.initWebView();
 
         this.loadEntry();
@@ -70,11 +78,17 @@ public class BlockCodingEntryFragment extends ComFragment {
         return root;
     }
 
+    public void whenBackPressed() {
+        Log.d( tag, "whenBackPressed() " + this.getClass().getSimpleName() );
+
+
+    }
+
     @Override
     public void onStart() {
         super.onStart();
 
-        Log.v(tag, "onStart() " + this.getClass().getSimpleName()); 
+        Log.v(tag, "onStart() " + this.getClass().getSimpleName());
     }
 
     @JavascriptInterface

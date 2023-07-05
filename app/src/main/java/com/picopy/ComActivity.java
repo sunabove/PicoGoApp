@@ -102,7 +102,7 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
 
         ComActivity.activityBefore = this;
 
-        Log.i( tag, "onBackPressed()");
+        Log.i( tag, "onBackPressed() " + this.getClass().getSimpleName() );
     }
 
     public boolean isHideSupporingActionBar() {
@@ -391,11 +391,17 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
     }
 
     public void showMessageDialog( String title, String message ) {
-        Runnable runnable = null ;
-        this.showMessageDialog( title, message, runnable );
+        Runnable okRunnable = null ;
+        this.showMessageDialog( title, message, okRunnable );
     }
 
-    public void showMessageDialog( String title, String message, Runnable runnable ) {
+    public void showMessageDialog( String title, String message, Runnable okRunnable ) {
+        Runnable cancelRunnable = null ;
+
+        this.showMessageDialog( title, message,okRunnable, cancelRunnable );
+    }
+
+    public void showMessageDialog( String title, String message, Runnable okRunnable , Runnable cancelRunnable ) {
         AlertDialog.Builder builder = new AlertDialog.Builder( this );
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_message, null);
@@ -406,7 +412,9 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
         ImageView image = dialogView.findViewById(R.id.message_dialog_image ) ;
         TextView titleTextView = dialogView.findViewById(R.id.message_dialog_title) ;
         TextView messageTextView = dialogView.findViewById(R.id.message_dialog_message) ;
+
         Button okButton = dialogView.findViewById(R.id.dialog_ok_btn) ;
+        Button cancelButton = dialogView.findViewById(R.id.dialog_cancel_btn) ;
 
         titleTextView.setText( title );
         messageTextView.setText( message );
@@ -418,11 +426,28 @@ public abstract class ComActivity extends AppCompatActivity implements ComInterf
             public void onClick(View v) {
                 dialog.dismiss();
 
-                if( null != runnable ) {
-                    runnable.run();
+                if( null != okRunnable ) {
+                    okRunnable.run();
                 }
             }
         });
+
+        if( null == cancelRunnable ) {
+            cancelButton.setVisibility( View.GONE ); 
+        } else if( null != cancelRunnable ) {
+            cancelButton.setVisibility( View.VISIBLE );
+
+            cancelButton.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+
+                    if( null != cancelRunnable ) {
+                        cancelRunnable.run();
+                    }
+                }
+            });
+        }
 
         dialog.show();
     } // -- showMessageDialog
