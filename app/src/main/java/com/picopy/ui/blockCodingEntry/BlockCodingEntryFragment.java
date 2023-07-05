@@ -100,7 +100,7 @@ public class BlockCodingEntryFragment extends ComFragment {
             @Override
             public void run() {
                 backPressedCallback.remove();
-                
+
                 getActivity().onBackPressed();
             }
         } ;
