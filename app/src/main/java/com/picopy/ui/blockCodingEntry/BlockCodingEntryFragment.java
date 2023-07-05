@@ -4,6 +4,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -62,13 +63,6 @@ public class BlockCodingEntryFragment extends ComFragment {
             }
         });
 
-        this.getActivity().getOnBackPressedDispatcher().addCallback( new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                whenBackPressed() ;;;;;
-            }
-        });
-
         this.initWebView();
 
         this.loadEntry();
@@ -78,10 +72,50 @@ public class BlockCodingEntryFragment extends ComFragment {
         return root;
     }
 
+    private OnBackPressedCallback backPressedCallback = new OnBackPressedCallback( true ) {
+        @Override
+        public void handleOnBackPressed() {
+            whenBackPressed();
+        }
+    } ;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach( context );
+
+        this.getActivity().getOnBackPressedDispatcher().addCallback( backPressedCallback );
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        backPressedCallback.remove();
+    }
+
     public void whenBackPressed() {
         Log.d( tag, "whenBackPressed() " + this.getClass().getSimpleName() );
 
+        Runnable okRunnable = new Runnable() {
+            @Override
+            public void run() {
+                backPressedCallback.remove();
+                
+                getActivity().onBackPressed();
+            }
+        } ;
 
+        Runnable cancelRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // do nothing.
+            }
+        };
+
+        String title = "엔트리 종료" ;
+        String message = "엔트리를 종료하시겠습니까?" ;
+
+        this.showMessageDialog( title, message, okRunnable, cancelRunnable );
     }
 
     @Override
