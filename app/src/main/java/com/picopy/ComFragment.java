@@ -26,7 +26,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
     protected TabActivity activity ;
     private ImageView commStatusImage;
     private ProgressBar reconnectProgressBar ;
-    private Button reconnectButton;
+    protected Button reconnectButton;
     private TextView commStatus;
 
     protected boolean paused = false ;
@@ -89,7 +89,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
             this.commStatusImage = this.findViewById(R.id.commStatusImage);
         }
 
-        if( null== this.reconnectProgressBar ) {
+        if( null == this.reconnectProgressBar ) {
             this.reconnectProgressBar = this.findViewById( R.id.reconnectProgressBar );
         }
 
@@ -108,7 +108,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
 
     }
 
-    private void whenReconnectButtonClicked(View view) {
+    public void whenReconnectButtonClicked(View view) {
         ImageView commStatusImage = this.commStatusImage;
         ProgressBar reconnectProgressBar = this.reconnectProgressBar;
 
@@ -302,7 +302,7 @@ public abstract class ComFragment extends Fragment implements ComInterface, SysL
         }
 
         if (this.reconnectButton != null) {
-            this.reconnectButton.setEnabled( false );
+            // this.reconnectButton.setEnabled( false );
         }
 
         if (this.commStatusImage != null) {

@@ -44,7 +44,7 @@ public class BlockCodingEntryFragment extends ComFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentBlockCodingEntryBinding.inflate(inflater, container, false);
+        this.binding = FragmentBlockCodingEntryBinding.inflate(inflater, container, false);
 
         this.webView = binding.webView ;
         this.progressBar = binding.progressBar ;
@@ -75,6 +75,19 @@ public class BlockCodingEntryFragment extends ComFragment {
         super.onStart();
 
         Log.v(tag, "onStart() " + this.getClass().getSimpleName());
+
+        if( null == this.reconnectButton ) {
+            this.reconnectButton = this.binding.reconnectButton ;
+
+            if( null != this.reconnectButton ) {
+                this.reconnectButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        whenReconnectButtonClicked(view);
+                    }
+                });
+            }
+        }
     }
 
     @SuppressLint({ "SetJavaScriptEnabled" })
